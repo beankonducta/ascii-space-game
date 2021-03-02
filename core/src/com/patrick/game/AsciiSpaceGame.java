@@ -17,7 +17,6 @@ import java.util.List;
 
 public class AsciiSpaceGame extends Game {
 	SpriteBatch batch;
-	Texture img;
 	BitmapFont font;
 	
 	@Override

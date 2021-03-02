@@ -18,6 +18,10 @@ public class Math {
         return either;
     }
 
+    public static int ROUND(float value) {
+        return java.lang.Math.round(value);
+    }
+
     public static int RANDOM_POS_NEG(int value) {
         int random = ThreadLocalRandom.current().nextInt(0,  2);
         if(random == 0) return -1*value;

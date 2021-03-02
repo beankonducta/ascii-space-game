@@ -1,11 +1,13 @@
 package com.patrick.game.entity;
 
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.util.Settings;
 
 public class Enemy extends Entity {
 
-    private int smarts;
-    private int direction;
+    protected int smarts;
+    protected int direction;
 
     public void setDirection(int direction) {
         this.direction = direction;
@@ -36,6 +38,6 @@ public class Enemy extends Entity {
         super(position, speed, decel, character);
         this.smarts = smarts;
         this.direction = smarts == 1 ? 1 : -1;
-        System.out.println(this.direction);
+        this.collider = new Rectangle(position.x, position.y, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
     }
 }

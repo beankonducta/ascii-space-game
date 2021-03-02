@@ -3,9 +3,11 @@ package com.patrick.game.entity;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.util.Settings;
 import org.graalvm.compiler.word.Word;
+import org.w3c.dom.css.Rect;
 
 import java.awt.*;
 
@@ -16,6 +18,7 @@ public class Entity {
     protected float speed;
     protected float decel;
     protected char character;
+    protected Rectangle collider;
 
     public void setPosition(Vector2 position) {
         this.position = position;
@@ -39,6 +42,8 @@ public class Entity {
         this.character = character;
     }
 
+    public void setCollider(Rectangle collider) { this.collider = collider; }
+
     public Vector2 getPosition() {
         return this.position;
     }
@@ -53,6 +58,10 @@ public class Entity {
 
     public char getCharacter() {
         return this.character;
+    }
+
+    public Rectangle getCollider() {
+        return this.collider;
     }
 
     public Entity(Vector2 position, float speed, float decel, char character) {
