@@ -39,12 +39,16 @@ public class Entity {
         return this.velocity;
     }
 
-    public float getSpeed() {
-        return this.speed;
-    }
+    public float getSpeed() { return this.speed; }
 
     public char getCharacter() {
         return this.character;
+    }
+
+    public Entity(Vector2 position, float speed, char character) {
+        this.position = position;
+        this.speed = speed;
+        this.character = character;
     }
 
     public void move(float velocity) {
@@ -54,16 +58,16 @@ public class Entity {
 
     public void update(float delta) {
         // handle x velocity
-        if(Math.abs(this.velocity.x) <= Settings.MIN_VELO) this.velocity.x = 0;
+        if (Math.abs(this.velocity.x) <= Settings.MIN_VELO) this.velocity.x = 0;
         else this.velocity.x += this.speed * (this.velocity.x / Math.abs(this.velocity.x));
 
         // handle y velocity
-        if(Math.abs(this.velocity.y) <= Settings.MIN_VELO) this.velocity.y = 0;
+        if (Math.abs(this.velocity.y) <= Settings.MIN_VELO) this.velocity.y = 0;
         else this.velocity.y += this.speed * (this.velocity.y / Math.abs(this.velocity.y));
     }
 
     public void render(BitmapFont font, Batch batch) {
         // draw the character
-        font.draw(batch, ""+this.character, this.position.x, this.position.y);
+        font.draw(batch, "" + this.character, this.position.x, this.position.y);
     }
 }
