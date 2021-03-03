@@ -24,4 +24,6 @@ public class Settings {
     public static final float MAX_ENEMY_SPEED = 6f;
 
     public static final float ENEMY_DECEL = .25f;
+
+    public static final int WAVE_COUNT = 5;
 }

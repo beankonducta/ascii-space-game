@@ -11,6 +11,7 @@ import com.patrick.game.controller.MovementController;
 import com.patrick.game.entity.Bullet;
 import com.patrick.game.entity.Enemy;
 import com.patrick.game.entity.Player;
+import com.patrick.game.level.Level;
 import com.patrick.game.level.Wave;
 import com.patrick.game.util.Math;
 
@@ -19,18 +20,12 @@ public class GameScreen implements Screen {
     private BitmapFont font;
     private Batch batch;
 
-    private Player player;
-
-    private Wave wave;
-    private Bullet bullet;
+    private Level level;
 
     public GameScreen(BitmapFont font, Batch batch) {
         this.font = font;
         this.batch = batch;
-        this.player = new Player(new Vector2(200, 200), 6f, .25f, 'P');
-        this.bullet = new Bullet(new Vector2(200, 200), 2f, .25f, '/');
-        bullet.setYVelocity(bullet.getSpeed());
-        this.wave = new Wave(20);
+        this.level = new Level(10);
     }
 
     @Override
@@ -44,19 +39,7 @@ public class GameScreen implements Screen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         batch.begin();
         batch.setProjectionMatrix(CameraController.camera.combined);
-        for(Enemy enemy : this.wave.getEnemies()) {
-            enemy.update(delta);
-            enemy.render(font, batch);
-            enemy.move(CameraController.camera.viewportWidth);
-            MovementController.processEnemyMovement(enemy, player, CameraController.camera.viewportWidth);
-        }
-        bullet.update(delta);
-        bullet.render(font, batch);
-        bullet.move(CameraController.camera.viewportWidth);
-        player.update(delta);
-        player.render(font, batch);
-        player.move(CameraController.camera.viewportWidth);
-        MovementController.processPlayerMovement(player);
+        level.process(delta, font, batch);
         batch.end();
     }
 

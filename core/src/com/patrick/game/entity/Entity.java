@@ -56,6 +56,10 @@ public class Entity {
 
     public float getDecel() { return this.decel; };
 
+    public float x() { return this.position.x; }
+
+    public float y() { return this.position.y; }
+
     public char getCharacter() {
         return this.character;
     }

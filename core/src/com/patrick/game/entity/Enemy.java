@@ -9,6 +9,8 @@ public class Enemy extends Entity {
     protected int smarts;
     protected int direction;
 
+    protected float timer;
+
     public void setDirection(int direction) {
         this.direction = direction;
     }
@@ -34,10 +36,20 @@ public class Enemy extends Entity {
         return this.smarts;
     }
 
+    public float getTimer() {
+        return this.timer;
+    }
+
     public Enemy(Vector2 position, float speed, float decel, int smarts, char character) {
         super(position, speed, decel, character);
         this.smarts = smarts;
         this.direction = smarts == 1 ? 1 : -1;
         this.collider = new Rectangle(position.x, position.y, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
+    }
+
+    @Override
+    public void update(float delta) {
+        super.update(delta);
+        this.timer += delta;
     }
 }

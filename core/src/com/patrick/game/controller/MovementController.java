@@ -9,8 +9,9 @@ import com.patrick.game.util.Settings;
 
 public class MovementController {
 
-    public static void processPlayerMovement(Player player) {
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+    public static boolean processPlayerMovement(Player player) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            return true;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             if (player.getPosition().y > Settings.PLAYER_MAX_HEIGHT) player.setYVelocity(0);
@@ -32,6 +33,7 @@ public class MovementController {
             else
                 player.setXVelocity(player.getSpeed());
         }
+        return false;
     }
 
     /**
