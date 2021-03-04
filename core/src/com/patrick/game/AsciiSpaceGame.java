@@ -8,20 +8,24 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entity.Entity;
 import com.patrick.game.screen.GameScreen;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
 public class AsciiSpaceGame extends Game {
 	SpriteBatch batch;
+	ShapeRenderer shape;
 	BitmapFont font;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
+		shape = new ShapeRenderer();
 		font = new BitmapFont();
 		setScreen(new GameScreen(font, batch));
 	}

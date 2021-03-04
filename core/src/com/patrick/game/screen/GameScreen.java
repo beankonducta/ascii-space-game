@@ -2,18 +2,12 @@ package com.patrick.game.screen;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.controller.CameraController;
-import com.patrick.game.controller.MovementController;
-import com.patrick.game.entity.Bullet;
-import com.patrick.game.entity.Enemy;
-import com.patrick.game.entity.Player;
 import com.patrick.game.level.Level;
-import com.patrick.game.level.Wave;
-import com.patrick.game.util.Math;
 
 public class GameScreen implements Screen {
 
@@ -22,10 +16,17 @@ public class GameScreen implements Screen {
 
     private Level level;
 
+    private int colorMod;
+
+    private int difficulty;
+
     public GameScreen(BitmapFont font, Batch batch) {
+        this.difficulty = 10;
         this.font = font;
         this.batch = batch;
-        this.level = new Level(10);
+        this.level = new Level(this.difficulty);
+        this.font.setColor(new Color(0f, 0f, 1f, 1f));
+        this.colorMod = 1;
     }
 
     @Override
@@ -37,6 +38,8 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+        this.shiftColor(delta);
+        this.nextLevel();
         batch.begin();
         batch.setProjectionMatrix(CameraController.camera.combined);
         level.process(delta, font, batch);
@@ -66,5 +69,17 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    private void shiftColor(float delta) {
+        float r = this.font.getColor().r + (delta / 10 * this.colorMod);
+        if(r > 1 || r < 0)
+            this.colorMod = this.colorMod * -1;
+        this.font.setColor(r, this.font.getColor().g, this.font.getColor().b, 1f);
+    }
+
+    private void nextLevel() {
+        if (this.level.isFinished())
+            this.level = new Level(Math.round(this.difficulty * 2));
     }
 }

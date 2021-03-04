@@ -1,6 +1,7 @@
 package com.patrick.game.entity;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
@@ -28,21 +29,29 @@ public class Entity {
         this.velocity = velocity;
     }
 
-    public void setXVelocity(float velocity) { this.velocity.x = velocity; }
+    public void setXVelocity(float velocity) {
+        this.velocity.x = velocity;
+    }
 
-    public void setYVelocity(float velocity) { this.velocity.y = velocity; }
+    public void setYVelocity(float velocity) {
+        this.velocity.y = velocity;
+    }
 
     public void setSpeed(float speed) {
         this.speed = speed;
     }
 
-    public void setDecel(float decel) { this.decel = decel; }
+    public void setDecel(float decel) {
+        this.decel = decel;
+    }
 
     public void setCharacter(char character) {
         this.character = character;
     }
 
-    public void setCollider(Rectangle collider) { this.collider = collider; }
+    public void setCollider(Rectangle collider) {
+        this.collider = collider;
+    }
 
     public Vector2 getPosition() {
         return this.position;
@@ -52,13 +61,21 @@ public class Entity {
         return this.velocity;
     }
 
-    public float getSpeed() { return this.speed; }
+    public float getSpeed() {
+        return this.speed;
+    }
 
-    public float getDecel() { return this.decel; };
+    public float getDecel() {
+        return this.decel;
+    }
 
-    public float x() { return this.position.x; }
+    public float x() {
+        return this.position.x;
+    }
 
-    public float y() { return this.position.y; }
+    public float y() {
+        return this.position.y;
+    }
 
     public char getCharacter() {
         return this.character;
@@ -79,6 +96,8 @@ public class Entity {
     public void move(float width) {
         // add velocity to entity
         this.position.add(this.velocity);
+        if (this.collider != null)
+            this.collider.setPosition(this.position);
     }
 
     public void update(float delta) {
@@ -94,5 +113,13 @@ public class Entity {
     public void render(BitmapFont font, Batch batch) {
         // draw the character
         font.draw(batch, "" + this.character, this.position.x, this.position.y);
+
+        // debug collisions
+        if(Settings.DEBUG_COLLISION && this.collider != null) {
+            Color color = font.getColor();
+            font.setColor(Color.RED);
+            font.draw(batch, "^", this.collider.x, this.collider.y);
+            font.setColor(color);
+        }
     }
 }

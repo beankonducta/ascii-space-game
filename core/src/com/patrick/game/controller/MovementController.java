@@ -40,15 +40,17 @@ public class MovementController {
      * A very simple dumb enemy movement method. If enemy smarts are 1 or 2, move them in a constant direction left or right.
      * Flip the enemy if it hits the side.
      * <p>
-     * If the enemy smarts are 3, follow the player.
+     * If the enemy smarts are >= 3, follow the player.
+     *
+     * If the enemy smarts are > 3, return true (which fires a bullet elsewhere!)
      *
      * @param enemy  - the enemy to move
      * @param player - the player to position the enemy to
      * @param width  - the viewport width
      */
-    public static void processEnemyMovement(Enemy enemy, Player player, float width) {
+    public static boolean processEnemyMovement(Enemy enemy, Player player, float width) {
         final float difference = enemy.getPosition().x - player.getPosition().x;
-        if (enemy.getSmarts() == 3 && enemy.getPosition().y > player.getPosition().y)
+        if (enemy.getSmarts() >= 3 && enemy.getPosition().y > player.getPosition().y)
             enemy.setDirection(difference > 0 ? -1 : 1);
         if (enemy.getPosition().x < 0 || enemy.getPosition().x > width) enemy.flipDirection();
         if (Math.abs(difference) >= Settings.PLAYER_ENEMY_X_OFFSET || enemy.getSmarts() < 3)
@@ -57,5 +59,9 @@ public class MovementController {
             enemy.setXVelocity(0);
         enemy.setYVelocity(-enemy.getSpeed());
         if (enemy.getPosition().y < 0) enemy.setPosition(new Vector2(enemy.getPosition().x, 700));
+        if(enemy.getTimer() >= 3) {
+            return true;
+        }
+        return false;
     }
 }

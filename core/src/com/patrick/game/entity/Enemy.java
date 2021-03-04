@@ -40,6 +40,10 @@ public class Enemy extends Entity {
         return this.timer;
     }
 
+    public void setTimer(float time) {
+        this.timer = time;
+    }
+
     public Enemy(Vector2 position, float speed, float decel, int smarts, char character) {
         super(position, speed, decel, character);
         this.smarts = smarts;
@@ -51,5 +55,7 @@ public class Enemy extends Entity {
     public void update(float delta) {
         super.update(delta);
         this.timer += delta;
+        if(this.timer >= 3.1f)
+            this.timer = 0;
     }
 }

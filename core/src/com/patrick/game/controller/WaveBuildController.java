@@ -10,14 +10,14 @@ import java.util.List;
 
 public class WaveBuildController {
 
-    private static char CHAR_FOR[] = new char[] {'#', '@', '%' };
+    private static char CHAR_FOR[] = new char[]{'#', '@', '%', '^', '*'};
 
     public static List<Enemy> BUILD_ENEMY_LIST(int difficulty) {
         List<Enemy> enemyList = new ArrayList<Enemy>();
         int count = 0;
         float y = 800;
         float x = 100;
-        while(count < difficulty) {
+        while (count < difficulty) {
             int smarts = Math.RANDOM_BETWEEN(Settings.MIN_ENEMY_SMARTS, Settings.MAX_ENEMY_SMARTS);
             float speed = Math.FLOAT_RANDOM_BETWEEN(Settings.MIN_ENEMY_SPEED, Settings.MAX_ENEMY_SPEED);
             count += smarts + Math.ROUND(speed / 2);
