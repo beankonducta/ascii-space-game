@@ -10,9 +10,10 @@ import com.patrick.game.util.Settings;
 public class MovementController {
 
     public static boolean processPlayerMovement(Player player) {
-        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
-            return true;
-        }
+        // keeps player in bounds
+        if (player.getPosition().x < 10) player.setXVelocity(0);
+        if (player.getPosition().x > CameraController.camera.viewportWidth - 24) player.setXVelocity(0);
+
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             if (player.getPosition().y > Settings.PLAYER_MAX_HEIGHT) player.setYVelocity(0);
             else
@@ -33,6 +34,12 @@ public class MovementController {
             else
                 player.setXVelocity(player.getSpeed());
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            return true;
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && player.getGunLevel() == 2) {
+            return true;
+        }
         return false;
     }
 
@@ -50,14 +57,15 @@ public class MovementController {
      */
     public static boolean processEnemyMovement(Enemy enemy, Player player, float width) {
         final float difference = enemy.x() - player.x();
-        if (enemy.getSmarts() >= 3 && enemy.y() > player.y())
+        final boolean enemySeesPlayer = enemy.getSmarts() >= 3 && enemy.y() > player.y() && enemy.x() - player.x() < 50 && enemy.y() - player.y() < 200;
+        if (enemySeesPlayer)
             enemy.setDirection(difference > 0 ? -1 : 1);
         if (enemy.x() < 0 || enemy.x() > width) enemy.flipDirection();
         if (Math.abs(difference) >= Settings.PLAYER_ENEMY_X_OFFSET || enemy.getSmarts() < 3)
             enemy.setXVelocity(enemy.getSpeed());
         else
             enemy.setXVelocity(0);
-        enemy.setYVelocity(-enemy.getSpeed());
+        enemy.setYVelocity(-enemy.getSpeed() - (enemySeesPlayer ? 200 : 0));
         if (enemy.y() < 0) enemy.setPosition(new Vector2(enemy.x(), 700));
         if(enemy.getTimer() >= 3 && enemy.getSmarts() > 3) {
             return true;

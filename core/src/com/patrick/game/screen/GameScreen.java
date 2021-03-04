@@ -21,7 +21,7 @@ public class GameScreen implements Screen {
     private int difficulty;
 
     public GameScreen(BitmapFont font, Batch batch) {
-        this.difficulty = 10;
+        this.difficulty = 1000;
         this.font = font;
         this.batch = batch;
         this.level = new Level(this.difficulty);

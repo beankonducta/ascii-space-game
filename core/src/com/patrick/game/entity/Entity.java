@@ -93,21 +93,23 @@ public class Entity {
         this.velocity = new Vector2(0, 0);
     }
 
-    public void move(float width) {
-        // add velocity to entity
-        this.position.add(this.velocity);
-        if (this.collider != null)
-            this.collider.setPosition(this.position);
-    }
-
     public void update(float delta) {
         // handle x velocity
-        if (Math.abs(this.velocity.x) <= this.decel) this.velocity.x = 0;
-        else this.velocity.x -= this.decel * (this.velocity.x / Math.abs(this.velocity.x));
+        if (Math.abs(this.velocity.x) <= 1) this.velocity.x = 0;
+        else this.velocity.x -= this.decel * (this.velocity.x / Math.abs(this.velocity.x) * delta);
 
         // handle y velocity
-        if (Math.abs(this.velocity.y) <= this.decel) this.velocity.y = 0;
-        else this.velocity.y -= this.decel * (this.velocity.y / Math.abs(this.velocity.y));
+        if (Math.abs(this.velocity.y) <= 1) this.velocity.y = 0;
+        else this.velocity.y -= this.decel * (this.velocity.y / Math.abs(this.velocity.y) * delta);
+    }
+
+    public void move(float delta) {
+        // add velocity
+        this.position.add(new Vector2(this.velocity.x * delta, this.velocity.y * delta));
+
+        // move collider
+        if (this.collider != null)
+            this.collider.setPosition(this.position);
     }
 
     public void render(BitmapFont font, Batch batch) {

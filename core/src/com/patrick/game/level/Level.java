@@ -8,6 +8,7 @@ import com.patrick.game.controller.CollisionController;
 import com.patrick.game.controller.MovementController;
 import com.patrick.game.controller.ParticleController;
 import com.patrick.game.entity.*;
+import com.patrick.game.util.Math;
 import com.patrick.game.util.Settings;
 
 import java.util.ArrayList;
@@ -37,7 +38,7 @@ public class Level {
         this.bullets = new ArrayList<>();
         this.particles = new ArrayList<>();
         this.toRemove = new ArrayList<>();
-        this.player = new Player(new Vector2(200, 40), 6f, .25f, 'P');
+        this.player = new Player(new Vector2(200, 40), Settings.PLAYER_SPEED, Settings.PLAYER_DECEL, 'P');
         this.currentWave = 0;
         this.finished = false;
         this.fillWaves();
@@ -58,7 +59,7 @@ public class Level {
             this.removeOffScreen(bullet);
             bullet.update(delta);
             bullet.render(font, batch);
-            bullet.move(CameraController.camera.viewportWidth);
+            bullet.move(delta);
         }
 
         for (Particle particle : this.particles) {
@@ -66,25 +67,36 @@ public class Level {
             this.removeDeadParticle(particle);
             particle.update(delta);
             particle.render(font, batch);
-            particle.move(CameraController.camera.viewportWidth);
+            particle.move(delta);
         }
 
         for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
             enemy.update(delta);
             enemy.render(font, batch);
-            enemy.move(CameraController.camera.viewportWidth);
+            enemy.move(delta);
             if (MovementController.processEnemyMovement(enemy, this.player, CameraController.camera.viewportWidth)) {
                 // no work
-                this.toRemove.add(new Bullet(new Vector2(enemy.x(), enemy.y()), -20f, 0, 'o'));
+                this.toRemove.add(new Bullet(new Vector2(enemy.x(), enemy.y()), -Settings.BULLET_SPEED, 0, 'o', false));
             }
         }
         this.player.update(delta);
         this.player.render(font, batch);
-        player.move(CameraController.camera.viewportWidth);
+        player.move(delta);
         if (MovementController.processPlayerMovement(this.player))
-            this.bullets.add(new Bullet(new Vector2(this.player.x(), this.player.y()), 20f, 0, 'o'));
+            this.firePlayerWeapon();
 //            uncomment to test wave progression
 //            this.toRemove.addAll(this.waves.get(this.currentWave).getEnemies());
+    }
+
+    private void firePlayerWeapon() {
+        switch (this.player.getGunLevel()) {
+            case 0:
+                this.bullets.add(new Bullet(new Vector2(this.player.x(), this.player.y()), Settings.BULLET_SPEED, 0, 'o', false));
+            case 1:
+                for(int i = 0; i < Settings.SPREAD_FIRE_COUNT; i++) {
+                    this.bullets.add(new Bullet(new Vector2(this.player.x(), this.player.y()), Math.FLOAT_RANDOM_BETWEEN(Settings.BULLET_SPEED * .8f, Settings.BULLET_SPEED), 0, 'o', true));
+                }
+        }
     }
 
     private void removeOffScreen(Entity entity) {
