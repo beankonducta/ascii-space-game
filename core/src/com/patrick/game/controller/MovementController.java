@@ -29,7 +29,7 @@ public class MovementController {
                 player.setXVelocity(-player.getSpeed());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            if (player.getPosition().x > CameraController.camera.viewportWidth - 15) player.setXVelocity(0);
+            if (player.getPosition().x > CameraController.camera.viewportWidth - 24) player.setXVelocity(0);
             else
                 player.setXVelocity(player.getSpeed());
         }
@@ -49,17 +49,17 @@ public class MovementController {
      * @param width  - the viewport width
      */
     public static boolean processEnemyMovement(Enemy enemy, Player player, float width) {
-        final float difference = enemy.getPosition().x - player.getPosition().x;
-        if (enemy.getSmarts() >= 3 && enemy.getPosition().y > player.getPosition().y)
+        final float difference = enemy.x() - player.x();
+        if (enemy.getSmarts() >= 3 && enemy.y() > player.y())
             enemy.setDirection(difference > 0 ? -1 : 1);
-        if (enemy.getPosition().x < 0 || enemy.getPosition().x > width) enemy.flipDirection();
+        if (enemy.x() < 0 || enemy.x() > width) enemy.flipDirection();
         if (Math.abs(difference) >= Settings.PLAYER_ENEMY_X_OFFSET || enemy.getSmarts() < 3)
             enemy.setXVelocity(enemy.getSpeed());
         else
             enemy.setXVelocity(0);
         enemy.setYVelocity(-enemy.getSpeed());
-        if (enemy.getPosition().y < 0) enemy.setPosition(new Vector2(enemy.getPosition().x, 700));
-        if(enemy.getTimer() >= 3) {
+        if (enemy.y() < 0) enemy.setPosition(new Vector2(enemy.x(), 700));
+        if(enemy.getTimer() >= 3 && enemy.getSmarts() > 3) {
             return true;
         }
         return false;

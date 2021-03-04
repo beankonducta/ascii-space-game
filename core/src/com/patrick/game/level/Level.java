@@ -6,6 +6,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.controller.CameraController;
 import com.patrick.game.controller.CollisionController;
 import com.patrick.game.controller.MovementController;
+import com.patrick.game.controller.ParticleController;
 import com.patrick.game.entity.*;
 import com.patrick.game.util.Settings;
 
@@ -72,12 +73,11 @@ public class Level {
             enemy.update(delta);
             enemy.render(font, batch);
             enemy.move(CameraController.camera.viewportWidth);
-            if(MovementController.processEnemyMovement(enemy, this.player, CameraController.camera.viewportWidth)) {
+            if (MovementController.processEnemyMovement(enemy, this.player, CameraController.camera.viewportWidth)) {
                 // no work
-                this.bullets.add(new Bullet(new Vector2(200, 500), -20f, 0, 'o'));
+                this.toRemove.add(new Bullet(new Vector2(enemy.x(), enemy.y()), -20f, 0, 'o'));
             }
         }
-
         this.player.update(delta);
         this.player.render(font, batch);
         player.move(CameraController.camera.viewportWidth);
@@ -99,7 +99,7 @@ public class Level {
 
     private void progressWave() {
         if (this.waves.get(this.currentWave).getEnemies().size() == 0)
-            if(this.currentWave < 4)
+            if (this.currentWave < 4)
                 this.currentWave++;
             else {
                 this.finished = true;
@@ -112,6 +112,8 @@ public class Level {
             for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
                 if (CollisionController.BASIC_COLLISION(bullet, enemy)) {
                     this.toRemove.add(enemy);
+                    this.toRemove.add(bullet);
+                    this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(enemy, Settings.EXPLOSION_SIZE));
                 }
             }
         }

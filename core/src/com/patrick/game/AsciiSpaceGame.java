@@ -26,7 +26,7 @@ public class AsciiSpaceGame extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		shape = new ShapeRenderer();
-		font = new BitmapFont();
+		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		setScreen(new GameScreen(font, batch));
 	}
 

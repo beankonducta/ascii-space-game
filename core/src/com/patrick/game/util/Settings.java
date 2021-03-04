@@ -12,7 +12,11 @@ public class Settings {
 
     public static final int PLAYER_ENEMY_X_OFFSET = 2;
 
-    public static final int BULLET_SIZE = 2;
+    public static final int BULLET_SIZE = 8;
+
+    public static final float EXPLOSION_SPEED = 5;
+    public static final int EXPLOSION_SIZE = 10;
+    public static final int EXPLOSION_TTL = 1;
 
     public static final int ENEMY_WIDTH = 16;
     public static final int ENEMY_HEIGHT = 16;

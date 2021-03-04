@@ -14,9 +14,5 @@ public class Player extends Entity {
     @Override
     public void move(float width) {
         super.move(width);
-
-        // loops entity around screen
-        if (this.position.x > width) this.position.x = 0;
-        else if (this.position.x < 0) this.position.x = width;
     }
 }

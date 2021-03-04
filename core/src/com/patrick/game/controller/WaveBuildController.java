@@ -10,7 +10,7 @@ import java.util.List;
 
 public class WaveBuildController {
 
-    private static char CHAR_FOR[] = new char[]{'#', '@', '%', '^', '*'};
+    private static char CHAR_FOR[] = new char[]{'i', 'e', 'E', '@', '?'};
 
     public static List<Enemy> BUILD_ENEMY_LIST(int difficulty) {
         List<Enemy> enemyList = new ArrayList<Enemy>();
