@@ -7,9 +7,20 @@ import com.patrick.game.util.Settings;
 
 public class Bullet extends Entity {
 
-    public Bullet(Vector2 position, float speed, float decel, char character, boolean spread) {
+    public enum BulletOwner {
+        PLAYER, ENEMY;
+    }
+
+    private BulletOwner owner;
+
+    public BulletOwner getOwner() {
+        return this.owner;
+    }
+
+    public Bullet(Vector2 position, float speed, float decel, char character, boolean spread, BulletOwner owner) {
         super(position, speed, decel, character);
         this.collider = new Rectangle(position.x, position.y, Settings.BULLET_SIZE, Settings.BULLET_SIZE);
+        this.owner = owner;
         this.setYVelocity(speed);
         if(spread)
             this.setXVelocity(Math.EITHER_OR((int)Math.FLOAT_RANDOM_BETWEEN(-speed / 3, 0), (int)Math.FLOAT_RANDOM_BETWEEN(1, speed / 3)));

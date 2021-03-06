@@ -4,6 +4,7 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Graphics;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -18,16 +19,35 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AsciiSpaceGame extends Game {
+	/**
+	 *
+	 * TODO: Glitch where enemies can go offscreen
+	 *
+	 * TODO: Make more weapons and powerups (speed, shield)
+	 *
+	 * TODO: Add transitions
+	 *
+	 * TODO: Add music and sounds
+	 *
+	 * TODO: Add bounding box around player
+	 *
+	 * TODO: Add hud. Should have points, lives, health, bullet cooldown
+	 *
+	 * TODO: COOL S BOSS
+	 */
 	SpriteBatch batch;
 	ShapeRenderer shape;
 	BitmapFont font;
+	BitmapFont redFont;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		shape = new ShapeRenderer();
 		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
-		setScreen(new GameScreen(font, batch));
+		redFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
+		redFont.setColor(Color.RED);
+		setScreen(new GameScreen(font, redFont, batch));
 	}
 
 	@Override

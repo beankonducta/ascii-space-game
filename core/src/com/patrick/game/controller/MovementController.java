@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entity.Enemy;
 import com.patrick.game.entity.Player;
+import com.patrick.game.entity.Resource;
 import com.patrick.game.util.Settings;
 
 public class MovementController {
@@ -13,6 +14,8 @@ public class MovementController {
         // keeps player in bounds
         if (player.getPosition().x < 10) player.setXVelocity(0);
         if (player.getPosition().x > CameraController.camera.viewportWidth - 24) player.setXVelocity(0);
+        if (player.getPosition().y < Settings.PLAYER_MIN_HEIGHT) player.setYVelocity(0);
+        if (player.getPosition().y > Settings.PLAYER_MAX_HEIGHT) player.setYVelocity(0);
 
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
             if (player.getPosition().y > Settings.PLAYER_MAX_HEIGHT) player.setYVelocity(0);
@@ -37,7 +40,7 @@ public class MovementController {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             return true;
         }
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && player.getGunLevel() == 2) {
+        if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && player.getGunLevel() >= 2) {
             return true;
         }
         return false;
@@ -48,7 +51,7 @@ public class MovementController {
      * Flip the enemy if it hits the side.
      * <p>
      * If the enemy smarts are >= 3, follow the player.
-     *
+     * <p>
      * If the enemy smarts are > 3, return true (which fires a bullet elsewhere!)
      *
      * @param enemy  - the enemy to move
@@ -67,8 +70,21 @@ public class MovementController {
             enemy.setXVelocity(0);
         enemy.setYVelocity(-enemy.getSpeed() - (enemySeesPlayer ? 200 : 0));
         if (enemy.y() < 0) enemy.setPosition(new Vector2(enemy.x(), 700));
-        if(enemy.getTimer() >= 3 && enemy.getSmarts() > 3) {
+        if (enemy.getTimer() >= 3 && enemy.getSmarts() > 3) {
             return true;
+        }
+        return false;
+    }
+
+    public static boolean processResourceMovement(Player player, Resource resource) {
+        final boolean resourceInRange = resource.y() > player.y() && resource.y() - player.y() < 150;
+        if (resource.x() < 10 || resource.x() > CameraController.camera.viewportWidth - 24) {
+            resource.setXVelocity(0);
+            return false;
+        }
+        if (resource.y() < -20) return true;
+        if (resourceInRange) {
+            resource.setXVelocity((resource.x() > player.x() ? -Settings.RESOURCE_SPEED / 2 : Settings.RESOURCE_SPEED / 2));
         }
         return false;
     }

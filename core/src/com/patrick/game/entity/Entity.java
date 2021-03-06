@@ -20,6 +20,8 @@ public class Entity {
     protected float decel;
     protected char character;
     protected Rectangle collider;
+    protected float timer;
+    protected float actionTime;
 
     public void setPosition(Vector2 position) {
         this.position = position;
@@ -51,6 +53,14 @@ public class Entity {
 
     public void setCollider(Rectangle collider) {
         this.collider = collider;
+    }
+
+    public void setTimer(float time) {
+        this.timer = time;
+    }
+
+    public void setActionTime(float time) {
+        this.actionTime = time;
     }
 
     public Vector2 getPosition() {
@@ -85,6 +95,14 @@ public class Entity {
         return this.collider;
     }
 
+    public float getTimer() {
+        return this.timer;
+    }
+
+    public float getActionTime() {
+        return this.actionTime;
+    }
+
     public Entity(Vector2 position, float speed, float decel, char character) {
         this.position = position;
         this.speed = speed;
@@ -101,6 +119,11 @@ public class Entity {
         // handle y velocity
         if (Math.abs(this.velocity.y) <= 1) this.velocity.y = 0;
         else this.velocity.y -= this.decel * (this.velocity.y / Math.abs(this.velocity.y) * delta);
+
+        // update timer
+        this.timer += delta;
+        if(this.timer >= this.actionTime)
+            this.timer = 0;
     }
 
     public void move(float delta) {

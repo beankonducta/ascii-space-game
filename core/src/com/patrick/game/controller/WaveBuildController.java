@@ -15,7 +15,7 @@ public class WaveBuildController {
     public static List<Enemy> BUILD_ENEMY_LIST(int difficulty) {
         List<Enemy> enemyList = new ArrayList<Enemy>();
         int count = 0;
-        float y = 800;
+        float y = Math.RANDOM_BETWEEN(800, 1600);
         float x = 100;
         while (count < difficulty) {
             int smarts = Math.RANDOM_BETWEEN(Settings.MIN_ENEMY_SMARTS, Settings.MAX_ENEMY_SMARTS);

@@ -7,13 +7,15 @@ public class Settings {
     public static final int PLAYER_WIDTH = 16;
     public static final int PLAYER_HEIGHT = 16;
 
-    public static final float PLAYER_SPEED = 220f;
-    public static final float PLAYER_DECEL = 200f;
+    public static final float PLAYER_SPEED = 300f;
+    public static final float PLAYER_DECEL = 600f;
 
     public static final int VIEWPORT_WIDTH = 500;
     public static final int VIEWPORT_HEIGHT = 700;
 
     public static final int PLAYER_ENEMY_X_OFFSET = 2;
+
+    public static final int BULLET_COOLDOWN = 64;
 
     public static final int BULLET_SIZE = 8;
     public static final float BULLET_SPEED = 800f;
@@ -22,6 +24,8 @@ public class Settings {
     public static final float EXPLOSION_SPEED = 120;
     public static final int EXPLOSION_SIZE = 10;
     public static final int EXPLOSION_TTL = 1;
+
+    public static final float RESOURCE_SPEED = 120;
 
     public static final int ENEMY_WIDTH = 16;
     public static final int ENEMY_HEIGHT = 16;

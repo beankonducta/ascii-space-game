@@ -6,25 +6,32 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.controller.CameraController;
+import com.patrick.game.entity.Player;
 import com.patrick.game.level.Level;
+import com.patrick.game.util.Settings;
 
 public class GameScreen implements Screen {
 
     private BitmapFont font;
+    private BitmapFont redFont;
     private Batch batch;
 
     private Level level;
+    private Player player;
 
     private int colorMod;
 
     private int difficulty;
 
-    public GameScreen(BitmapFont font, Batch batch) {
-        this.difficulty = 1000;
+    public GameScreen(BitmapFont font, BitmapFont redFont, Batch batch) {
+        this.difficulty = 1300;
         this.font = font;
+        this.redFont = redFont;
         this.batch = batch;
-        this.level = new Level(this.difficulty);
+        this.player = new Player(new Vector2(CameraController.camera.viewportWidth / 2, 40), Settings.PLAYER_SPEED, Settings.PLAYER_DECEL, 'P');
+        this.level = new Level(this.difficulty, this.player);
         this.font.setColor(new Color(0f, 0f, 1f, 1f));
         this.colorMod = 1;
     }
@@ -42,8 +49,21 @@ public class GameScreen implements Screen {
         this.nextLevel();
         batch.begin();
         batch.setProjectionMatrix(CameraController.camera.combined);
-        level.process(delta, font, batch);
+        this.drawHud();
+        level.process(delta, font, redFont, batch);
         batch.end();
+    }
+
+    private void drawHud() {
+        for(int i = 1; i < this.player.getLives(); i ++) {
+            redFont.draw(batch, "L",  24 * i, CameraController.camera.viewportHeight - 24);
+        }
+
+        int y = 0;
+        for(int i = 0; i < Settings.BULLET_COOLDOWN - this.player.getBulletCooldown(); i++) {
+            if(i == 32) y = 1;
+            redFont.draw(batch, "-",  CameraController.camera.viewportWidth - 24 - ((y == 0 ? i : i-32) * 8), CameraController.camera.viewportHeight - 24 + (y * 16));
+        }
     }
 
     @Override
@@ -79,7 +99,9 @@ public class GameScreen implements Screen {
     }
 
     private void nextLevel() {
-        if (this.level.isFinished())
-            this.level = new Level(Math.round(this.difficulty * 2));
+        if (this.level.isFinished()) {
+            this.difficulty = this.difficulty * 2;
+            this.level = new Level(this.difficulty, this.player);
+        }
     }
 }
