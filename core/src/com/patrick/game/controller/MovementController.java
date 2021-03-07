@@ -3,9 +3,11 @@ package com.patrick.game.controller;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.entity.Boss;
 import com.patrick.game.entity.Enemy;
 import com.patrick.game.entity.Player;
 import com.patrick.game.entity.Resource;
+import com.patrick.game.util.Math;
 import com.patrick.game.util.Settings;
 
 public class MovementController {
@@ -56,15 +58,14 @@ public class MovementController {
      *
      * @param enemy  - the enemy to move
      * @param player - the player to position the enemy to
-     * @param width  - the viewport width
      */
-    public static boolean processEnemyMovement(Enemy enemy, Player player, float width) {
+    public static boolean processEnemyMovement(Enemy enemy, Player player) {
         final float difference = enemy.x() - player.x();
         final boolean enemySeesPlayer = enemy.getSmarts() >= 3 && enemy.y() > player.y() && enemy.x() - player.x() < 50 && enemy.y() - player.y() < 200;
-        if (enemySeesPlayer)
+        if (enemySeesPlayer && enemy.x() > 15 && enemy.x() < CameraController.camera.viewportWidth - 15)
             enemy.setDirection(difference > 0 ? -1 : 1);
-        if (enemy.x() < 0 || enemy.x() > width) enemy.flipDirection();
-        if (Math.abs(difference) >= Settings.PLAYER_ENEMY_X_OFFSET || enemy.getSmarts() < 3)
+        if (enemy.x() < 15 || enemy.x() > CameraController.camera.viewportWidth - 15) enemy.flipDirection();
+        if (java.lang.Math.abs(difference) >= Settings.PLAYER_ENEMY_X_OFFSET || enemy.getSmarts() < 3)
             enemy.setXVelocity(enemy.getSpeed());
         else
             enemy.setXVelocity(0);
@@ -87,5 +88,13 @@ public class MovementController {
             resource.setXVelocity((resource.x() > player.x() ? -Settings.RESOURCE_SPEED / 2 : Settings.RESOURCE_SPEED / 2));
         }
         return false;
+    }
+
+    public static boolean processBossMovement(Boss boss, Player player) {
+        if (boss.x() < 15 || boss.x() > CameraController.camera.viewportWidth - 15) boss.flipDirection();
+        if ((boss.y() < 15 || boss.y() > CameraController.camera.viewportHeight - 15) && boss.hasEntered()) boss.flipYDirection();
+        boss.setXVelocity(boss.getSpeed());
+        boss.setYVelocity(boss.getSpeed());
+        return true;
     }
 }

@@ -6,10 +6,11 @@ import com.patrick.game.util.Settings;
 
 public class Player extends Entity {
 
-    private int gunLevel;
-    private int lives;
-    private int bulletCooldown;
-    private boolean shield;
+    protected int gunLevel;
+    protected int lives;
+    protected int bulletCooldown;
+    protected int points;
+    protected boolean shield;
 
     public int getBulletCooldown() {
         return this.bulletCooldown;
@@ -39,6 +40,18 @@ public class Player extends Entity {
         this.lives --;
     }
 
+    public void addPoints(int points) {
+        this.points += points;
+    }
+
+    public void subtractPoints(int points) {
+        this.points -= points;
+    }
+
+    public int getPoints() {
+        return this.points;
+    }
+
     public void processResource(Resource resource) {
         if(resource.getType() == Resource.ResourceType.GUN) this.gunLevel += resource.getLevel();
         else if(resource.getType() == Resource.ResourceType.LIFE) this.lives += resource.getLevel();
@@ -50,6 +63,7 @@ public class Player extends Entity {
         this.gunLevel = 0;
         this.lives = 3;
         this.actionTime = .15f;
+        this.points = 0;
     }
 
     @Override

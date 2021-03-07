@@ -20,9 +20,11 @@ public class Settings {
     public static final int BULLET_SIZE = 8;
     public static final float BULLET_SPEED = 800f;
     public static final int SPREAD_FIRE_COUNT = 6;
+    public static final int BULLET_DAMAGE = 25;
 
     public static final float EXPLOSION_SPEED = 120;
     public static final int EXPLOSION_SIZE = 10;
+    public static final int BOSS_EXPLOSION_SIZE = 50;
     public static final int EXPLOSION_TTL = 1;
 
     public static final float RESOURCE_SPEED = 120;
@@ -39,5 +41,5 @@ public class Settings {
 
     public static final int WAVE_COUNT = 5;
 
-    public static final boolean DEBUG_COLLISION = false;
+    public static final boolean DEBUG_COLLISION = true;
 }

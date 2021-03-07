@@ -26,7 +26,7 @@ public class GameScreen implements Screen {
     private int difficulty;
 
     public GameScreen(BitmapFont font, BitmapFont redFont, Batch batch) {
-        this.difficulty = 1300;
+        this.difficulty = 300;
         this.font = font;
         this.redFont = redFont;
         this.batch = batch;
@@ -55,6 +55,7 @@ public class GameScreen implements Screen {
     }
 
     private void drawHud() {
+        redFont.draw(batch, ""+this.player.getPoints(), 24, CameraController.camera.viewportHeight - 48);
         for(int i = 1; i < this.player.getLives(); i ++) {
             redFont.draw(batch, "L",  24 * i, CameraController.camera.viewportHeight - 24);
         }

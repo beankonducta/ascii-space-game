@@ -8,6 +8,7 @@ public class Enemy extends Entity {
 
     protected int smarts;
     protected int direction;
+    protected int points;
 
     public void setDirection(int direction) {
         this.direction = direction;
@@ -19,6 +20,10 @@ public class Enemy extends Entity {
 
     public void flipDirection() {
         this.direction = -this.direction;
+    }
+
+    public int getPoints() {
+        return this.points;
     }
 
     @Override
@@ -40,6 +45,7 @@ public class Enemy extends Entity {
         this.direction = smarts == 1 ? 1 : -1;
         this.collider = new Rectangle(position.x, position.y, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
         this.actionTime = 3.1f;
+        this.points = (this.smarts + 1 * 100);
     }
 
     @Override
