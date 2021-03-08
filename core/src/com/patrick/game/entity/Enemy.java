@@ -28,7 +28,7 @@ public class Enemy extends Entity {
 
     @Override
     public void setXVelocity(float velocity) {
-        this.velocity.x = velocity * this.direction;
+        this.xVelocity = velocity * this.direction;
     }
 
     public void setSmarts(int smarts) {
@@ -39,12 +39,12 @@ public class Enemy extends Entity {
         return this.smarts;
     }
 
-    public Enemy(Vector2 position, float speed, float decel, int smarts, char character) {
-        super(position, speed, decel, character);
+    public Enemy(float x, float y, float speed, float decel, int smarts, char character) {
+        super(x, y, speed, decel, character);
         this.smarts = smarts;
         this.direction = smarts == 1 ? 1 : -1;
-        this.collider = new Rectangle(position.x, position.y, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
-        this.actionTime = 3.1f;
+        this.collider = new Rectangle(x, y, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
+        this.actionTime = 1f;
         this.points = (this.smarts + 1 * 100);
     }
 

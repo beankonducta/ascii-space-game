@@ -41,5 +41,7 @@ public class Settings {
 
     public static final int WAVE_COUNT = 5;
 
+    public static final int MAX_ENEMY_LEVEL = 300;
+
     public static final boolean DEBUG_COLLISION = true;
 }

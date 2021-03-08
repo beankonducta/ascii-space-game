@@ -21,7 +21,7 @@ public class WaveBuildController {
             int smarts = Math.RANDOM_BETWEEN(Settings.MIN_ENEMY_SMARTS, Settings.MAX_ENEMY_SMARTS);
             float speed = Math.FLOAT_RANDOM_BETWEEN(Settings.MIN_ENEMY_SPEED, Settings.MAX_ENEMY_SPEED);
             count += smarts + Math.ROUND(speed / 2);
-            enemyList.add(new Enemy(new Vector2(x, y), speed, Settings.ENEMY_DECEL, smarts, CHAR_FOR[smarts - 1]));
+            enemyList.add(new Enemy(x, y, speed, Settings.ENEMY_DECEL, smarts, CHAR_FOR[smarts - 1]));
             x += 10;
         }
         return enemyList;

@@ -14,8 +14,10 @@ import java.awt.*;
 
 public class Entity {
 
-    protected Vector2 position;
-    protected Vector2 velocity;
+    protected float x;
+    protected float y;
+    protected float xVelocity;
+    protected float yVelocity;
     protected float speed;
     protected float decel;
     protected char character;
@@ -23,20 +25,17 @@ public class Entity {
     protected float timer;
     protected float actionTime;
 
-    public void setPosition(Vector2 position) {
-        this.position = position;
-    }
-
-    public void setVelocity(Vector2 velocity) {
-        this.velocity = velocity;
+    public void setPosition(float x, float y) {
+        this.x = x;
+        this.y = y;
     }
 
     public void setXVelocity(float velocity) {
-        this.velocity.x = velocity;
+        this.xVelocity = velocity;
     }
 
     public void setYVelocity(float velocity) {
-        this.velocity.y = velocity;
+        this.yVelocity = velocity;
     }
 
     public void setSpeed(float speed) {
@@ -63,14 +62,6 @@ public class Entity {
         this.actionTime = time;
     }
 
-    public Vector2 getPosition() {
-        return this.position;
-    }
-
-    public Vector2 getVelocity() {
-        return this.velocity;
-    }
-
     public float getSpeed() {
         return this.speed;
     }
@@ -80,11 +71,11 @@ public class Entity {
     }
 
     public float x() {
-        return this.position.x;
+        return this.x;
     }
 
     public float y() {
-        return this.position.y;
+        return this.y;
     }
 
     public char getCharacter() {
@@ -103,22 +94,24 @@ public class Entity {
         return this.actionTime;
     }
 
-    public Entity(Vector2 position, float speed, float decel, char character) {
-        this.position = position;
+    public Entity(float x, float y, float speed, float decel, char character) {
+        this.x = x;
+        this.y = y;
         this.speed = speed;
         this.decel = decel;
         this.character = character;
-        this.velocity = new Vector2(0, 0);
+        this.xVelocity = 0;
+        this.yVelocity = 0;
     }
 
     public void update(float delta) {
         // handle x velocity
-        if (Math.abs(this.velocity.x) <= 1) this.velocity.x = 0;
-        else this.velocity.x -= this.decel * (this.velocity.x / Math.abs(this.velocity.x) * delta);
+        if (Math.abs(this.xVelocity) <= 1) this.xVelocity = 0;
+        else this.xVelocity -= this.decel * (this.xVelocity / Math.abs(this.xVelocity) * delta);
 
         // handle y velocity
-        if (Math.abs(this.velocity.y) <= 1) this.velocity.y = 0;
-        else this.velocity.y -= this.decel * (this.velocity.y / Math.abs(this.velocity.y) * delta);
+        if (Math.abs(this.yVelocity) <= 1) this.yVelocity = 0;
+        else this.yVelocity -= this.decel * (this.yVelocity / Math.abs(this.yVelocity) * delta);
 
         // update timer
         this.timer += delta;
@@ -128,16 +121,17 @@ public class Entity {
 
     public void move(float delta) {
         // add velocity
-        this.position.add(new Vector2(this.velocity.x * delta, this.velocity.y * delta));
+        this.x += this.xVelocity * delta;
+        this.y += this.yVelocity * delta;
 
         // move collider
         if (this.collider != null)
-            this.collider.setPosition(this.position);
+            this.collider.setPosition(new Vector2(this.x, this.y));
     }
 
     public void render(BitmapFont font, Batch batch) {
         // draw the character
-        font.draw(batch, "" + this.character, this.position.x, this.position.y);
+        font.draw(batch, "" + this.character, this.x, this.y);
 
         // debug collisions
         if(Settings.DEBUG_COLLISION && this.collider != null) {

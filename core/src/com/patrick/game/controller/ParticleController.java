@@ -18,7 +18,19 @@ public class ParticleController {
         for (int i = 0; i < count; i++) {
             final float speed = Math.FLOAT_RANDOM_BETWEEN(Settings.EXPLOSION_SPEED / 2, Settings.EXPLOSION_SPEED * 2);
             final int charIndex = Math.RANDOM_BETWEEN(0, EXPLOSION_CHARS.length - 1);
-            Particle p = new Particle(new Vector2(entity.x(), entity.y()), speed, 0, EXPLOSION_CHARS[charIndex], Settings.EXPLOSION_TTL);
+            Particle p = new Particle(entity.x(), entity.y(), speed, 0, EXPLOSION_CHARS[charIndex], Settings.EXPLOSION_TTL);
+            p.randomDir();
+            particles.add(p);
+        }
+        return particles;
+    }
+
+    public static List<Particle> EXPLOSION_PARTICLES(float x, float y, int count) {
+        List<Particle> particles = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            final float speed = Math.FLOAT_RANDOM_BETWEEN(Settings.EXPLOSION_SPEED / 2, Settings.EXPLOSION_SPEED * 2);
+            final int charIndex = Math.RANDOM_BETWEEN(0, EXPLOSION_CHARS.length - 1);
+            Particle p = new Particle(x, y, speed, 0, EXPLOSION_CHARS[charIndex], Settings.EXPLOSION_TTL);
             p.randomDir();
             particles.add(p);
         }

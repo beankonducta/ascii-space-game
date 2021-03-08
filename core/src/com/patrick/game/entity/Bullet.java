@@ -17,9 +17,9 @@ public class Bullet extends Entity {
         return this.owner;
     }
 
-    public Bullet(Vector2 position, float speed, float decel, char character, boolean spread, BulletOwner owner) {
-        super(position, speed, decel, character);
-        this.collider = new Rectangle(position.x, position.y, Settings.BULLET_SIZE, Settings.BULLET_SIZE);
+    public Bullet(float x, float y, float speed, float decel, char character, boolean spread, BulletOwner owner) {
+        super(x, y, speed, decel, character);
+        this.collider = new Rectangle(x, y, Settings.BULLET_SIZE, Settings.BULLET_SIZE);
         this.owner = owner;
         this.setYVelocity(speed);
         if(spread)

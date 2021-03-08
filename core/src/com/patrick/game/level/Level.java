@@ -49,20 +49,20 @@ public class Level {
     }
 
     private void fillWaves() {
-//        for (int i = 0; i < Settings.WAVE_COUNT - 1; i++) {
-//            this.waves.add(new Wave(this.difficulty + (i * 3)));
-//        }
+        for (int i = 0; i < Settings.WAVE_COUNT - 1; i++) {
+            this.waves.add(new Wave(this.difficulty + (i * 3)));
+        }
         this.waves.add(new Wave(true));
     }
 
     private void killPlayer() {
-        player.setPosition(new Vector2(-200, -200));
+        player.setPosition(-200, -200);
         this.respawnTimer = new OneShotTimer(5f);
         this.player.removeLife();
     }
 
     private void resetPlayer() {
-        player.setPosition(new Vector2(CameraController.camera.viewportWidth / 2, 40));
+        player.setPosition(CameraController.camera.viewportWidth / 2, 40);
     }
 
     public void process(float delta, BitmapFont font, BitmapFont redFont, Batch batch) {
@@ -99,7 +99,7 @@ public class Level {
                 }
             } else {
                 if (MovementController.processEnemyMovement(enemy, this.player)) {
-//                this.bullets.add(new Bullet(new Vector2(enemy.x(), enemy.y()), -Settings.BULLET_SPEED, 0, 'o', false, Bullet.BulletOwner.ENEMY));
+                    this.bullets.add(new Bullet(enemy.x(), enemy.y(), -Settings.BULLET_SPEED, 0, 'o', false, Bullet.BulletOwner.ENEMY));
                 }
             }
         }
@@ -124,21 +124,21 @@ public class Level {
         switch (this.player.getGunLevel()) {
             case 0:
                 if (this.player.getBulletCooldown() < Settings.BULLET_COOLDOWN) {
-                    this.bullets.add(new Bullet(new Vector2(this.player.x(), this.player.y()), Settings.BULLET_SPEED, 0, 'o', false, Bullet.BulletOwner.PLAYER));
+                    this.bullets.add(new Bullet(this.player.x(), this.player.y(), Settings.BULLET_SPEED, 0, 'o', false, Bullet.BulletOwner.PLAYER));
                     this.player.addBulletCooldown();
                 }
                 break;
             case 1:
                 for (int i = 0; i < Settings.SPREAD_FIRE_COUNT; i++) {
                     if (this.player.getBulletCooldown() < Settings.BULLET_COOLDOWN) {
-                        this.bullets.add(new Bullet(new Vector2(this.player.x(), this.player.y()), Math.FLOAT_RANDOM_BETWEEN(Settings.BULLET_SPEED * .8f, Settings.BULLET_SPEED), 0, 'o', true, Bullet.BulletOwner.PLAYER));
+                        this.bullets.add(new Bullet(this.player.x(), this.player.y(), Math.FLOAT_RANDOM_BETWEEN(Settings.BULLET_SPEED * .8f, Settings.BULLET_SPEED), 0, 'o', true, Bullet.BulletOwner.PLAYER));
                         this.player.addBulletCooldown();
                     }
                 }
                 break;
             default:
                 if (this.player.getBulletCooldown() < Settings.BULLET_COOLDOWN) {
-                    this.bullets.add(new Bullet(new Vector2(this.player.x(), this.player.y()), Settings.BULLET_SPEED, 0, '.', false, Bullet.BulletOwner.PLAYER));
+                    this.bullets.add(new Bullet(this.player.x(), this.player.y(), Settings.BULLET_SPEED, 0, '.', false, Bullet.BulletOwner.PLAYER));
                     this.player.addBulletCooldown();
                 }
         }
@@ -191,17 +191,25 @@ public class Level {
 
     private void processBulletEnemyCollisions() {
         for (Bullet bullet : this.bullets) {
+            if(bullet.getOwner() == Bullet.BulletOwner.ENEMY) return;
             for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
-                if (CollisionController.BASIC_COLLISION(bullet, enemy)) {
-                    this.toRemove.add(bullet);
-                    if (enemy instanceof Boss) {
-                        Boss boss = (Boss) enemy;
-                        boss.removeHealth(Settings.BULLET_DAMAGE);
-                        this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(boss, Settings.EXPLOSION_SIZE));
-                        if (boss.getHealth() <= 0) {
-                            this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(boss, Settings.BOSS_EXPLOSION_SIZE));
+                if (enemy instanceof Boss) {
+                    Boss boss = (Boss) enemy;
+                    Vector2 collision = CollisionController.BOSS_COLLISION(boss, bullet);
+                    if (collision != null) {
+                        this.toRemove.add(bullet);
+                        boss.removeHealth();
+                        this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.EXPLOSION_SIZE));
+                        if (boss.getHealth() == 0) {
+                            this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.BOSS_EXPLOSION_SIZE));
+                            this.toRemove.add(boss);
+                            this.player.addPoints(boss.getSmarts());
                         }
-                    } else {
+                        boss.removeCharAt((int) collision.x, (int) collision.y);
+                    }
+                } else {
+                    if (CollisionController.BASIC_COLLISION(bullet, enemy)) {
+                        this.toRemove.add(bullet);
                         this.toRemove.add(enemy);
                         this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(enemy, Settings.EXPLOSION_SIZE));
                         this.player.addPoints(enemy.getPoints());
@@ -223,10 +231,16 @@ public class Level {
             }
         }
         for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
-            if (CollisionController.BASIC_COLLISION(this.player, enemy)) {
-                this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(this.player, Settings.EXPLOSION_SIZE));
-                this.killPlayer();
-
+            if (enemy instanceof Boss) {
+                if (CollisionController.BOSS_COLLISION((Boss) enemy, this.player) != null) {
+                    this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(this.player, Settings.EXPLOSION_SIZE));
+                    this.killPlayer();
+                }
+            } else {
+                if (CollisionController.BASIC_COLLISION(this.player, enemy)) {
+                    this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(this.player, Settings.EXPLOSION_SIZE));
+                    this.killPlayer();
+                }
             }
         }
         for (Resource resource : this.resources) {

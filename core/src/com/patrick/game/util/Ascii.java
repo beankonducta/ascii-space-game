@@ -9,7 +9,6 @@ public class Ascii {
         for(int i = 0; i < str.length() / width; i++) {
             for(int j = 0; j < width; j++) {
                 chars[i][j] = str.charAt(count);
-                System.out.println(str.charAt(count));
                 count++;
             }
         }

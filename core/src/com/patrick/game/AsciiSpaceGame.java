@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.controller.CameraController;
 import com.patrick.game.entity.Entity;
 import com.patrick.game.screen.GameScreen;
 
@@ -47,6 +48,7 @@ public class AsciiSpaceGame extends Game {
 		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		redFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		redFont.setColor(Color.RED);
+		CameraController.resetCamera();
 		setScreen(new GameScreen(font, redFont, batch));
 	}
 

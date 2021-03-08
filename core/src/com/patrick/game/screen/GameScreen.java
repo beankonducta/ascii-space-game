@@ -30,7 +30,7 @@ public class GameScreen implements Screen {
         this.font = font;
         this.redFont = redFont;
         this.batch = batch;
-        this.player = new Player(new Vector2(CameraController.camera.viewportWidth / 2, 40), Settings.PLAYER_SPEED, Settings.PLAYER_DECEL, 'P');
+        this.player = new Player(CameraController.camera.viewportWidth / 2, 40, Settings.PLAYER_SPEED, Settings.PLAYER_DECEL, 'P');
         this.level = new Level(this.difficulty, this.player);
         this.font.setColor(new Color(0f, 0f, 1f, 1f));
         this.colorMod = 1;
@@ -38,7 +38,6 @@ public class GameScreen implements Screen {
 
     @Override
     public void show() {
-        CameraController.resetCamera();
     }
 
     @Override

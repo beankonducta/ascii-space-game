@@ -57,9 +57,9 @@ public class Player extends Entity {
         else if(resource.getType() == Resource.ResourceType.LIFE) this.lives += resource.getLevel();
     }
 
-    public Player(Vector2 position, float speed, float decel, char character) {
-        super(position, speed, decel, character);
-        this.collider = new Rectangle(position.x, position.y, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT);
+    public Player(float x, float y, float speed, float decel, char character) {
+        super(x, y, speed, decel, character);
+        this.collider = new Rectangle(x, y, Settings.PLAYER_WIDTH, Settings.PLAYER_HEIGHT);
         this.gunLevel = 0;
         this.lives = 3;
         this.actionTime = .15f;

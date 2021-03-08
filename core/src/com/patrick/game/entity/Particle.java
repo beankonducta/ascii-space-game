@@ -11,8 +11,8 @@ public class Particle extends Entity {
         return this.timeToLive;
     }
 
-    public Particle(Vector2 position, float speed, float decel, char character, float timeToLive) {
-        super(position, speed, decel, character);
+    public Particle(float x, float y, float speed, float decel, char character, float timeToLive) {
+        super(x, y, speed, decel, character);
         this.timeToLive = timeToLive;
     }
 

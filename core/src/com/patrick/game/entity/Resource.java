@@ -24,13 +24,13 @@ public class Resource extends Entity {
         return this.level;
     }
 
-    public Resource(Vector2 position, float speed, float decel, ResourceType type, int level) {
-        super(position, speed, decel, ' ');
+    public Resource(float x, float y, float speed, float decel, ResourceType type, int level) {
+        super(x, y, speed, decel, ' ');
         this.type = type;
         this.level = level;
         this.character = fetchChar(type, level);
         this.setYVelocity(-speed);
-        this.collider = new Rectangle(position.x, position.y, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
+        this.collider = new Rectangle(x, y, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
     }
 
     private char fetchChar(ResourceType type, int level) {
@@ -48,7 +48,7 @@ public class Resource extends Entity {
         // draw the character
 //        Color color = font.getColor();
 //        font.setColor(Color.RED);
-        font.draw(batch, "" + this.character, this.position.x, this.position.y);
+        font.draw(batch, "" + this.character, this.x, this.y);
 //        font.setColor(color);
     }
 }
