@@ -50,7 +50,7 @@ public class Level {
 
     private void fillWaves() {
         for (int i = 0; i < Settings.WAVE_COUNT - 1; i++) {
-            this.waves.add(new Wave(this.difficulty + (i * 3)));
+            this.waves.add(new Wave(this.difficulty + (i * 5)));
         }
         this.waves.add(new Wave(true));
     }
@@ -147,9 +147,22 @@ public class Level {
     }
 
     private void fireBossWeapon(Boss boss) {
-        int random = Math.RANDOM_BETWEEN(0, 4);
-        if (random == 0)
+        int random = Math.RANDOM_BETWEEN(0, 10);
+        if (random < 5)
             this.bullets.add(new Bullet(boss.x(), boss.middleY(), Math.FLOAT_RANDOM_BETWEEN(-Settings.BULLET_SPEED, -Settings.BULLET_SPEED * .3f), 0, 'o', true, Bullet.BulletOwner.ENEMY));
+        if(random == 6)
+            this.fireBossInCircle(boss, boss.getSmarts() / 500);
+    }
+
+    private void fireBossInCircle(Boss boss, float count) {
+        for (int i = 0; i < count; i++) {
+            float xVelo = Math.FLOAT_RANDOM_BETWEEN(-Settings.BULLET_SPEED, Settings.BULLET_SPEED);
+            float yVelo = Math.FLOAT_RANDOM_BETWEEN(-Settings.BULLET_SPEED, Settings.BULLET_SPEED);
+            Bullet b = new Bullet(boss.middleX(), boss.middleY(), '.', Bullet.BulletOwner.ENEMY);
+            b.setXVelocity(xVelo);
+            b.setYVelocity(yVelo);
+            this.bullets.add(b);
+        }
     }
 
     private void removeOffScreen(Entity entity) {
@@ -199,33 +212,33 @@ public class Level {
 
     private void processBulletEnemyCollisions() {
         for (Bullet bullet : this.bullets) {
-            if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) return;
-            for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
-                if (enemy instanceof Boss) {
-                    Boss boss = (Boss) enemy;
-                    Vector2 collision = CollisionController.BOSS_COLLISION(boss, bullet);
-                    if (collision != null) {
-                        this.toRemove.add(bullet);
-                        boss.removeHealth();
-                        this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.EXPLOSION_SIZE));
-                        if (boss.getHealth() == 0) {
-                            this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.BOSS_EXPLOSION_SIZE));
-                            this.toRemove.add(boss);
-                            this.player.addPoints(boss.getSmarts());
+            if (bullet.getOwner() == Bullet.BulletOwner.PLAYER) {
+                for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
+                    if (enemy instanceof Boss) {
+                        Boss boss = (Boss) enemy;
+                        Vector2 collision = CollisionController.BOSS_COLLISION(boss, bullet);
+                        if (collision != null) {
+                            this.toRemove.add(bullet);
+                            boss.removeHealth();
+                            this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.EXPLOSION_SIZE));
+                            if (boss.getHealth() == 0) {
+                                this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.BOSS_EXPLOSION_SIZE));
+                                this.toRemove.add(boss);
+                                this.player.addPoints(boss.getSmarts());
+                            }
+                            boss.removeCharAt((int) collision.x, (int) collision.y);
                         }
-                        boss.removeCharAt((int) collision.x, (int) collision.y);
-                    }
-                } else {
-                    if (CollisionController.BASIC_COLLISION(bullet, enemy)) {
-                        this.toRemove.add(bullet);
-                        this.toRemove.add(enemy);
-                        this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(enemy, Settings.EXPLOSION_SIZE));
-                        this.player.addPoints(enemy.getPoints());
+                    } else {
+                        if (CollisionController.BASIC_COLLISION(bullet, enemy)) {
+                            this.toRemove.add(bullet);
+                            this.toRemove.add(enemy);
+                            this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(enemy, Settings.EXPLOSION_SIZE));
+                            this.player.addPoints(enemy.getPoints());
+                        }
                     }
                 }
             }
         }
-
     }
 
     private void processPlayerCollisions() {

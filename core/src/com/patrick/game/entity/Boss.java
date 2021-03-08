@@ -75,7 +75,7 @@ public class Boss extends Enemy {
             for (int j = 0; j < this.colliders[0].length; j++) {
                 if (shape[i][j] != ' ') {
                     this.health ++;
-                    this.colliders[i][j] = new Rectangle(x + (i * 6), y + (j * 6), 6, 6);
+                    this.colliders[i][j] = new Rectangle(x + (i * 6), y + (j * 6), 4, 4);
                 }
             }
         }

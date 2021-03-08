@@ -52,11 +52,12 @@ public class AsciiSpaceGame extends Game {
 	public void create () {
 		batch = new SpriteBatch();
 		shape = new ShapeRenderer();
+		shape.setAutoShapeType(true);
 		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		redFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		redFont.setColor(Color.RED);
 		CameraController.resetCamera();
-		setScreen(new GameScreen(font, redFont, batch));
+		setScreen(new GameScreen(font, redFont, batch, shape));
 	}
 
 	@Override

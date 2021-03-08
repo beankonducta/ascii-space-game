@@ -26,6 +26,14 @@ public class Bullet extends Entity {
             this.setXVelocity(Math.EITHER_OR((int)Math.FLOAT_RANDOM_BETWEEN(-speed / 3, 0), (int)Math.FLOAT_RANDOM_BETWEEN(1, speed / 3)));
     }
 
+    public Bullet(float x, float y, char character, BulletOwner owner) {
+        super(x, y, 0, 0, character);
+        this.x = x;
+        this.y = y;
+        this.collider = new Rectangle(x, y, Settings.BULLET_SIZE, Settings.BULLET_SIZE);
+        this.owner = owner;
+    }
+
     @Override
     public void update(float delta) {
         // don't call super update because we don't want to lower the velocity
