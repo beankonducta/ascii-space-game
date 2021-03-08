@@ -59,10 +59,12 @@ public class Level {
         player.setPosition(-200, -200);
         this.respawnTimer = new OneShotTimer(5f);
         this.player.removeLife();
+        this.player.killPlayer();
     }
 
     private void resetPlayer() {
         player.setPosition(CameraController.camera.viewportWidth / 2, 40);
+        player.addShield();
     }
 
     public void process(float delta, BitmapFont font, BitmapFont redFont, Batch batch) {
@@ -95,7 +97,7 @@ public class Level {
             enemy.move(delta);
             if (enemy instanceof Boss) {
                 if (MovementController.processBossMovement((Boss) enemy, this.player)) {
-
+                    this.fireBossWeapon((Boss) enemy);
                 }
             } else {
                 if (MovementController.processEnemyMovement(enemy, this.player)) {
@@ -144,6 +146,12 @@ public class Level {
         }
     }
 
+    private void fireBossWeapon(Boss boss) {
+        int random = Math.RANDOM_BETWEEN(0, 4);
+        if (random == 0)
+            this.bullets.add(new Bullet(boss.x(), boss.middleY(), Math.FLOAT_RANDOM_BETWEEN(-Settings.BULLET_SPEED, -Settings.BULLET_SPEED * .3f), 0, 'o', true, Bullet.BulletOwner.ENEMY));
+    }
+
     private void removeOffScreen(Entity entity) {
         if (entity.x() > CameraController.camera.viewportWidth || entity.x() < 0 || entity.y() > CameraController.camera.viewportHeight || entity.y() < 0)
             this.toRemove.add(entity);
@@ -156,7 +164,7 @@ public class Level {
 
     private void processWave() {
         if (this.waves.get(this.currentWave).getEnemies().size() == 0)
-            if (this.waveStartTimer == null) this.waveStartTimer = new OneShotTimer(5f);
+            if (this.waveStartTimer == null) this.waveStartTimer = new OneShotTimer(2f);
         if (this.waveStartTimer != null)
             if (this.waveStartTimer.isFinished()) {
                 this.progressWave();
@@ -191,7 +199,7 @@ public class Level {
 
     private void processBulletEnemyCollisions() {
         for (Bullet bullet : this.bullets) {
-            if(bullet.getOwner() == Bullet.BulletOwner.ENEMY) return;
+            if (bullet.getOwner() == Bullet.BulletOwner.ENEMY) return;
             for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
                 if (enemy instanceof Boss) {
                     Boss boss = (Boss) enemy;
@@ -225,21 +233,30 @@ public class Level {
             if (bullet.getOwner() != Bullet.BulletOwner.PLAYER) {
                 if (CollisionController.BASIC_COLLISION(this.player, bullet)) {
                     this.toRemove.add(bullet);
-                    this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(this.player, Settings.EXPLOSION_SIZE));
-                    this.killPlayer();
+                    if (!this.player.getShield()) {
+                        this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(this.player, Settings.EXPLOSION_SIZE));
+                        this.killPlayer();
+                    } else {
+                        this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(this.player, 1));
+                    }
                 }
             }
         }
         for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
             if (enemy instanceof Boss) {
                 if (CollisionController.BOSS_COLLISION((Boss) enemy, this.player) != null) {
-                    this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(this.player, Settings.EXPLOSION_SIZE));
-                    this.killPlayer();
+                    if (!this.player.getShield()) {
+                        this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(this.player, Settings.EXPLOSION_SIZE));
+                        this.killPlayer();
+                    }
                 }
             } else {
                 if (CollisionController.BASIC_COLLISION(this.player, enemy)) {
                     this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(this.player, Settings.EXPLOSION_SIZE));
-                    this.killPlayer();
+                    if (!this.player.getShield()) {
+                        this.killPlayer();
+                    } else
+                        this.toRemove.add(enemy);
                 }
             }
         }

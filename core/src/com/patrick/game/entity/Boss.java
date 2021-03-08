@@ -37,6 +37,22 @@ public class Boss extends Enemy {
         this.health -= 1;
     }
 
+    public float width() {
+        return this.colliders.length * 6;
+    }
+
+    public float height() {
+        return this.colliders[0].length * 6;
+    }
+
+    public float middleX() {
+        return this.x() + (this.colliders.length * 6);
+    }
+
+    public float middleY() {
+        return this.y() + (this.colliders[0].length * 6);
+    }
+
     public void removeCharAt(int x, int y) {
         this.shape[x][y] = ' ';
         this.colliders[x][y] = null;
@@ -51,7 +67,7 @@ public class Boss extends Enemy {
         super(x, y, speed, decel, smarts, ' ');
         this.shape = shape;
         this.colliders = new Rectangle[shape.length][shape[0].length];
-        this.actionTime = 3f;
+        this.actionTime = .25f;
         this.yDirection = -1;
         this.entered = false;
         this.collider = new Rectangle(x, y, 6 * shape[0].length, 6 * shape.length);

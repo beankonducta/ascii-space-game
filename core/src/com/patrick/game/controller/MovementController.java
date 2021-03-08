@@ -94,6 +94,7 @@ public class MovementController {
         if ((boss.y() < 15 || boss.y() > CameraController.camera.viewportHeight - 15) && boss.hasEntered()) boss.flipYDirection();
         boss.setXVelocity(boss.getSpeed());
         boss.setYVelocity(boss.getSpeed());
-        return true;
+        if(boss.getTimer() == 0) return true;
+        return false;
     }
 }

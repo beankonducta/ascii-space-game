@@ -43,5 +43,5 @@ public class Settings {
 
     public static final int MAX_ENEMY_LEVEL = 300;
 
-    public static final boolean DEBUG_COLLISION = true;
+    public static final boolean DEBUG_COLLISION = false;
 }

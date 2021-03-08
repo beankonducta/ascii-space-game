@@ -1,8 +1,12 @@
 package com.patrick.game.entity;
 
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.util.Settings;
+
+import java.awt.*;
 
 public class Player extends Entity {
 
@@ -10,6 +14,7 @@ public class Player extends Entity {
     protected int lives;
     protected int bulletCooldown;
     protected int points;
+    protected float shieldTimer;
     protected boolean shield;
 
     public int getBulletCooldown() {
@@ -22,6 +27,11 @@ public class Player extends Entity {
 
     public boolean getShield() {
         return this.shield;
+    }
+
+    public void addShield() {
+        this.shield = true;
+        this.shieldTimer = 0f;
     }
 
     public int getGunLevel() {
@@ -66,11 +76,34 @@ public class Player extends Entity {
         this.points = 0;
     }
 
+    // reset the player after death
+    public void killPlayer() {
+        this.gunLevel = 0;
+    }
+
+    @Override
+    public void render(BitmapFont font, Batch batch) {
+        super.render(font, batch);
+        if(this.shield) {
+            for(int i = 0; i < 32; i += 4) {
+                font.draw(batch, "-", this.x() - 8 + i, this.y() + 14);
+            }
+        }
+    }
+
     @Override
     public void update(float delta) {
-        if(this.timer == 0 && this.bulletCooldown > 0) {
+
+        // process bullet cooldown
+        if(this.timer == 0 && this.bulletCooldown > 0)
             this.bulletCooldown --;
-        }
+
+        // process shield
+        if(this.shield)
+            this.shieldTimer += delta;
+        if(this.shieldTimer > 5f)
+            this.shield = false;
+
         super.update(delta);
     }
 }

@@ -32,9 +32,16 @@ public class AsciiSpaceGame extends Game {
 	 *
 	 * TODO: Add bounding box around player
 	 *
-	 * TODO: Add hud. Should have points, lives, health, bullet cooldown
+	 * TODO: Add current weapons and shields etc to hud. Weapons should be cyclable.
 	 *
 	 * TODO: COOL S BOSS
+	 *
+	 * TODO: Fix box bounding.
+	 *
+	 * TODO: Make boss fire from random bounding boxes rather than the 'center'
+	 *
+	 * TODO: Make more bosses
+	 *
 	 */
 	SpriteBatch batch;
 	ShapeRenderer shape;
