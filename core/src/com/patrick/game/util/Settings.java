@@ -47,4 +47,7 @@ public class Settings {
     public static final int MAX_ENEMY_LEVEL = 300;
 
     public static final boolean DEBUG_COLLISION = false;
+
+    public static final float MUSIC_VOLUME = .3f;
+    public static final float SOUND_VOLUME = .2f;
 }

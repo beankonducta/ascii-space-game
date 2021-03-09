@@ -11,7 +11,7 @@ public class MusicController {
     private static int musicId;
 
     /**
-     * Sets the current music, and starts it at the position of the previous music (if applicable).
+     * Sets current music, adds oncomplete listener to play the next song afterwards.
      *
      * @param id
      */

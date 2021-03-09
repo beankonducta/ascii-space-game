@@ -16,7 +16,7 @@ public class Math {
         return ThreadLocalRandom.current().nextInt((int) max, (int) min + 1);
     }
 
-    public static int EITHER_OR(int either, int or) {
+    public static int eitherOr(int either, int or) {
         int random = 0;
         if (or > either)
             random = ThreadLocalRandom.current().nextInt(either, or + 1);
@@ -27,11 +27,11 @@ public class Math {
         return either;
     }
 
-    public static int ROUND(float value) {
+    public static int round(float value) {
         return java.lang.Math.round(value);
     }
 
-    public static int RANDOM_POS_NEG(int value) {
+    public static int randomPosNeg(int value) {
         int random = ThreadLocalRandom.current().nextInt(0, 2);
         if (random == 0) return -1 * value;
         return value;

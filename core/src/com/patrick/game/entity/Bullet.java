@@ -22,7 +22,7 @@ public class Bullet extends Entity {
         this.owner = owner;
         this.setYVelocity(speed);
         if(spread)
-            this.setXVelocity(Math.EITHER_OR((int)Math.floatRandomBetween(-speed / 3, 0), (int)Math.floatRandomBetween(1, speed / 3)));
+            this.setXVelocity(Math.eitherOr((int)Math.floatRandomBetween(-speed / 3, 0), (int)Math.floatRandomBetween(1, speed / 3)));
     }
 
     public Bullet(float x, float y, char character, BulletOwner owner) {

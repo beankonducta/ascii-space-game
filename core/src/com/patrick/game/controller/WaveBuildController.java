@@ -9,9 +9,9 @@ import java.util.List;
 
 public class WaveBuildController {
 
-    private static char CHAR_FOR[] = new char[]{'i', 'e', 'E', '@', '?'};
+    private static final char CHAR_FOR[] = new char[]{'i', 'e', 'E', '@', '?'};
 
-    public static List<Enemy> BUILD_ENEMY_LIST(int difficulty) {
+    public static List<Enemy> buildEnemyList(int difficulty) {
         List<Enemy> enemyList = new ArrayList<Enemy>();
         int count = 0;
         float max = CameraController.camera.viewportWidth - 50f;
@@ -20,7 +20,7 @@ public class WaveBuildController {
             float x = Math.randomBetween(50, (int)(CameraController.camera.viewportWidth - 50));
             int smarts = Math.randomBetween(Settings.MIN_ENEMY_SMARTS, Settings.MAX_ENEMY_SMARTS);
             float speed = Math.floatRandomBetween(Settings.MIN_ENEMY_SPEED, Settings.MAX_ENEMY_SPEED);
-            count += smarts + Math.ROUND(speed / 2);
+            count += smarts + Math.round(speed / 2);
             enemyList.add(new Enemy(x, y, speed, Settings.ENEMY_DECEL, smarts, CHAR_FOR[smarts - 1]));
         }
         return enemyList;

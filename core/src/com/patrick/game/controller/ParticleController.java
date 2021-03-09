@@ -10,9 +10,9 @@ import java.util.List;
 
 public class ParticleController {
 
-    private static char[] EXPLOSION_CHARS = new char[]{'*', '"', '.', ',', '#'};
+    private static final char[] EXPLOSION_CHARS = new char[]{'*', '"', '.', ',', '#'};
 
-    public static List<Particle> EXPLOSION_PARTICLES(Entity entity, int count) {
+    public static List<Particle> explosionParticles(Entity entity, int count) {
         List<Particle> particles = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             final float speed = Math.floatRandomBetween(Settings.EXPLOSION_SPEED / 2, Settings.EXPLOSION_SPEED * 2);
@@ -24,7 +24,7 @@ public class ParticleController {
         return particles;
     }
 
-    public static List<Particle> SLOW_EXPLOSION_PARTICLES(Entity entity, int count) {
+    public static List<Particle> slowExplosionParticles(Entity entity, int count) {
         List<Particle> particles = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             final float speed = Math.floatRandomBetween(Settings.EXPLOSION_SPEED / 6, Settings.EXPLOSION_SPEED);
@@ -36,7 +36,7 @@ public class ParticleController {
         return particles;
     }
 
-    public static List<Particle> EXPLOSION_PARTICLES(float x, float y, int count) {
+    public static List<Particle> explosionParticles(float x, float y, int count) {
         List<Particle> particles = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             final float speed = Math.floatRandomBetween(Settings.EXPLOSION_SPEED / 2, Settings.EXPLOSION_SPEED * 2);
@@ -48,7 +48,7 @@ public class ParticleController {
         return particles;
     }
 
-    public static List<Particle> SLOW_EXPLOSION_PARTICLES(float x, float y, int count) {
+    public static List<Particle> slowExplosionParticles(float x, float y, int count) {
         List<Particle> particles = new ArrayList<>();
         for (int i = 0; i < count; i++) {
             final float speed = Math.floatRandomBetween(Settings.EXPLOSION_SPEED / 6, Settings.EXPLOSION_SPEED);

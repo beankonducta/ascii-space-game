@@ -1,6 +1,5 @@
 package com.patrick.game.entity;
 
-import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.util.Math;
 
 public class Particle extends Entity {
@@ -17,8 +16,8 @@ public class Particle extends Entity {
     }
 
     public void randomDir() {
-        this.setYVelocity(Math.EITHER_OR(-(int)this.speed, (int)this.speed));
-        this.setXVelocity(Math.EITHER_OR(-(int)this.speed, (int)this.speed));
+        this.setYVelocity(Math.eitherOr(-(int)this.speed, (int)this.speed));
+        this.setXVelocity(Math.eitherOr(-(int)this.speed, (int)this.speed));
     }
 
     @Override

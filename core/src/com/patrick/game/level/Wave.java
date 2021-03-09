@@ -1,6 +1,5 @@
 package com.patrick.game.level;
 
-import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.controller.CameraController;
 import com.patrick.game.controller.WaveBuildController;
 import com.patrick.game.entity.Boss;
@@ -26,13 +25,13 @@ public class Wave {
 
     public Wave(int difficulty) {
         this.difficulty = difficulty;
-        this.enemies = WaveBuildController.BUILD_ENEMY_LIST(difficulty);
+        this.enemies = WaveBuildController.buildEnemyList(difficulty);
     }
 
     public Wave(boolean bossOnly) {
         if (bossOnly) {
             this.enemies = new ArrayList<>();
-            this.enemies.add(new Boss(CameraController.camera.viewportWidth / 2, CameraController.camera.viewportHeight - 48, 50f, 25f, 3000, Ascii.STRING_TO_2D_CHAR_ARRAY(
+            this.enemies.add(new Boss(CameraController.camera.viewportWidth / 2, CameraController.camera.viewportHeight - 48, 50f, 25f, 3000, Ascii.stringTo2dCharArray(
                     "-----------  s s s s       s        s   s   ", 11)));
 
         } else return;
