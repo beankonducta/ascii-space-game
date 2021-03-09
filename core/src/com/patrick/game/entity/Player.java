@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.patrick.game.controller.CameraController;
+import com.patrick.game.util.OneShotTimer;
 import com.patrick.game.util.Settings;
 
 import java.awt.*;
@@ -16,6 +18,11 @@ public class Player extends Entity {
     protected int points;
     protected float shieldTimer;
     protected boolean shield;
+    protected boolean dead;
+
+    public boolean isDead() {
+        return this.dead;
+    }
 
     public int getBulletCooldown() {
         return this.bulletCooldown;
@@ -76,10 +83,21 @@ public class Player extends Entity {
         this.points = 0;
     }
 
-    // reset the player after death
+    // kill the player
     public void killPlayer() {
         this.gunLevel = 0;
+        this.dead = true;
+        this.setPosition(-200, -200);
+        this.removeLife();
     }
+
+    // reset the player after respawn
+    public void resetPlayer() {
+        this.setPosition(CameraController.camera.viewportWidth / 2, 40);
+        this.addShield();
+        this.dead = false;
+    }
+
 
     @Override
     public void render(BitmapFont font, Batch batch) {
@@ -89,6 +107,10 @@ public class Player extends Entity {
                 font.draw(batch, "-", this.x() - 8 + i, this.y() + 14);
             }
         }
+//        if(this.y >= Settings.PLAYER_MAX_HEIGHT - 4)
+//            font.draw(batch, "-----", this.x() - 5, this.y() + 14);
+//        if(this.y <= Settings.PLAYER_MIN_HEIGHT + 4)
+//            font.draw(batch, "-----", this.x() - 5, this.y() - 4);
     }
 
     @Override

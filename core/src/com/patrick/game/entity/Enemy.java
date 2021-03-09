@@ -10,6 +10,9 @@ public class Enemy extends Entity {
     protected int direction;
     protected int points;
 
+    protected float flipTimer;
+    protected float flipTimerMax;
+
     public void setDirection(int direction) {
         this.direction = direction;
     }
@@ -19,7 +22,8 @@ public class Enemy extends Entity {
     }
 
     public void flipDirection() {
-        this.direction = -this.direction;
+        if (this.flipTimer == 0)
+            this.direction = -this.direction;
     }
 
     public int getPoints() {
@@ -46,10 +50,14 @@ public class Enemy extends Entity {
         this.collider = new Rectangle(x, y, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
         this.actionTime = 1f;
         this.points = (this.smarts + 1 * 100);
+        this.flipTimerMax = .5f;
     }
 
     @Override
     public void update(float delta) {
         super.update(delta);
+        this.flipTimer += delta;
+        if (this.flipTimer >= this.flipTimerMax)
+            this.flipTimer = 0;
     }
 }

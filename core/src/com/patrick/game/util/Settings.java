@@ -1,17 +1,21 @@
 package com.patrick.game.util;
 
+import com.patrick.game.controller.CameraController;
+
 public class Settings {
 
     public static final int PLAYER_MAX_HEIGHT = 100;
-    public static final int PLAYER_MIN_HEIGHT = 20;
+    public static final int PLAYER_MIN_HEIGHT = 36;
+    public static final int PLAYER_MAX_X = 24;
+    public static final int PLAYER_MIN_X = 10;
     public static final int PLAYER_WIDTH = 16;
     public static final int PLAYER_HEIGHT = 16;
 
     public static final float PLAYER_SPEED = 300f;
     public static final float PLAYER_DECEL = 600f;
 
-    public static final int VIEWPORT_WIDTH = 500;
-    public static final int VIEWPORT_HEIGHT = 700;
+//    public static final int VIEWPORT_WIDTH = 2800;
+//    public static final int VIEWPORT_HEIGHT = 1400;
 
     public static final int PLAYER_ENEMY_X_OFFSET = 2;
 
@@ -23,7 +27,7 @@ public class Settings {
 
     public static final float EXPLOSION_SPEED = 120;
     public static final int EXPLOSION_SIZE = 10;
-    public static final int BOSS_EXPLOSION_SIZE = 50;
+    public static final int BOSS_EXPLOSION_SIZE = 120;
     public static final int EXPLOSION_TTL = 1;
 
     public static final float RESOURCE_SPEED = 120;

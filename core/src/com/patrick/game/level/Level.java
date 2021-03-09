@@ -56,15 +56,8 @@ public class Level {
     }
 
     private void killPlayer() {
-        player.setPosition(-200, -200);
         this.respawnTimer = new OneShotTimer(5f);
-        this.player.removeLife();
         this.player.killPlayer();
-    }
-
-    private void resetPlayer() {
-        player.setPosition(CameraController.camera.viewportWidth / 2, 40);
-        player.addShield();
     }
 
     public void process(float delta, BitmapFont font, BitmapFont redFont, Batch batch) {
@@ -75,6 +68,10 @@ public class Level {
         this.processWave();
         this.processRespawn();
         this.updateTimers(delta);
+
+        if(this.player.isDead()) {
+            redFont.draw(batch, "rip", (CameraController.camera.viewportWidth / 2) - 9, CameraController.camera.viewportHeight / 2);
+        }
 
         for (Bullet bullet : this.bullets) {
             this.removeOffScreen(bullet);
@@ -205,7 +202,7 @@ public class Level {
         if (this.respawnTimer != null) {
             if (this.respawnTimer.isFinished()) {
                 this.respawnTimer = null;
-                this.resetPlayer();
+                this.player.resetPlayer();
             }
         }
     }
@@ -222,7 +219,7 @@ public class Level {
                             boss.removeHealth();
                             this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.EXPLOSION_SIZE));
                             if (boss.getHealth() == 0) {
-                                this.particles.addAll(ParticleController.EXPLOSION_PARTICLES(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.BOSS_EXPLOSION_SIZE));
+                                this.particles.addAll(ParticleController.SLOW_EXPLOSION_PARTICLES(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.BOSS_EXPLOSION_SIZE));
                                 this.toRemove.add(boss);
                                 this.player.addPoints(boss.getSmarts());
                             }

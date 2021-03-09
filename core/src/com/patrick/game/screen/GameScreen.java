@@ -1,5 +1,6 @@
 package com.patrick.game.screen;
 
+import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.Color;
@@ -15,6 +16,7 @@ import com.patrick.game.entity.Bullet;
 import com.patrick.game.entity.Enemy;
 import com.patrick.game.entity.Player;
 import com.patrick.game.level.Level;
+import com.patrick.game.util.ColorShifter;
 import com.patrick.game.util.Settings;
 
 public class GameScreen implements Screen {
@@ -23,24 +25,22 @@ public class GameScreen implements Screen {
     private BitmapFont redFont;
     private Batch batch;
     private ShapeRenderer shape;
+    private Game game;
 
     private Level level;
     private Player player;
 
-    private int colorMod;
-
     private int difficulty;
 
-    public GameScreen(BitmapFont font, BitmapFont redFont, Batch batch, ShapeRenderer shape) {
+    public GameScreen(Game game, BitmapFont font, BitmapFont redFont, Batch batch, ShapeRenderer shape) {
         this.difficulty = 300;
         this.font = font;
         this.redFont = redFont;
         this.batch = batch;
         this.shape = shape;
+        this.game = game;
         this.player = new Player(CameraController.camera.viewportWidth / 2, 40, Settings.PLAYER_SPEED, Settings.PLAYER_DECEL, 'P');
         this.level = new Level(this.difficulty, this.player);
-        this.font.setColor(new Color(0f, 0f, 1f, 1f));
-        this.colorMod = 1;
     }
 
     @Override
@@ -51,14 +51,14 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        this.shiftColor(delta);
+        this.font.setColor(ColorShifter.shiftColor(this.font, delta));
         this.nextLevel();
-        batch.begin();
-        batch.setProjectionMatrix(CameraController.camera.combined);
+        this.playerDeath();
+        this.batch.begin();
+        this.batch.setProjectionMatrix(CameraController.camera.combined);
         this.drawHud();
-        level.process(delta, font, redFont, batch);
-        batch.end();
-
+        this.level.process(delta, this.font, this.redFont, this.batch);
+        this.batch.end();
 //        collision debugging:
 
 //        if (Settings.DEBUG_COLLISION) {
@@ -87,15 +87,15 @@ public class GameScreen implements Screen {
     }
 
     private void drawHud() {
-        redFont.draw(batch, "" + this.player.getPoints(), 24, CameraController.camera.viewportHeight - 48);
+        this.redFont.draw(this.batch, "" + this.player.getPoints(), 24, CameraController.camera.viewportHeight - 48);
         for (int i = 1; i < this.player.getLives(); i++) {
-            redFont.draw(batch, "L", 24 * i, CameraController.camera.viewportHeight - 24);
+            this.redFont.draw(this.batch, "L", 24 * i, CameraController.camera.viewportHeight - 24);
         }
 
         int y = 0;
         for (int i = 0; i < Settings.BULLET_COOLDOWN - this.player.getBulletCooldown(); i++) {
             if (i == 32) y = 1;
-            redFont.draw(batch, "-", CameraController.camera.viewportWidth - 24 - ((y == 0 ? i : i - 32) * 8), CameraController.camera.viewportHeight - 24 + (y * 16));
+            this.redFont.draw(this.batch, "-", CameraController.camera.viewportWidth - 24 - ((y == 0 ? i : i - 32) * 8), CameraController.camera.viewportHeight - 24 + (y * 16));
         }
     }
 
@@ -124,11 +124,9 @@ public class GameScreen implements Screen {
 
     }
 
-    private void shiftColor(float delta) {
-        float r = this.font.getColor().r + (delta / 10 * this.colorMod);
-        if (r > 1 || r < 0)
-            this.colorMod = this.colorMod * -1;
-        this.font.setColor(r, this.font.getColor().g, this.font.getColor().b, 1f);
+    private void playerDeath() {
+        if(this.player.getLives() <= 0)
+            this.game.setScreen(new TitleScreen(this.game, this.font, this.redFont, this.batch, this.shape, "you died, press space to try again"));
     }
 
     private void nextLevel() {

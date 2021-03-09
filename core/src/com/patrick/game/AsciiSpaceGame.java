@@ -14,6 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.controller.CameraController;
 import com.patrick.game.entity.Entity;
 import com.patrick.game.screen.GameScreen;
+import com.patrick.game.screen.TitleScreen;
 
 import java.awt.*;
 import java.util.ArrayList;
@@ -56,8 +57,9 @@ public class AsciiSpaceGame extends Game {
 		font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		redFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
 		redFont.setColor(Color.RED);
+		font.setColor(new Color(0f, 0f, 1f, 1f));
 		CameraController.resetCamera();
-		setScreen(new GameScreen(font, redFont, batch, shape));
+		setScreen(new TitleScreen(this, font, redFont, batch, shape, "press space to begin"));
 	}
 
 	@Override
@@ -65,8 +67,8 @@ public class AsciiSpaceGame extends Game {
 		Gdx.gl.glClearColor(0, 0, 0, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 		Gdx.graphics.setVSync(true);
-        Gdx.graphics.setWindowedMode(1000, 1400);
-//		Gdx.graphics.setFullscreenMode();
+//        Gdx.graphics.setWindowedMode(1000, 1400);
+		Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
 		Gdx.graphics.setTitle(String.format("ASCII SPACE GAME", Gdx.graphics.getFramesPerSecond()));
 		super.render();
 	}

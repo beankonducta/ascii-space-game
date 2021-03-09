@@ -2,6 +2,7 @@ package com.patrick.game.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Camera;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entity.Boss;
 import com.patrick.game.entity.Enemy;
@@ -13,8 +14,8 @@ public class MovementController {
 
     public static boolean processPlayerMovement(Player player) {
         // keeps player in bounds
-        if (player.x() < 10) player.setXVelocity(0);
-        if (player.x() > CameraController.camera.viewportWidth - 24) player.setXVelocity(0);
+        if (player.x() < Settings.PLAYER_MIN_X) player.setXVelocity(0);
+        if (player.x() > CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X) player.setXVelocity(0);
         if (player.y() < Settings.PLAYER_MIN_HEIGHT) player.setYVelocity(0);
         if (player.y() > Settings.PLAYER_MAX_HEIGHT) player.setYVelocity(0);
 
@@ -29,12 +30,12 @@ public class MovementController {
                 player.setYVelocity(-player.getSpeed());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            if (player.x() < 10) player.setXVelocity(0);
+            if (player.x() < Settings.PLAYER_MIN_X) player.setXVelocity(0);
             else
                 player.setXVelocity(-player.getSpeed());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            if (player.x() > CameraController.camera.viewportWidth - 24) player.setXVelocity(0);
+            if (player.x() > CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X) player.setXVelocity(0);
             else
                 player.setXVelocity(player.getSpeed());
         }
@@ -61,15 +62,15 @@ public class MovementController {
     public static boolean processEnemyMovement(Enemy enemy, Player player) {
         final float difference = enemy.x() - player.x();
         final boolean enemySeesPlayer = enemy.getSmarts() >= 3 && enemy.y() > player.y() && enemy.x() - player.x() < 50 && enemy.y() - player.y() < 200;
-        if (enemySeesPlayer && enemy.x() > 15 && enemy.x() < CameraController.camera.viewportWidth - 15)
+        if (enemySeesPlayer && enemy.x() > 31 && enemy.x() < CameraController.camera.viewportWidth - 31)
             enemy.setDirection(difference > 0 ? -1 : 1);
-        if (enemy.x() < 15 || enemy.x() > CameraController.camera.viewportWidth - 15) enemy.flipDirection();
+        if (enemy.x() < 30 || enemy.x() > CameraController.camera.viewportWidth - 30) enemy.flipDirection();
         if (java.lang.Math.abs(difference) >= Settings.PLAYER_ENEMY_X_OFFSET || enemy.getSmarts() < 3)
             enemy.setXVelocity(enemy.getSpeed());
         else
             enemy.setXVelocity(0);
         enemy.setYVelocity(-enemy.getSpeed() - (enemySeesPlayer ? 200 : 0));
-        if (enemy.y() < 0) enemy.setPosition(enemy.x(), 700);
+        if (enemy.y() < 0) enemy.setPosition(enemy.x(), CameraController.camera.viewportHeight);
         if (enemy.getTimer() == 0 && enemy.getSmarts() > 3 && Math.abs(player.x() - enemy.x()) < 50) {
             return true;
         }
@@ -90,8 +91,8 @@ public class MovementController {
     }
 
     public static boolean processBossMovement(Boss boss, Player player) {
-        if (boss.x() < 15 || boss.x() > CameraController.camera.viewportWidth - 15) boss.flipDirection();
-        if ((boss.y() < 15 || boss.y() > CameraController.camera.viewportHeight - 15) && boss.hasEntered()) boss.flipYDirection();
+        if (boss.x() < 30 || boss.x() > CameraController.camera.viewportWidth - 30) boss.flipDirection();
+        if ((boss.y() < 30 || boss.y() > CameraController.camera.viewportHeight - 30) && boss.hasEntered()) boss.flipYDirection();
         boss.setXVelocity(boss.getSpeed());
         boss.setYVelocity(boss.getSpeed());
         if(boss.getTimer() == 0) return true;

@@ -9,7 +9,7 @@ public class CameraController {
 
     public static void resetCamera() {
         camera = new OrthographicCamera();
-        camera.setToOrtho(false, Settings.VIEWPORT_WIDTH, Settings.VIEWPORT_HEIGHT);
+        camera.setToOrtho(false, 1600, 900);
         camera.update();
     }
 
