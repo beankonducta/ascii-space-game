@@ -8,7 +8,6 @@ import com.patrick.game.entity.*;
 import com.patrick.game.util.Math;
 import com.patrick.game.util.OneShotTimer;
 import com.patrick.game.util.Settings;
-import com.patrick.game.util.Timer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -130,7 +129,7 @@ public class Level {
             case 1:
                 for (int i = 0; i < Settings.SPREAD_FIRE_COUNT; i++) {
                     if (this.player.getBulletCooldown() < Settings.BULLET_COOLDOWN) {
-                        this.bullets.add(new Bullet(this.player.x(), this.player.y(), Math.FLOAT_RANDOM_BETWEEN(Settings.BULLET_SPEED * .8f, Settings.BULLET_SPEED), 0, 'o', true, Bullet.BulletOwner.PLAYER));
+                        this.bullets.add(new Bullet(this.player.x(), this.player.y(), Math.floatRandomBetween(Settings.BULLET_SPEED * .8f, Settings.BULLET_SPEED), 0, 'o', true, Bullet.BulletOwner.PLAYER));
                         this.player.addBulletCooldown();
                     }
                 }
@@ -144,17 +143,17 @@ public class Level {
     }
 
     private void fireBossWeapon(Boss boss) {
-        int random = Math.RANDOM_BETWEEN(0, 10);
+        int random = Math.randomBetween(0, 10);
         if (random < 5)
-            this.bullets.add(new Bullet(boss.x(), boss.middleY(), Math.FLOAT_RANDOM_BETWEEN(-Settings.BULLET_SPEED, -Settings.BULLET_SPEED * .3f), 0, 'o', true, Bullet.BulletOwner.ENEMY));
+            this.bullets.add(new Bullet(boss.x(), boss.middleY(), Math.floatRandomBetween(-Settings.BULLET_SPEED, -Settings.BULLET_SPEED * .3f), 0, 'o', true, Bullet.BulletOwner.ENEMY));
         if(random == 6)
             this.fireBossInCircle(boss, boss.getSmarts() / 500);
     }
 
     private void fireBossInCircle(Boss boss, float count) {
         for (int i = 0; i < count; i++) {
-            float xVelo = Math.FLOAT_RANDOM_BETWEEN(-Settings.BULLET_SPEED, Settings.BULLET_SPEED);
-            float yVelo = Math.FLOAT_RANDOM_BETWEEN(-Settings.BULLET_SPEED, Settings.BULLET_SPEED);
+            float xVelo = Math.floatRandomBetween(-Settings.BULLET_SPEED, Settings.BULLET_SPEED);
+            float yVelo = Math.floatRandomBetween(-Settings.BULLET_SPEED, Settings.BULLET_SPEED);
             Bullet b = new Bullet(boss.middleX(), boss.middleY(), '.', Bullet.BulletOwner.ENEMY);
             b.setXVelocity(xVelo);
             b.setYVelocity(yVelo);
@@ -182,7 +181,7 @@ public class Level {
     }
 
     private void progressWave() {
-        final int random = Math.RANDOM_BETWEEN(0, 3);
+        final int random = Math.randomBetween(0, 3);
         if (this.currentWave < 4) {
             this.currentWave++;
             this.waveStartTimer = null;

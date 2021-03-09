@@ -132,13 +132,5 @@ public class Entity {
     public void render(BitmapFont font, Batch batch) {
         // draw the character
         font.draw(batch, "" + this.character, this.x, this.y);
-
-        // debug collisions
-        if(Settings.DEBUG_COLLISION && this.collider != null) {
-            Color color = font.getColor();
-            font.setColor(Color.RED);
-            font.draw(batch, "^", this.collider.x, this.collider.y);
-            font.setColor(color);
-        }
     }
 }

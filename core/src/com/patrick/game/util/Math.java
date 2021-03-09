@@ -4,13 +4,13 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Math {
 
-    public static int RANDOM_BETWEEN(int min, int max) {
+    public static int randomBetween(int min, int max) {
         if (min < max)
             return ThreadLocalRandom.current().nextInt(min, max + 1);
         return ThreadLocalRandom.current().nextInt(max, min + 1);
     }
 
-    public static float FLOAT_RANDOM_BETWEEN(float min, float max) {
+    public static float floatRandomBetween(float min, float max) {
         if (min < max)
             return ThreadLocalRandom.current().nextInt((int) min, (int) max + 1);
         return ThreadLocalRandom.current().nextInt((int) max, (int) min + 1);

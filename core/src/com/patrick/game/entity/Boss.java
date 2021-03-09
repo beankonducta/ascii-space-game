@@ -102,16 +102,5 @@ public class Boss extends Enemy {
                 font.draw(batch, "" + shape[i][j], this.x() + (j * 8), this.y() + (i * 8));
             }
         }
-        if (Settings.DEBUG_COLLISION && this.collider != null) {
-            Color color = font.getColor();
-            font.setColor(Color.RED);
-            for (int i = 0; i < this.colliders.length; i++) {
-                for (int j = 0; j < this.colliders[i].length; j++) {
-                    if (this.colliders[i][j] != null)
-                        font.draw(batch, "c", this.x() + (j * 8), this.y() + (i * 8));
-                }
-            }
-            font.setColor(color);
-        }
     }
 }
