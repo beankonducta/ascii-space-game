@@ -45,6 +45,7 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
+//        Gdx.gl.glViewport(Gdx.graphics.getWidth() / 4, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
         this.font.setColor(ColorShifter.shiftColor(this.font, delta));
         this.nextLevel();
         this.playerDeath();

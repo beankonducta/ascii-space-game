@@ -42,7 +42,7 @@ public class TitleScreen implements Screen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         ColorShifter.shiftColor(this.font, delta);
         this.font.setColor(ColorShifter.shiftColor(this.font, delta));
-        if (Gdx.input.isKeyPressed(Input.Keys.SPACE)) {
+        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             this.game.setScreen(new GameScreen(this.game, this.font, this.redFont, this.batch, this.shape));
         }
 
