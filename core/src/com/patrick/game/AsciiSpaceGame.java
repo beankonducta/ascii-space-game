@@ -23,8 +23,6 @@ import java.util.List;
 public class AsciiSpaceGame extends Game {
 	/**
 	 *
-	 * TODO: Glitch where enemies can go offscreen
-	 *
 	 * TODO: Make more weapons and powerups (speed, shield)
 	 *
 	 * TODO: Add transitions
@@ -37,11 +35,11 @@ public class AsciiSpaceGame extends Game {
 	 *
 	 * TODO: COOL S BOSS
 	 *
-	 * TODO: Fix box bounding.
-	 *
 	 * TODO: Make boss fire from random bounding boxes rather than the 'center'
 	 *
 	 * TODO: Make more bosses
+	 *
+	 * TODO: NEW GLITCH where enemies can go offscreen, now they ping back and forth in the lower 10% of left and right of screen sometimes
 	 *
 	 */
 	SpriteBatch batch;
