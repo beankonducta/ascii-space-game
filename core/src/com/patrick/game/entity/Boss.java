@@ -10,6 +10,27 @@ import org.w3c.dom.css.Rect;
 
 public class Boss extends Enemy {
 
+    public static final String[] BOSSES = new String[]{
+            "-----------  s s s s       s        s   s   ",
+                    "       ....       " +
+                    "     .   ....     " +
+                    "   .       ....   " +
+                    " .           .... " +
+                    ".      .      ...." +
+                    ".      .      ...." +
+                    ".      .      ...." +
+                    "  .     .   ....  " +
+                    "    .     ....    " +
+                    "  .   .     ....  " +
+                    ".      .      ...." +
+                    ".      .      ...." +
+                    ".      .      ...." +
+                    " .           .... " +
+                    "   .       ....   " +
+                    "     .   ....     " +
+                    "        ....      "
+    };
+
     private char[][] shape;
     private Rectangle[][] colliders;
 

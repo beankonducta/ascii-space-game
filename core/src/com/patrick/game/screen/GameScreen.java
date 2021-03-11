@@ -3,9 +3,11 @@ package com.patrick.game.screen;
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.glutils.FrameBuffer;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.controller.CameraController;
 import com.patrick.game.entity.Player;
@@ -45,7 +47,13 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        Gdx.gl.glViewport(Gdx.graphics.getWidth() / 4, 0, Gdx.graphics.getWidth() / 2, Gdx.graphics.getHeight());
+        this.shape.begin(ShapeRenderer.ShapeType.Filled);
+        this.shape.setColor(ColorShifter.shiftColor(this.font, delta));
+        this.shape.rect(0, 0, CameraController.camera.viewportWidth / 8, Gdx.graphics.getHeight());
+        this.shape.rect(CameraController.camera.viewportWidth * .875f, 0, CameraController.camera.viewportWidth / 8, Gdx.graphics.getHeight());
+
+        this.shape.end();
+        Gdx.gl.glViewport(Gdx.graphics.getWidth() / 8, 0, (int)(Gdx.graphics.getWidth() * .75f), Gdx.graphics.getHeight());
         this.font.setColor(ColorShifter.shiftColor(this.font, delta));
         this.nextLevel();
         this.playerDeath();
@@ -121,7 +129,7 @@ public class GameScreen implements Screen {
 
     private void playerDeath() {
         if(this.player.getLives() <= 0)
-            this.game.setScreen(new TitleScreen(this.game, this.font, this.redFont, this.batch, this.shape, "you died, press space to try again"));
+            this.game.setScreen(new TitleScreen(this.game, this.font, this.redFont, this.batch, this.shape, "you died, press enter to try again. your score was "+this.player.getPoints()));
     }
 
     private void nextLevel() {

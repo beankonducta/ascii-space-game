@@ -10,8 +10,8 @@ public class CameraController {
 
     public static void resetCamera() {
         camera = new OrthographicCamera();
-//        camera.setToOrtho(false, Gdx.graphics.getWidth() * 2, Gdx.graphics.getHeight() * 2);
-        camera.setToOrtho(false, 1600, 900);
+        camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+//        camera.setToOrtho(false, 900, 1600);
         camera.update();
     }
 
