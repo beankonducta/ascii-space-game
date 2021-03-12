@@ -13,6 +13,7 @@ import com.patrick.game.controller.CameraController;
 import com.patrick.game.entity.Player;
 import com.patrick.game.level.Level;
 import com.patrick.game.util.ColorShifter;
+import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
 public class GameScreen implements Screen {
@@ -48,13 +49,14 @@ public class GameScreen implements Screen {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.shape.begin(ShapeRenderer.ShapeType.Filled);
-        this.shape.setColor(ColorShifter.shiftColor(this.font, delta));
+//        this.shape.setColor(ColorShifter.shiftColor(this.font, delta));
+        this.shape.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44000)]));
         this.shape.rect(0, 0, CameraController.camera.viewportWidth / 8, Gdx.graphics.getHeight());
         this.shape.rect(CameraController.camera.viewportWidth * .875f, 0, CameraController.camera.viewportWidth / 8, Gdx.graphics.getHeight());
 
         this.shape.end();
         Gdx.gl.glViewport(Gdx.graphics.getWidth() / 8, 0, (int)(Gdx.graphics.getWidth() * .75f), Gdx.graphics.getHeight());
-        this.font.setColor(ColorShifter.shiftColor(this.font, delta));
+        this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44000)]));
         this.nextLevel();
         this.playerDeath();
         this.batch.begin();

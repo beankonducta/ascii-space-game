@@ -10,7 +10,9 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.controller.CameraController;
+import com.patrick.game.entity.Resource;
 import com.patrick.game.util.ColorShifter;
+import com.patrick.game.util.Resources;
 
 public class TitleScreen implements Screen {
 
@@ -29,6 +31,8 @@ public class TitleScreen implements Screen {
         this.batch = batch;
         this.shape = shape;
         this.titleString = titleString;
+        Resources.TEST_MUSIC.play();
+        Resources.TEST_MUSIC.setLooping(true);
     }
 
     @Override
@@ -40,12 +44,11 @@ public class TitleScreen implements Screen {
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        ColorShifter.shiftColor(this.font, delta);
-        this.font.setColor(ColorShifter.shiftColor(this.font, delta));
+//        this.font.setColor(ColorShifter.shiftColor(this.font, delta));
+        this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44000)]));
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             this.game.setScreen(new GameScreen(this.game, this.font, this.redFont, this.batch, this.shape));
         }
-
         this.batch.begin();
         this.batch.setProjectionMatrix(CameraController.camera.combined);
         this.font.draw(this.batch, this.titleString, CameraController.camera.viewportWidth / 2 - (this.titleString.length() * 3), CameraController.camera.viewportHeight / 2);

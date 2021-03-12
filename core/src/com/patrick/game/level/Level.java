@@ -48,9 +48,9 @@ public class Level {
     }
 
     private void fillWaves() {
-//        for (int i = 0; i < Settings.WAVE_COUNT - 1; i++) {
-//            this.waves.add(new Wave(this.difficulty + (i * 5)));
-//        }
+        for (int i = 0; i < Settings.WAVE_COUNT - 1; i++) {
+            this.waves.add(new Wave(this.difficulty + (i * 5)));
+        }
         this.waves.add(new Wave(true));
     }
 
