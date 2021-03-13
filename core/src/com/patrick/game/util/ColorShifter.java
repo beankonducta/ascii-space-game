@@ -16,6 +16,6 @@ public class ColorShifter {
 
     public static Color colorFromMusic(int b) {
         b = b == 0 ? 1 : b;
-        return new Color(2500 / java.lang.Math.abs(b), 0, 1, 1);
+        return new Color(5500 / java.lang.Math.abs(b), 0, 1, 1);
     }
 }

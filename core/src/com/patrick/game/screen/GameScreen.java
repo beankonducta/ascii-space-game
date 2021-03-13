@@ -48,15 +48,16 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        this.shape.begin(ShapeRenderer.ShapeType.Filled);
+//        this.shape.begin(ShapeRenderer.ShapeType.Line);
+////        this.shape.setColor(ColorShifter.shiftColor(this.font, delta));
 //        this.shape.setColor(ColorShifter.shiftColor(this.font, delta));
-        this.shape.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44000)]));
-        this.shape.rect(0, 0, CameraController.camera.viewportWidth / 8, Gdx.graphics.getHeight());
-        this.shape.rect(CameraController.camera.viewportWidth * .875f, 0, CameraController.camera.viewportWidth / 8, Gdx.graphics.getHeight());
-
-        this.shape.end();
+//        this.shape.rect(0, 0, CameraController.camera.viewportWidth / 8, Math.abs(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44100)] / 10));
+//        this.shape.rect(CameraController.camera.viewportWidth * .875f, 0, CameraController.camera.viewportWidth / 8, Math.abs(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44100)] / 10));
+//        this.shape.setColor(Color.BLACK);
+//        this.shape.rect(CameraController.camera.viewportWidth / 8, 0, CameraController.camera.viewportWidth * .75f, CameraController.camera.viewportHeight);
+//        this.shape.end();
         Gdx.gl.glViewport(Gdx.graphics.getWidth() / 8, 0, (int)(Gdx.graphics.getWidth() * .75f), Gdx.graphics.getHeight());
-        this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44000)]));
+        this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44100)]));
         this.nextLevel();
         this.playerDeath();
         this.batch.begin();

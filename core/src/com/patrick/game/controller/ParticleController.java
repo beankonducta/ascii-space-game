@@ -53,7 +53,7 @@ public class ParticleController {
         for (int i = 0; i < count; i++) {
             final float speed = Math.floatRandomBetween(Settings.EXPLOSION_SPEED / 6, Settings.EXPLOSION_SPEED);
             final int charIndex = Math.randomBetween(0, EXPLOSION_CHARS.length - 1);
-            Particle p = new Particle(x, y, speed, 0, EXPLOSION_CHARS[charIndex], Settings.EXPLOSION_TTL);
+            Particle p = new Particle(x, y, speed, 0, EXPLOSION_CHARS[charIndex], Math.randomBetween(Settings.EXPLOSION_TTL, Settings.EXPLOSION_TTL * 5));
             p.randomDir();
             particles.add(p);
         }

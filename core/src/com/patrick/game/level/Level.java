@@ -2,6 +2,7 @@ package com.patrick.game.level;
 
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.controller.*;
 import com.patrick.game.entity.*;
@@ -27,6 +28,7 @@ public class Level {
     private int currentWave;
     private int difficulty;
 
+    private boolean bossKilled;
     private boolean finished;
 
     public boolean isFinished() {
@@ -42,6 +44,7 @@ public class Level {
         this.resources = new ArrayList<>();
         this.currentWave = 0;
         this.finished = false;
+        this.bossKilled = false;
         this.player = player;
         this.fillWaves();
         this.resources.add(ResourceSpawnController.randomResource());
@@ -60,6 +63,7 @@ public class Level {
     }
 
     public void process(float delta, BitmapFont font, BitmapFont redFont, Batch batch) {
+        if(bossKilled) delta = .001f;
         this.removeEntities();
         this.processBulletEnemyCollisions();
         this.processPlayerCollisions();
@@ -68,7 +72,7 @@ public class Level {
         this.processRespawn();
         this.updateTimers(delta);
 
-        if(this.player.isDead()) {
+        if (this.player.isDead()) {
             redFont.draw(batch, "rip", (CameraController.camera.viewportWidth / 2) - 9, CameraController.camera.viewportHeight / 2);
         }
 
@@ -146,7 +150,7 @@ public class Level {
         int random = Math.randomBetween(0, 10);
         if (random < 5)
             this.bullets.add(new Bullet(boss.x(), boss.middleY(), Math.floatRandomBetween(-Settings.BULLET_SPEED, -Settings.BULLET_SPEED * .3f), 0, 'o', true, Bullet.BulletOwner.ENEMY));
-        if(random == 6)
+        if (random == 6)
             this.fireBossInCircle(boss, boss.getSmarts() / 500);
     }
 
@@ -173,7 +177,7 @@ public class Level {
 
     private void processWave() {
         if (this.waves.get(this.currentWave).getEnemies().size() == 0)
-            if (this.waveStartTimer == null) this.waveStartTimer = new OneShotTimer(2f);
+            if (this.waveStartTimer == null) this.waveStartTimer = new OneShotTimer(this.bossKilled ? .5f : 2f);
         if (this.waveStartTimer != null)
             if (this.waveStartTimer.isFinished()) {
                 this.progressWave();
@@ -181,6 +185,7 @@ public class Level {
     }
 
     private void progressWave() {
+        this.bossKilled = false;
         final int random = Math.randomBetween(0, 3);
         if (this.currentWave < 4) {
             this.currentWave++;
@@ -217,10 +222,16 @@ public class Level {
                             this.toRemove.add(bullet);
                             boss.removeHealth();
                             this.particles.addAll(ParticleController.explosionParticles(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.EXPLOSION_SIZE));
-                            if (boss.getHealth() == 0) {
-                                this.particles.addAll(ParticleController.slowExplosionParticles(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.BOSS_EXPLOSION_SIZE));
-                                this.toRemove.add(boss);
-                                this.player.addPoints(boss.getSmarts());
+                            if (boss.dead()) {
+                                for (int i = 0; i < boss.getColliders().length; i++) {
+                                    for (int j = 0; j < boss.getColliders()[i].length; j++) {
+                                        if (boss.getColliders()[i][j] != null)
+                                            this.particles.addAll(ParticleController.slowExplosionParticles(boss.getColliders()[i][j].x, boss.getColliders()[i][j].y, Settings.BOSS_EXPLOSION_SIZE));
+                                    }
+                                    this.bossKilled = true;
+                                    this.toRemove.add(boss);
+                                    this.player.addPoints(boss.getSmarts());
+                                }
                             }
                             boss.removeCharAt((int) collision.x, (int) collision.y);
                         }
@@ -235,6 +246,7 @@ public class Level {
                 }
             }
         }
+
     }
 
     private void processPlayerCollisions() {

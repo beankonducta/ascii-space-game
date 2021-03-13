@@ -36,6 +36,7 @@ public class Boss extends Enemy {
 
     private int yDirection;
     private float health;
+    private float startingHealth;
     private boolean entered;
 
     public Rectangle[][] getColliders() {
@@ -79,6 +80,10 @@ public class Boss extends Enemy {
         this.colliders[x][y] = null;
     }
 
+    public boolean dead() {
+        return this.health <= startingHealth * .2f;
+    }
+
     @Override
     public void setYVelocity(float velocity) {
         this.yVelocity = velocity * this.yDirection;
@@ -100,6 +105,7 @@ public class Boss extends Enemy {
                 }
             }
         }
+        this.startingHealth = health;
     }
 
     @Override

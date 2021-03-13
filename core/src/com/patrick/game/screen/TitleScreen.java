@@ -44,8 +44,7 @@ public class TitleScreen implements Screen {
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        this.font.setColor(ColorShifter.shiftColor(this.font, delta));
-        this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44000)]));
+        this.font.setColor(ColorShifter.shiftColor(this.font, delta));
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             this.game.setScreen(new GameScreen(this.game, this.font, this.redFont, this.batch, this.shape));
         }
