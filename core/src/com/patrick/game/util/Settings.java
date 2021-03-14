@@ -1,7 +1,5 @@
 package com.patrick.game.util;
 
-import com.patrick.game.controller.CameraController;
-
 public class Settings {
 
     public static final int PLAYER_MAX_HEIGHT = 100;
@@ -13,9 +11,6 @@ public class Settings {
 
     public static final float PLAYER_SPEED = 300f;
     public static final float PLAYER_DECEL = 600f;
-
-//    public static final int VIEWPORT_WIDTH = 2800;
-//    public static final int VIEWPORT_HEIGHT = 1400;
 
     public static final int PLAYER_ENEMY_X_OFFSET = 2;
 
@@ -43,8 +38,6 @@ public class Settings {
     public static final float ENEMY_DECEL = 220f;
 
     public static final int WAVE_COUNT = 5;
-
-    public static final int MAX_ENEMY_LEVEL = 300;
 
     public static final boolean DEBUG_COLLISION = false;
 

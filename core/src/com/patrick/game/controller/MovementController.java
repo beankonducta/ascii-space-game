@@ -2,8 +2,6 @@ package com.patrick.game.controller;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
-import com.badlogic.gdx.graphics.Camera;
-import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entity.Boss;
 import com.patrick.game.entity.Enemy;
 import com.patrick.game.entity.Player;
@@ -48,17 +46,6 @@ public class MovementController {
         return false;
     }
 
-    /**
-     * A very simple dumb enemy movement method. If enemy smarts are 1 or 2, move them in a constant direction left or right.
-     * Flip the enemy if it hits the side.
-     * <p>
-     * If the enemy smarts are >= 3, follow the player.
-     * <p>
-     * If the enemy smarts are > 3, return true (which fires a bullet elsewhere!)
-     *
-     * @param enemy  - the enemy to move
-     * @param player - the player to position the enemy to
-     */
     public static boolean processEnemyMovement(Enemy enemy, Player player) {
         final float difference = enemy.x() - player.x();
         final boolean enemySeesPlayer = enemy.getSmarts() >= 3 && enemy.y() > player.y() && enemy.x() - player.x() < 50 && enemy.y() - player.y() < 200;

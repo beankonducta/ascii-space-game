@@ -2,7 +2,6 @@ package com.patrick.game.controller;
 
 import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.entity.Boss;
-import com.patrick.game.entity.Bullet;
 import com.patrick.game.entity.Entity;
 
 public class CollisionController {

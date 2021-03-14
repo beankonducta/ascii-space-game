@@ -1,16 +1,9 @@
 package com.patrick.game.entity;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.patrick.game.util.Settings;
-import org.graalvm.compiler.word.Word;
-import org.w3c.dom.css.Rect;
-
-import java.awt.*;
 
 public class Entity {
 

@@ -3,12 +3,8 @@ package com.patrick.game.entity;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.math.Vector2;
 import com.patrick.game.controller.CameraController;
-import com.patrick.game.util.OneShotTimer;
 import com.patrick.game.util.Settings;
-
-import java.awt.*;
 
 public class Player extends Entity {
 
