@@ -64,13 +64,16 @@ public class Level {
 
     public void process(float delta, BitmapFont font, BitmapFont redFont, Batch batch) {
         if(bossKilled) delta = .001f;
+
         this.removeEntities();
         this.processBulletEnemyCollisions();
         this.processPlayerCollisions();
-//        this.processBulletBossCollisions();
         this.processWave();
         this.processRespawn();
         this.updateTimers(delta);
+
+        if(Math.randomBetween(0, 5) == 0)
+            this.particles.addAll(ParticleController.waveOfStars(Math.randomBetween(1, 10)));
 
         if (this.player.isDead()) {
             redFont.draw(batch, "rip", (CameraController.camera.viewportWidth / 2) - 9, CameraController.camera.viewportHeight / 2);
@@ -118,8 +121,6 @@ public class Level {
         this.player.move(delta);
         if (MovementController.processPlayerMovement(this.player))
             this.firePlayerWeapon();
-//            uncomment to test wave progression
-//            this.toRemove.addAll(this.waves.get(this.currentWave).getEnemies());
     }
 
     private void firePlayerWeapon() {
@@ -166,7 +167,7 @@ public class Level {
     }
 
     private void removeOffScreen(Entity entity) {
-        if (entity.x() > CameraController.camera.viewportWidth || entity.x() < 0 || entity.y() > CameraController.camera.viewportHeight || entity.y() < 0)
+        if (entity.x() > CameraController.camera.viewportWidth || entity.x() < 0 || entity.y() > CameraController.camera.viewportHeight + 100 || entity.y() < -100)
             this.toRemove.add(entity);
     }
 
