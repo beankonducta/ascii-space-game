@@ -96,7 +96,7 @@ public class GameScreen implements Screen {
     private void drawHud() {
         this.secondaryFont.draw(this.batch, "" + this.player.getPoints(), 24, CameraController.camera.viewportHeight - 48);
         for (int i = 1; i < this.player.getLives(); i++) {
-            this.secondaryFont.draw(this.batch, "L", 24 * i, CameraController.camera.viewportHeight - 24);
+            this.secondaryFont.draw(this.batch, "[L]", 24 * i, CameraController.camera.viewportHeight - 24);
         }
 
         int y = 0;

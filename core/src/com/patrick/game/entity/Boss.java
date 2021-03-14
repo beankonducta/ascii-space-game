@@ -7,27 +7,6 @@ import com.badlogic.gdx.math.Vector2;
 
 public class Boss extends Enemy {
 
-    public static final String[] BOSSES = new String[]{
-            "-----------  s s s s       s        s   s   ",
-                    "       ----       " +
-                    "     /   ****     " +
-                    "   /       ****   " +
-                    " /           **** " +
-                    "|      |      ****" +
-                    "|      |      ****" +
-                    "|      |      ****" +
-                    "  ;     ;   ****  " +
-                    "    ;     ;***    " +
-                    " /    ;     ;***  " +
-                    "|      |      ****" +
-                    "|      |      ****" +
-                    "|      |      ****" +
-                    " ;           **** " +
-                    "   ;       ****   " +
-                    "     ;   ****     " +
-                    "        ----      "
-    };
-
     private char[][] shape;
     private Rectangle[][] colliders;
 
@@ -97,8 +76,8 @@ public class Boss extends Enemy {
         for (int i = 0; i < this.colliders.length; i++) {
             for (int j = 0; j < this.colliders[0].length; j++) {
                 if (shape[i][j] != ' ') {
-                    this.health ++;
-                    this.colliders[i][j] = new Rectangle(x + (i * 6), y + (j * 6), 4, 4);
+                    this.health++;
+                    this.colliders[i][j] = new Rectangle(x + (i * 8), y + (j * 8), 8, 8);
                 }
             }
         }
@@ -113,7 +92,7 @@ public class Boss extends Enemy {
         for (int i = 0; i < this.colliders.length; i++) {
             for (int j = 0; j < this.colliders[i].length; j++) {
                 if (this.colliders[i][j] != null)
-                    this.colliders[i][j].setPosition(new Vector2(this.x() + (j * 8), this.y() + (i * 8)));
+                    this.colliders[i][j].setPosition(new Vector2(this.x() + (j * 8), this.y() - (i * 8)));
             }
         }
     }
@@ -121,10 +100,8 @@ public class Boss extends Enemy {
     @Override
     public void render(BitmapFont font, Batch batch) {
         if (this.shape == null) return;
-        for (int i = 0; i < this.shape.length; i++) {
-            for (int j = 0; j < this.shape[i].length; j++) {
-                font.draw(batch, "" + shape[i][j], this.x() + (j * 8), this.y() + (i * 8));
-            }
-        }
+        for (int i = 0; i < this.shape.length; i++)
+            for (int j = 0; j < this.shape[i].length; j++)
+                font.draw(batch, "" + shape[i][j], this.x() + (j * 8), this.y() - (i * 8));
     }
 }

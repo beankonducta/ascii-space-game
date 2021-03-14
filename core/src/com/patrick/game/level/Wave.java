@@ -31,8 +31,7 @@ public class Wave {
     public Wave(boolean bossOnly) {
         if (bossOnly) {
             this.enemies = new ArrayList<>();
-            this.enemies.add(new Boss(CameraController.camera.viewportWidth / 2, CameraController.camera.viewportHeight - 48, 50f, 25f, 3000, Ascii.stringTo2dCharArray(
-                    Boss.BOSSES[1], 18)));
+            this.enemies.add(new Boss(CameraController.camera.viewportWidth / 2, CameraController.camera.viewportHeight - 48, 50f, 25f, 3000, Ascii.coolS(2)));
 
         } else return;
     }

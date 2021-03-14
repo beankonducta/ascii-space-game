@@ -31,8 +31,8 @@ public class TitleScreen implements Screen {
         this.batch = batch;
         this.shape = shape;
         this.titleString = titleString;
-        Resources.TEST_MUSIC.play();
-        Resources.TEST_MUSIC.setLooping(true);
+//        Resources.TEST_MUSIC.play();
+//        Resources.TEST_MUSIC.setLooping(true);
     }
 
     @Override
