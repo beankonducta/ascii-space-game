@@ -61,8 +61,8 @@ public class Level {
         this.player.killPlayer();
     }
 
-    public void process(float delta, BitmapFont font, BitmapFont redFont, Batch batch) {
-        if(bossKilled) delta = .001f;
+    public void process(float delta, BitmapFont font, BitmapFont secondaryFont, BitmapFont thirdFont, Batch batch) {
+        if (bossKilled) delta = .001f;
 
         this.removeEntities();
         this.processBulletEnemyCollisions();
@@ -71,17 +71,17 @@ public class Level {
         this.processRespawn();
         this.updateTimers(delta);
 
-        if(Math.randomBetween(0, 5) == 0)
+        if (Math.randomBetween(0, 5) == 0)
             this.particles.addAll(ParticleController.waveOfStars(Math.randomBetween(1, 10)));
 
         if (this.player.isDead()) {
-            redFont.draw(batch, "rip", (CameraController.camera.viewportWidth / 2) - 9, CameraController.camera.viewportHeight / 2);
+            secondaryFont.draw(batch, "rip", (CameraController.camera.viewportWidth / 2) - 9, CameraController.camera.viewportHeight / 2);
         }
 
         for (Bullet bullet : this.bullets) {
             this.removeOffScreen(bullet);
             bullet.update(delta);
-            bullet.render(font, batch);
+            bullet.render(secondaryFont, batch);
             bullet.move(delta);
         }
 
@@ -89,13 +89,16 @@ public class Level {
             this.removeOffScreen(particle);
             this.removeDeadParticle(particle);
             particle.update(delta);
-            particle.render(font, batch);
+            particle.render(secondaryFont, batch);
             particle.move(delta);
         }
 
         for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
             enemy.update(delta);
-            enemy.render(font, batch);
+            if (enemy instanceof Boss)
+                enemy.render(thirdFont, batch);
+            else
+                enemy.render(font, batch);
             enemy.move(delta);
             if (enemy instanceof Boss) {
                 if (MovementController.processBossMovement((Boss) enemy, this.player)) {
@@ -110,7 +113,7 @@ public class Level {
 
         for (Resource resource : this.resources) {
             resource.update(delta);
-            resource.render(redFont, batch);
+            resource.render(secondaryFont, batch);
             resource.move(delta);
             if (MovementController.processResourceMovement(this.player, resource))
                 this.toRemove.add(resource);

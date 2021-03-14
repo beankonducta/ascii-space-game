@@ -39,7 +39,8 @@ public class AsciiSpaceGame extends Game {
     SpriteBatch batch;
     ShapeRenderer shape;
     BitmapFont font;
-    BitmapFont redFont;
+    BitmapFont secondaryFont;
+    BitmapFont thirdFont;
 
     @Override
     public void create() {
@@ -47,11 +48,12 @@ public class AsciiSpaceGame extends Game {
         shape = new ShapeRenderer();
         shape.setAutoShapeType(true);
         font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
-        redFont = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
-        redFont.setColor(Color.RED);
+        secondaryFont = new BitmapFont(Gdx.files.internal("fonts/second_font.fnt"));
+        thirdFont = new BitmapFont(Gdx.files.internal("fonts/second_font.fnt"));
+        secondaryFont.setColor(Color.WHITE);
         font.setColor(new Color(0f, 0f, 1f, 1f));
         CameraController.resetCamera();
-        setScreen(new TitleScreen(this, font, redFont, batch, shape, "press enter to begin"));
+        setScreen(new TitleScreen(this, font, secondaryFont, thirdFont, batch, shape, "press enter to begin"));
     }
 
     @Override

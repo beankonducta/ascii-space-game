@@ -17,7 +17,8 @@ import com.patrick.game.util.Settings;
 public class GameScreen implements Screen {
 
     private BitmapFont font;
-    private BitmapFont redFont;
+    private BitmapFont secondaryFont;
+    private BitmapFont thirdFont;
     private Batch batch;
     private ShapeRenderer shape;
     private Game game;
@@ -27,10 +28,11 @@ public class GameScreen implements Screen {
 
     private int difficulty;
 
-    public GameScreen(Game game, BitmapFont font, BitmapFont redFont, Batch batch, ShapeRenderer shape) {
+    public GameScreen(Game game, BitmapFont font, BitmapFont secondaryFont, BitmapFont thirdFont, Batch batch, ShapeRenderer shape) {
         this.difficulty = 300;
         this.font = font;
-        this.redFont = redFont;
+        this.secondaryFont = secondaryFont;
+        this.thirdFont = thirdFont;
         this.batch = batch;
         this.shape = shape;
         this.game = game;
@@ -56,12 +58,13 @@ public class GameScreen implements Screen {
 //        this.shape.end();
         Gdx.gl.glViewport(Gdx.graphics.getWidth() / 8, 0, (int)(Gdx.graphics.getWidth() * .75f), Gdx.graphics.getHeight());
         this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44100)]));
+        this.thirdFont.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44100)]));
         this.nextLevel();
         this.playerDeath();
         this.batch.begin();
         this.batch.setProjectionMatrix(CameraController.camera.combined);
         this.drawHud();
-        this.level.process(delta, this.font, this.redFont, this.batch);
+        this.level.process(delta, this.font, this.secondaryFont, this.thirdFont, this.batch);
         this.batch.end();
 //        collision debugging:
 
@@ -91,15 +94,15 @@ public class GameScreen implements Screen {
     }
 
     private void drawHud() {
-        this.redFont.draw(this.batch, "" + this.player.getPoints(), 24, CameraController.camera.viewportHeight - 48);
+        this.secondaryFont.draw(this.batch, "" + this.player.getPoints(), 24, CameraController.camera.viewportHeight - 48);
         for (int i = 1; i < this.player.getLives(); i++) {
-            this.redFont.draw(this.batch, "L", 24 * i, CameraController.camera.viewportHeight - 24);
+            this.secondaryFont.draw(this.batch, "L", 24 * i, CameraController.camera.viewportHeight - 24);
         }
 
         int y = 0;
         for (int i = 0; i < Settings.BULLET_COOLDOWN - this.player.getBulletCooldown(); i++) {
             if (i == 32) y = 1;
-            this.redFont.draw(this.batch, "-", CameraController.camera.viewportWidth - 24 - ((y == 0 ? i : i - 32) * 8), CameraController.camera.viewportHeight - 24 + (y * 16));
+            this.secondaryFont.draw(this.batch, "-", CameraController.camera.viewportWidth - 24 - ((y == 0 ? i : i - 32) * 8), CameraController.camera.viewportHeight - 24 + (y * 16));
         }
     }
 
@@ -130,7 +133,7 @@ public class GameScreen implements Screen {
 
     private void playerDeath() {
         if(this.player.getLives() <= 0)
-            this.game.setScreen(new TitleScreen(this.game, this.font, this.redFont, this.batch, this.shape, "you died, press enter to try again. your score was "+this.player.getPoints()));
+            this.game.setScreen(new TitleScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "you died, press enter to try again. your score was "+this.player.getPoints()));
     }
 
     private void nextLevel() {

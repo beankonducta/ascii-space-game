@@ -43,6 +43,7 @@ public class MusicController {
      */
     public static void play() {
         if (music == null) return;
+        music.setVolume(Settings.MUSIC_VOLUME);
         music.play();
     }
 

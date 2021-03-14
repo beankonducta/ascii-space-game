@@ -15,17 +15,19 @@ import com.patrick.game.util.Resources;
 public class TitleScreen implements Screen {
 
     private BitmapFont font;
-    private BitmapFont redFont;
+    private BitmapFont secondaryFont;
+    private BitmapFont thirdFont;
     private Batch batch;
     private ShapeRenderer shape;
     private Game game;
 
     private String titleString;
 
-    public TitleScreen(Game game, BitmapFont font, BitmapFont redFont, Batch batch, ShapeRenderer shape, String titleString) {
+    public TitleScreen(Game game, BitmapFont font, BitmapFont secondaryFont, BitmapFont thirdFont, Batch batch, ShapeRenderer shape, String titleString) {
         this.game = game;
         this.font = font;
-        this.redFont = redFont;
+        this.secondaryFont = secondaryFont;
+        this.thirdFont = thirdFont;
         this.batch = batch;
         this.shape = shape;
         this.titleString = titleString;
@@ -44,7 +46,7 @@ public class TitleScreen implements Screen {
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.font.setColor(ColorShifter.shiftColor(this.font, delta));
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            this.game.setScreen(new GameScreen(this.game, this.font, this.redFont, this.batch, this.shape));
+            this.game.setScreen(new GameScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape));
         }
         this.batch.begin();
         this.batch.setProjectionMatrix(CameraController.camera.combined);
