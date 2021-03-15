@@ -4,6 +4,7 @@ import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -31,8 +32,9 @@ public class TitleScreen implements Screen {
         this.batch = batch;
         this.shape = shape;
         this.titleString = titleString;
-//        Resources.TEST_MUSIC.play();
-//        Resources.TEST_MUSIC.setLooping(true);
+        this.thirdFont.setColor(new Color(0, 0, 1, 1));
+        Resources.TEST_MUSIC.play();
+        Resources.TEST_MUSIC.setLooping(true);
     }
 
     @Override
@@ -44,13 +46,13 @@ public class TitleScreen implements Screen {
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        this.font.setColor(ColorShifter.shiftColor(this.font, delta));
+        this.thirdFont.setColor(ColorShifter.shiftColor(this.thirdFont, delta));
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             this.game.setScreen(new GameScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape));
         }
         this.batch.begin();
         this.batch.setProjectionMatrix(CameraController.camera.combined);
-        this.font.draw(this.batch, this.titleString, CameraController.camera.viewportWidth / 2 - (this.titleString.length() * 3), CameraController.camera.viewportHeight / 2);
+        this.thirdFont.draw(this.batch, this.titleString, CameraController.camera.viewportWidth / 2 - (this.titleString.length() * 3), CameraController.camera.viewportHeight / 2);
         this.batch.end();
     }
 

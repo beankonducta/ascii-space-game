@@ -1,5 +1,6 @@
 package com.patrick.game.level;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
@@ -70,6 +71,12 @@ public class Level {
         this.processWave();
         this.processRespawn();
         this.updateTimers(delta);
+        if(Settings.DEBUG) {
+            secondaryFont.draw(batch, "FPS: "+Gdx.graphics.getFramesPerSecond(), 100, 100);
+            secondaryFont.draw(batch, "PARTICLE COUNT: "+this.particles.size(), 100, 140);
+            secondaryFont.draw(batch, "ENEMY COUNT: "+this.waves.get(this.currentWave).getEnemies().size(), 100, 180);
+
+        }
 
         if (Math.randomBetween(0, 5) == 0)
             this.particles.addAll(ParticleController.waveOfStars(Math.randomBetween(1, 10)));
@@ -122,7 +129,10 @@ public class Level {
         this.player.render(font, batch);
         this.player.move(delta);
         if (MovementController.processPlayerMovement(this.player))
-            this.firePlayerWeapon();
+            if (!Settings.DEBUG)
+                this.firePlayerWeapon();
+            else
+                this.progressWave();
     }
 
     private void firePlayerWeapon() {
@@ -153,7 +163,7 @@ public class Level {
         int random = Math.randomBetween(0, 20);
         int x = 0;
         int y = 0;
-        while(boss.getColliders()[x][y] == null) {
+        while (boss.getColliders()[x][y] == null) {
             x = Math.randomBetween(0, boss.getColliders().length - 1);
             y = Math.randomBetween(0, boss.getColliders()[0].length - 1);
         }
@@ -169,7 +179,7 @@ public class Level {
             float yVelo = Math.floatRandomBetween(-Settings.BULLET_SPEED, Settings.BULLET_SPEED);
             int x = 0;
             int y = 0;
-            while(boss.getColliders()[x][y] == null) {
+            while (boss.getColliders()[x][y] == null) {
                 x = Math.randomBetween(0, boss.getColliders().length - 1);
                 y = Math.randomBetween(0, boss.getColliders()[0].length - 1);
             }
