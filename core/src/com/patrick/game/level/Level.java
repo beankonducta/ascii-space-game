@@ -50,10 +50,10 @@ public class Level {
     }
 
     private void fillWaves() {
-//        for (int i = 0; i < Settings.WAVE_COUNT - 1; i++) {
-//            this.waves.add(new Wave(this.difficulty + (i * 5)));
-//        }
-        this.waves.add(new Wave(true));
+        for (int i = 0; i < Settings.WAVE_COUNT - 1; i++) {
+            this.waves.add(new Wave(this.difficulty + (i * 5)));
+        }
+        this.waves.add(new Wave(true, this.difficulty));
     }
 
     private void killPlayer() {
@@ -89,7 +89,7 @@ public class Level {
             this.removeOffScreen(particle);
             this.removeDeadParticle(particle);
             particle.update(delta);
-            particle.render(secondaryFont, batch);
+            particle.render((particle.getType() == Particle.ParticleType.damage ? thirdFont : secondaryFont), batch);
             particle.move(delta);
         }
 
@@ -150,10 +150,16 @@ public class Level {
     }
 
     private void fireBossWeapon(Boss boss) {
-        int random = Math.randomBetween(0, 10);
-        if (random < 5)
-            this.bullets.add(new Bullet(boss.x(), boss.middleY(), Math.floatRandomBetween(-Settings.BULLET_SPEED, -Settings.BULLET_SPEED * .3f), 0, 'o', true, Bullet.BulletOwner.ENEMY));
-        if (random == 6)
+        int random = Math.randomBetween(0, 20);
+        int x = 0;
+        int y = 0;
+        while(boss.getColliders()[x][y] == null) {
+            x = Math.randomBetween(0, boss.getColliders().length - 1);
+            y = Math.randomBetween(0, boss.getColliders()[0].length - 1);
+        }
+        if (random <= this.difficulty / Settings.INITIAL_DIFFICULTY)
+            this.bullets.add(new Bullet(boss.getColliders()[x][y].x, boss.getColliders()[x][y].y, Math.floatRandomBetween(-Settings.BULLET_SPEED, -Settings.BULLET_SPEED * .3f), 0, 'o', true, Bullet.BulletOwner.ENEMY));
+        if (random == 3 && this.difficulty >= Settings.INITIAL_DIFFICULTY * 3)
             this.fireBossInCircle(boss, boss.getSmarts() / 500);
     }
 
@@ -161,7 +167,13 @@ public class Level {
         for (int i = 0; i < count; i++) {
             float xVelo = Math.floatRandomBetween(-Settings.BULLET_SPEED, Settings.BULLET_SPEED);
             float yVelo = Math.floatRandomBetween(-Settings.BULLET_SPEED, Settings.BULLET_SPEED);
-            Bullet b = new Bullet(boss.middleX(), boss.middleY(), '.', Bullet.BulletOwner.ENEMY);
+            int x = 0;
+            int y = 0;
+            while(boss.getColliders()[x][y] == null) {
+                x = Math.randomBetween(0, boss.getColliders().length - 1);
+                y = Math.randomBetween(0, boss.getColliders()[0].length - 1);
+            }
+            Bullet b = new Bullet(boss.getColliders()[x][y].x, boss.getColliders()[x][y].y, '*', Bullet.BulletOwner.ENEMY);
             b.setXVelocity(xVelo);
             b.setYVelocity(yVelo);
             this.bullets.add(b);

@@ -29,7 +29,7 @@ public class GameScreen implements Screen {
     private int difficulty;
 
     public GameScreen(Game game, BitmapFont font, BitmapFont secondaryFont, BitmapFont thirdFont, Batch batch, ShapeRenderer shape) {
-        this.difficulty = 300;
+        this.difficulty = Settings.INITIAL_DIFFICULTY;
         this.font = font;
         this.secondaryFont = secondaryFont;
         this.thirdFont = thirdFont;

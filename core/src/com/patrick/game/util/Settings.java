@@ -43,4 +43,6 @@ public class Settings {
 
     public static final float MUSIC_VOLUME = .3f;
     public static final float SOUND_VOLUME = .2f;
+
+    public static final int INITIAL_DIFFICULTY = 300;
 }

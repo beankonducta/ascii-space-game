@@ -17,7 +17,7 @@ public class ParticleController {
         for (int i = 0; i < count; i++) {
             final float speed = Math.floatRandomBetween(Settings.EXPLOSION_SPEED / 2, Settings.EXPLOSION_SPEED * 2);
             final int charIndex = Math.randomBetween(0, EXPLOSION_CHARS.length - 1);
-            Particle p = new Particle(entity.x(), entity.y(), speed, 0, EXPLOSION_CHARS[charIndex], Settings.EXPLOSION_TTL);
+            Particle p = new Particle(entity.x(), entity.y(), speed, 0, EXPLOSION_CHARS[charIndex], Settings.EXPLOSION_TTL, Particle.ParticleType.damage);
             p.randomDir();
             particles.add(p);
         }
@@ -29,7 +29,7 @@ public class ParticleController {
         for (int i = 0; i < count; i++) {
             final float speed = Math.floatRandomBetween(Settings.EXPLOSION_SPEED / 2, Settings.EXPLOSION_SPEED * 2);
             final int charIndex = Math.randomBetween(0, EXPLOSION_CHARS.length - 1);
-            Particle p = new Particle(x, y, speed, 0, EXPLOSION_CHARS[charIndex], Settings.EXPLOSION_TTL);
+            Particle p = new Particle(x, y, speed, 0, EXPLOSION_CHARS[charIndex], Settings.EXPLOSION_TTL, Particle.ParticleType.damage);
             p.randomDir();
             particles.add(p);
         }
@@ -41,7 +41,7 @@ public class ParticleController {
         for (int i = 0; i < count; i++) {
             final float speed = Math.floatRandomBetween(Settings.EXPLOSION_SPEED / 6, Settings.EXPLOSION_SPEED);
             final int charIndex = Math.randomBetween(0, EXPLOSION_CHARS.length - 1);
-            Particle p = new Particle(x, y, speed, 0, EXPLOSION_CHARS[charIndex], Math.randomBetween(Settings.EXPLOSION_TTL, Settings.EXPLOSION_TTL * 5));
+            Particle p = new Particle(x, y, speed, 0, EXPLOSION_CHARS[charIndex], Math.randomBetween(Settings.EXPLOSION_TTL, Settings.EXPLOSION_TTL * 5), Particle.ParticleType.damage);
             p.randomDir();
             particles.add(p);
         }
@@ -51,7 +51,7 @@ public class ParticleController {
     public static List<Particle> waveOfStars(int count) {
         List<Particle> particles = new ArrayList<>();
         for (int i = 0; i < count; i++) {
-            Particle p = new Particle(Math.randomBetween(0, (int)CameraController.camera.viewportWidth), CameraController.camera.viewportHeight + Math.randomBetween(0, 30),  -100, 0, '.', 1000000);
+            Particle p = new Particle(Math.randomBetween(0, (int)CameraController.camera.viewportWidth), CameraController.camera.viewportHeight + Math.randomBetween(0, 30),  -100, 0, '.', 1000000, Particle.ParticleType.star);
             p.setYVelocity(p.getSpeed());
             particles.add(p);
         }
