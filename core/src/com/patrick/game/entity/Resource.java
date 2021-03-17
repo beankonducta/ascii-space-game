@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.patrick.game.util.Settings;
 
-public class Resource extends Entity {
+public class Resource extends FlippableEntity {
 
     public enum ResourceType {
         LIFE, GUN;
@@ -29,16 +29,13 @@ public class Resource extends Entity {
         this.character = fetchChar(type, level);
         this.setYVelocity(-speed);
         this.collider = new Rectangle(x, y, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
+        this.flipTimerMax = .15f;
     }
 
     private char fetchChar(ResourceType type, int level) {
         if(type == ResourceType.GUN) return 'V';
         else if(type == ResourceType.LIFE) return 'L';
         return ' ';
-    }
-
-    @Override
-    public void update(float delta) {
     }
 
     @Override

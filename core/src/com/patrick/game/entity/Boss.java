@@ -44,11 +44,11 @@ public class Boss extends Enemy {
     }
 
     public float middleX() {
-        return this.x() + (this.colliders.length * 6);
+        return this.x() + (this.colliders.length * 8);
     }
 
     public float middleY() {
-        return this.y() + (this.colliders[0].length * 6);
+        return this.y() + (this.colliders[0].length * 8);
     }
 
     public void removeCharAt(int x, int y) {

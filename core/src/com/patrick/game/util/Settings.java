@@ -12,7 +12,7 @@ public class Settings {
     public static final float PLAYER_SPEED = 300f;
     public static final float PLAYER_DECEL = 600f;
 
-    public static final int PLAYER_ENEMY_X_OFFSET = 2;
+    public static final int PLAYER_FLIPPABLE_ENTITY_X_OFFSET = 2;
 
     public static final int BULLET_COOLDOWN = 64;
 
@@ -40,7 +40,7 @@ public class Settings {
     public static final int WAVE_COUNT = 5;
 
     public static final boolean DEBUG_COLLISION = false;
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public static final float MUSIC_VOLUME = .3f;
     public static final float SOUND_VOLUME = .2f;

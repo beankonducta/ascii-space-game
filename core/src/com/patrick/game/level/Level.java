@@ -72,9 +72,9 @@ public class Level {
         this.processRespawn();
         this.updateTimers(delta);
         if(Settings.DEBUG) {
-            secondaryFont.draw(batch, "FPS: "+Gdx.graphics.getFramesPerSecond(), 100, 100);
-            secondaryFont.draw(batch, "PARTICLE COUNT: "+this.particles.size(), 100, 140);
-            secondaryFont.draw(batch, "ENEMY COUNT: "+this.waves.get(this.currentWave).getEnemies().size(), 100, 180);
+            secondaryFont.draw(batch, "FPS: "+Gdx.graphics.getFramesPerSecond(), 0, 100);
+            secondaryFont.draw(batch, "PARTICLE COUNT: "+this.particles.size(), 0, 140);
+            secondaryFont.draw(batch, "ENEMY COUNT: "+this.waves.get(this.currentWave).getEnemies().size(), 0, 180);
 
         }
 
