@@ -75,7 +75,6 @@ public class Level {
             secondaryFont.draw(batch, "FPS: "+Gdx.graphics.getFramesPerSecond(), 0, 100);
             secondaryFont.draw(batch, "PARTICLE COUNT: "+this.particles.size(), 0, 140);
             secondaryFont.draw(batch, "ENEMY COUNT: "+this.waves.get(this.currentWave).getEnemies().size(), 0, 180);
-
         }
 
         if (Math.randomBetween(0, 5) == 0)
