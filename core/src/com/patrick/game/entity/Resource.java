@@ -8,7 +8,7 @@ import com.patrick.game.util.Settings;
 public class Resource extends FlippableEntity {
 
     public enum ResourceType {
-        LIFE, GUN;
+        LIFE, GUN, SHIELD;
     }
 
     private ResourceType type;
@@ -35,6 +35,7 @@ public class Resource extends FlippableEntity {
     private char fetchChar(ResourceType type, int level) {
         if(type == ResourceType.GUN) return 'V';
         else if(type == ResourceType.LIFE) return 'L';
+        else if(type == ResourceType.SHIELD) return 'S';
         return ' ';
     }
 
@@ -43,7 +44,7 @@ public class Resource extends FlippableEntity {
         // draw the character
 //        Color color = font.getColor();
 //        font.setColor(Color.RED);
-        font.draw(batch, "" + this.character, this.x, this.y);
+        font.draw(batch, "[" + this.character + "]", this.x, this.y);
 //        font.setColor(color);
     }
 }

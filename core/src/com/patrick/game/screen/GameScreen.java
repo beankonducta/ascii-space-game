@@ -11,6 +11,7 @@ import com.patrick.game.controller.CameraController;
 import com.patrick.game.entity.Player;
 import com.patrick.game.level.Level;
 import com.patrick.game.util.ColorShifter;
+import com.patrick.game.util.OneShotTimer;
 import com.patrick.game.util.Resources;
 import com.patrick.game.util.Settings;
 
@@ -25,6 +26,8 @@ public class GameScreen implements Screen {
 
     private Level level;
     private Player player;
+
+    private OneShotTimer deathTimer;
 
     private int difficulty;
 
@@ -46,7 +49,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
+        delta = this.player.getLives() <= 0 ? .001f : java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
 //        this.shape.begin(ShapeRenderer.ShapeType.Line);
 ////        this.shape.setColor(ColorShifter.shiftColor(this.font, delta));
@@ -56,11 +59,11 @@ public class GameScreen implements Screen {
 //        this.shape.setColor(Color.BLACK);
 //        this.shape.rect(CameraController.camera.viewportWidth / 8, 0, CameraController.camera.viewportWidth * .75f, CameraController.camera.viewportHeight);
 //        this.shape.end();
-        Gdx.gl.glViewport(Gdx.graphics.getWidth() / 8, 0, (int)(Gdx.graphics.getWidth() * .75f), Gdx.graphics.getHeight());
-        this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44100)]));
-        this.thirdFont.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44100)]));
+        Gdx.gl.glViewport(Gdx.graphics.getWidth() / 8, 0, (int) (Gdx.graphics.getWidth() * .75f), Gdx.graphics.getHeight());
+        this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int) (Resources.TEST_MUSIC.getPosition() * 44100)]));
+        this.thirdFont.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int) (Resources.TEST_MUSIC.getPosition() * 44100)]));
+        this.playerDeath(delta);
         this.nextLevel();
-        this.playerDeath();
         this.batch.begin();
         this.batch.setProjectionMatrix(CameraController.camera.combined);
         this.drawHud();
@@ -131,9 +134,14 @@ public class GameScreen implements Screen {
 
     }
 
-    private void playerDeath() {
-        if(this.player.getLives() <= 0)
-            this.game.setScreen(new TitleScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "you died, press enter to try again. your score was "+this.player.getPoints()));
+    private void playerDeath(float delta) {
+        if (this.player.getLives() <= 0) {
+            if (this.deathTimer == null)
+                this.deathTimer = new OneShotTimer(.5f);
+            this.deathTimer.update(delta);
+            if (this.deathTimer.isFinished())
+                this.game.setScreen(new TitleScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "you died, press enter to try again. your score was " + this.player.getPoints()));
+        }
     }
 
     private void nextLevel() {

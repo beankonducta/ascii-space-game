@@ -110,7 +110,7 @@ public class MovementController {
             resource.setDirection(difference > 0 ? -1 : 1);
 
             // resource isn't above player, adjust position
-            resource.setXVelocity(Settings.RESOURCE_SPEED / 2);
+            resource.setXVelocity(Settings.RESOURCE_SPEED);
         } else
             resource.setXVelocity(0);
         return false;

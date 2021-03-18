@@ -68,6 +68,7 @@ public class Player extends Entity {
     public void processResource(Resource resource) {
         if(resource.getType() == Resource.ResourceType.GUN) this.gunLevel += resource.getLevel();
         else if(resource.getType() == Resource.ResourceType.LIFE) this.lives += resource.getLevel();
+        else if(resource.getType() == Resource.ResourceType.SHIELD) this.addShield();
     }
 
     public Player(float x, float y, float speed, float decel, char character) {
