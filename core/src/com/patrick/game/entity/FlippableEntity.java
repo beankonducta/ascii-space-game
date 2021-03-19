@@ -11,10 +11,6 @@ public class FlippableEntity extends Entity {
             this.direction = direction;
     }
 
-    public int getDirection() {
-        return this.direction;
-    }
-
     public void flipDirection() {
         if (this.flipTimer == 0)
             this.direction = -this.direction;

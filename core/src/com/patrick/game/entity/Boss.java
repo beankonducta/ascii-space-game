@@ -27,10 +27,6 @@ public class Boss extends Enemy {
         return this.entered;
     }
 
-    public float getHealth() {
-        return this.health;
-    }
-
     public void removeHealth() {
         this.health -= 1;
     }
@@ -41,14 +37,6 @@ public class Boss extends Enemy {
 
     public float height() {
         return this.colliders[0].length * 6;
-    }
-
-    public float middleX() {
-        return this.x() + (this.colliders.length * 8);
-    }
-
-    public float middleY() {
-        return this.y() + (this.colliders[0].length * 8);
     }
 
     public void removeCharAt(int x, int y) {

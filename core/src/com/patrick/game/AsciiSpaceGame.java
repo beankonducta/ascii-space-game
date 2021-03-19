@@ -18,23 +18,15 @@ import java.io.IOException;
 
 public class AsciiSpaceGame extends Game {
     /**
-     * TODO: Make more weapons and powerups (speed, shield)
-     * <p>
-     * TODO: Add transitions
-     * <p>
-     * TODO: Add music and sounds
+     * TODO: Add and sounds
      * <p>
      * TODO: Add bounding box around player
      * <p>
-     * TODO: Add current weapons and shields etc to hud. Weapons should be cyclable.
-     * <p>
-     * TODO: COOL S BOSS
-     * <p>
-     * TODO: Make boss fire from random bounding boxes rather than the 'center'
-     * <p>
-     * TODO: Make more bosses
-     * <p>
      * TODO: NEW GLITCH where enemies can go offscreen, now they ping back and forth in the lower 10% of left and right of screen sometimes
+     * <p>
+     * TODO: Make max boss size, at which point we cycle back to more quantity of small bosses.
+     * <p>
+     * TODO: Slow down wave progression (waves get unweildy pretty quick)
      */
     SpriteBatch batch;
     ShapeRenderer shape;
@@ -61,7 +53,6 @@ public class AsciiSpaceGame extends Game {
         Gdx.gl.glClearColor(0, 0, 0, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 //        Gdx.graphics.setVSync(true);
-//        Gdx.graphics.setWindowedMode(1000, 1400);
         Gdx.graphics.setFullscreenMode(Gdx.graphics.getDisplayMode());
         Gdx.graphics.setTitle(String.format("ASCII SPACE GAME", Gdx.graphics.getFramesPerSecond()));
         super.render();

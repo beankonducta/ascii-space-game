@@ -71,6 +71,7 @@ public class Level {
         this.processWave();
         this.processRespawn();
         this.updateTimers(delta);
+
         if (Settings.DEBUG) {
             secondaryFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, 100);
             secondaryFont.draw(batch, "PARTICLE COUNT: " + this.particles.size(), 0, 140);
@@ -78,8 +79,9 @@ public class Level {
 
         }
 
-        if (Math.randomBetween(0, 5) == 0 && !bossKilled)
+        if (Math.randomBetween(0, 5) == 0 && !bossKilled) {
             this.particles.addAll(ParticleController.waveOfStars(Math.randomBetween(1, 10)));
+        }
 
         if (this.player.isDead()) {
             secondaryFont.draw(batch, "rip", (CameraController.camera.viewportWidth / 2) - 9, CameraController.camera.viewportHeight / 2);
@@ -125,6 +127,7 @@ public class Level {
             if (MovementController.processResourceMovement(this.player, resource))
                 this.toRemove.add(resource);
         }
+
         this.player.update(delta);
         this.player.render(font, batch);
         this.player.move(delta);
@@ -272,7 +275,6 @@ public class Level {
                 }
             }
         }
-
     }
 
     private void processPlayerCollisions() {

@@ -69,31 +69,6 @@ public class GameScreen implements Screen {
         this.drawHud();
         this.level.process(delta, this.font, this.secondaryFont, this.thirdFont, this.batch);
         this.batch.end();
-//        collision debugging:
-
-//        if (Settings.DEBUG_COLLISION) {
-//            shape.begin();
-//            shape.setColor(Color.WHITE);
-//            shape.setProjectionMatrix(CameraController.camera.combined);
-//            for (Enemy enemy : level.waves.get(0).getEnemies()) {
-//                if (enemy instanceof Boss) {
-//                    Boss boss = (Boss) enemy;
-//                    for (int i = 0; i < boss.getColliders().length; i++) {
-//                        for (int j = 0; j < boss.getColliders()[i].length; j++) {
-//                            if (boss.getColliders()[i][j] != null)
-//                                shape.rect(boss.getColliders()[i][j].x, boss.getColliders()[i][j].y, boss.getColliders()[i][j].width, boss.getColliders()[i][j].height);
-//                        }
-//                    }
-//                } else {
-//                    shape.rect(enemy.getCollider().x, enemy.getCollider().y, enemy.getCollider().width, enemy.getCollider().height);
-//                }
-//            }
-//            for (Bullet bullet : level.bullets) {
-//                if (bullet.getCollider() != null)
-//                    shape.rect(bullet.getCollider().x, bullet.getCollider().y, bullet.getCollider().width, bullet.getCollider().height);
-//            }
-//            shape.end();
-//        }
     }
 
     private void drawHud() {

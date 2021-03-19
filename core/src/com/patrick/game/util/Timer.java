@@ -10,18 +10,15 @@ public class Timer {
         return this.time;
     }
 
-    public boolean isStarted() {
-        return this.started;
-    }
-
+    /**
+     * A timer. Times up to (max), then resets to 0 and goes again. Keeps timing
+     * until manually stopped.
+     *
+     * @param max
+     */
     public Timer(float max) {
         this.time = 0f;
         this.max = max;
-    }
-
-    public Timer() {
-        this.time = 0f;
-        this.max = -1;
     }
 
     public void update(float delta) {

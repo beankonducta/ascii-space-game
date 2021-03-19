@@ -41,10 +41,6 @@ public class Player extends Entity {
         return this.gunLevel;
     }
 
-    public void setGunLevel(int gunLevel) {
-        this.gunLevel = gunLevel;
-    }
-
     public int getLives() {
         return this.lives;
     }
@@ -55,10 +51,6 @@ public class Player extends Entity {
 
     public void addPoints(int points) {
         this.points += points;
-    }
-
-    public void subtractPoints(int points) {
-        this.points -= points;
     }
 
     public int getPoints() {
@@ -104,10 +96,6 @@ public class Player extends Entity {
                 font.draw(batch, "-", this.x() - 8 + i, this.y() + 14);
             }
         }
-//        if(this.y >= Settings.PLAYER_MAX_HEIGHT - 4)
-//            font.draw(batch, "-----", this.x() - 5, this.y() + 14);
-//        if(this.y <= Settings.PLAYER_MIN_HEIGHT + 4)
-//            font.draw(batch, "-----", this.x() - 5, this.y() - 4);
     }
 
     @Override

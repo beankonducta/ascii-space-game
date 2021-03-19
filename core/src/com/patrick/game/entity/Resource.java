@@ -41,10 +41,6 @@ public class Resource extends FlippableEntity {
 
     @Override
     public void render(BitmapFont font, Batch batch) {
-        // draw the character
-//        Color color = font.getColor();
-//        font.setColor(Color.RED);
         font.draw(batch, "[" + this.character + "]", this.x, this.y);
-//        font.setColor(color);
     }
 }

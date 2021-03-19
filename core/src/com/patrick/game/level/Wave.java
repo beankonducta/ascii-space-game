@@ -20,10 +20,6 @@ public class Wave {
         return this.enemies;
     }
 
-    public int getDifficulty() {
-        return this.difficulty;
-    }
-
     public Wave(int difficulty) {
         this.difficulty = difficulty;
         this.enemies = WaveBuildController.buildEnemyList(difficulty);
