@@ -79,7 +79,7 @@ public class Level {
 
         }
 
-        if (Math.randomBetween(0, 5) == 0 && !bossKilled) {
+        if (Math.randomBetween(0, 5) == 0 && !bossKilled && delta > .001f) {
             this.particles.addAll(ParticleController.waveOfStars(Math.randomBetween(1, 10)));
         }
 
