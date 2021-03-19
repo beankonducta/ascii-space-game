@@ -24,12 +24,13 @@ public class ColorShifter {
     /**
      * Returns a color based on the int b, which should represent a volume level / waveform
      * of a song.
-     * 
+     *
      * @param b
      * @return
      */
     public static Color colorFromMusic(int b) {
-        b = b == 0 ? 1 : b;
-        return new Color(5500 / java.lang.Math.abs(b), 0, 1, 1);
+//        b = b == 0 ? 1 : b;
+//        return new Color(5500 / java.lang.Math.abs(b), 0, 1, 1);
+        return b > 5500 ? Color.WHITE : Color.PURPLE;
     }
 }
