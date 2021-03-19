@@ -5,7 +5,7 @@ import com.patrick.game.util.Math;
 public class Particle extends Entity {
 
     public enum ParticleType {
-        star, damage
+        star, damage, powerUp
     }
 
     protected float timeToLive;

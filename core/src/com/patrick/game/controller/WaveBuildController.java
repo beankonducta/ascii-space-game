@@ -14,12 +14,11 @@ public class WaveBuildController {
     public static List<Enemy> buildEnemyList(int difficulty) {
         List<Enemy> enemyList = new ArrayList<Enemy>();
         int count = 0;
-        float max = CameraController.camera.viewportWidth - 50f;
         while (count < difficulty) {
-            float y = Math.randomBetween((int) CameraController.camera.viewportHeight, (int) (CameraController.camera.viewportHeight * 1.5f));
-            float x = Math.randomBetween(50, (int)(CameraController.camera.viewportWidth - 50));
-            int smarts = Math.randomBetween(Settings.MIN_ENEMY_SMARTS, Settings.MAX_ENEMY_SMARTS);
-            float speed = Math.floatRandomBetween(Settings.MIN_ENEMY_SPEED, Settings.MAX_ENEMY_SPEED);
+            final float y = Math.randomBetween((int) CameraController.camera.viewportHeight, (int) (CameraController.camera.viewportHeight * 1.5f));
+            final float x = Math.randomBetween(50, (int)(CameraController.camera.viewportWidth - 50));
+            final int smarts = Math.randomBetween(Settings.MIN_ENEMY_SMARTS, Settings.MAX_ENEMY_SMARTS);
+            final float speed = Math.floatRandomBetween(Settings.MIN_ENEMY_SPEED, Settings.MAX_ENEMY_SPEED);
             count += smarts + Math.round(speed / 2);
             enemyList.add(new Enemy(x, y, speed, Settings.ENEMY_DECEL, smarts, CHAR_FOR[smarts - 1]));
         }

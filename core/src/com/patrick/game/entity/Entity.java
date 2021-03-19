@@ -35,32 +35,8 @@ public class Entity {
         this.speed = speed;
     }
 
-    public void setDecel(float decel) {
-        this.decel = decel;
-    }
-
-    public void setCharacter(char character) {
-        this.character = character;
-    }
-
-    public void setCollider(Rectangle collider) {
-        this.collider = collider;
-    }
-
-    public void setTimer(float time) {
-        this.timer = time;
-    }
-
-    public void setActionTime(float time) {
-        this.actionTime = time;
-    }
-
     public float getSpeed() {
         return this.speed;
-    }
-
-    public float getDecel() {
-        return this.decel;
     }
 
     public float x() {
@@ -69,10 +45,6 @@ public class Entity {
 
     public float y() {
         return this.y;
-    }
-
-    public char getCharacter() {
-        return this.character;
     }
 
     public Rectangle getCollider() {

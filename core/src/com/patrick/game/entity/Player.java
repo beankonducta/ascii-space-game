@@ -41,10 +41,6 @@ public class Player extends Entity {
         return this.gunLevel;
     }
 
-    public void setGunLevel(int gunLevel) {
-        this.gunLevel = gunLevel;
-    }
-
     public int getLives() {
         return this.lives;
     }
@@ -57,10 +53,6 @@ public class Player extends Entity {
         this.points += points;
     }
 
-    public void subtractPoints(int points) {
-        this.points -= points;
-    }
-
     public int getPoints() {
         return this.points;
     }
@@ -68,6 +60,7 @@ public class Player extends Entity {
     public void processResource(Resource resource) {
         if(resource.getType() == Resource.ResourceType.GUN) this.gunLevel += resource.getLevel();
         else if(resource.getType() == Resource.ResourceType.LIFE) this.lives += resource.getLevel();
+        else if(resource.getType() == Resource.ResourceType.SHIELD) this.addShield();
     }
 
     public Player(float x, float y, float speed, float decel, char character) {
@@ -103,10 +96,6 @@ public class Player extends Entity {
                 font.draw(batch, "-", this.x() - 8 + i, this.y() + 14);
             }
         }
-//        if(this.y >= Settings.PLAYER_MAX_HEIGHT - 4)
-//            font.draw(batch, "-----", this.x() - 5, this.y() + 14);
-//        if(this.y <= Settings.PLAYER_MIN_HEIGHT + 4)
-//            font.draw(batch, "-----", this.x() - 5, this.y() - 4);
     }
 
     @Override

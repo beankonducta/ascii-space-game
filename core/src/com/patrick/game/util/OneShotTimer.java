@@ -8,6 +8,11 @@ public class OneShotTimer extends Timer {
         return this.finished;
     }
 
+    /**
+     * A one and done timer. Automatically sets to finished once the timer reaches the (max) time.
+     *
+     * @param max
+     */
     public OneShotTimer(float max) {
         super(max);
         this.finished = false;

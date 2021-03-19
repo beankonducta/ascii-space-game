@@ -9,8 +9,8 @@ public class Settings {
     public static final int PLAYER_WIDTH = 16;
     public static final int PLAYER_HEIGHT = 16;
 
-    public static final float PLAYER_SPEED = 300f;
-    public static final float PLAYER_DECEL = 600f;
+    public static final float PLAYER_SPEED = 250f;
+    public static final float PLAYER_DECEL = 400f;
 
     public static final int PLAYER_FLIPPABLE_ENTITY_X_OFFSET = 2;
 
@@ -39,7 +39,6 @@ public class Settings {
 
     public static final int WAVE_COUNT = 5;
 
-    public static final boolean DEBUG_COLLISION = false;
     public static final boolean DEBUG = false;
 
     public static final float MUSIC_VOLUME = .3f;

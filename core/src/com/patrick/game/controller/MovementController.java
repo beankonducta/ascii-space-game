@@ -62,7 +62,7 @@ public class MovementController {
         // flips enemy if it's on the horizontal edge of the screen
         if (enemy.x() < 30 || enemy.x() > CameraController.camera.viewportWidth - 30) enemy.flipDirection();
 
-        // moves enemy towards player, only if it's not flipping on the edge of the screen already
+            // moves enemy towards player, only if it's not flipping on the edge of the screen already
         else if (enemySeesPlayer && enemy.x() > 31 && enemy.x() < CameraController.camera.viewportWidth - 31)
             enemy.setDirection(difference > 0 ? -1 : 1);
 
@@ -70,8 +70,8 @@ public class MovementController {
         if (java.lang.Math.abs(difference) >= Settings.PLAYER_FLIPPABLE_ENTITY_X_OFFSET || enemy.getSmarts() < 3)
             enemy.setXVelocity(enemy.getSpeed());
 
-        // makes enemy go straight down
-        // this is kinda glitchy because it makes the enemy drop 'straight down' to the player
+            // makes enemy go straight down
+            // this is kinda glitchy because it makes the enemy drop 'straight down' to the player
         else
             enemy.setXVelocity(0);
 
@@ -110,7 +110,7 @@ public class MovementController {
             resource.setDirection(difference > 0 ? -1 : 1);
 
             // resource isn't above player, adjust position
-            resource.setXVelocity(Settings.RESOURCE_SPEED / 2);
+            resource.setXVelocity(Settings.RESOURCE_SPEED / 4);
         } else
             resource.setXVelocity(0);
         return false;
@@ -118,17 +118,19 @@ public class MovementController {
 
     public static boolean processBossMovement(Boss boss, Player player) {
         // keeps the boss on screen horizontally
-        if (boss.x() + boss.width() < 140 || boss.x() > CameraController.camera.viewportWidth - 24) boss.flipDirection();
+        if (boss.x() + boss.width() < 140 || boss.x() > CameraController.camera.viewportWidth - 24)
+            boss.flipDirection();
 
         // keeps the boss on screen vertically
-        if ((boss.y() < 80 || boss.y() - (boss.height() * 3) > CameraController.camera.viewportHeight - 24) && boss.hasEntered()) boss.flipYDirection();
+        if ((boss.y() < 80 || boss.y() - (boss.height() * 3) > CameraController.camera.viewportHeight - 24) && boss.hasEntered())
+            boss.flipYDirection();
 
         // set the boss velocity
         boss.setXVelocity(boss.getSpeed());
         boss.setYVelocity(boss.getSpeed());
 
         // triggers the boss to fire a bullet elsewhere
-        if(boss.getTimer() == 0) return true;
+        if (boss.getTimer() == 0) return true;
         return false;
     }
 }

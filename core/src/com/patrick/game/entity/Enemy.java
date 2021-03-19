@@ -12,10 +12,6 @@ public class Enemy extends FlippableEntity {
         return this.points;
     }
 
-    public void setSmarts(int smarts) {
-        this.smarts = smarts;
-    }
-
     public int getSmarts() {
         return this.smarts;
     }

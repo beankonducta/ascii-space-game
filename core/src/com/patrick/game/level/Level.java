@@ -71,14 +71,17 @@ public class Level {
         this.processWave();
         this.processRespawn();
         this.updateTimers(delta);
-        if(Settings.DEBUG) {
-            secondaryFont.draw(batch, "FPS: "+Gdx.graphics.getFramesPerSecond(), 0, 100);
-            secondaryFont.draw(batch, "PARTICLE COUNT: "+this.particles.size(), 0, 140);
-            secondaryFont.draw(batch, "ENEMY COUNT: "+this.waves.get(this.currentWave).getEnemies().size(), 0, 180);
+
+        if (Settings.DEBUG) {
+            secondaryFont.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 0, 100);
+            secondaryFont.draw(batch, "PARTICLE COUNT: " + this.particles.size(), 0, 140);
+            secondaryFont.draw(batch, "ENEMY COUNT: " + this.waves.get(this.currentWave).getEnemies().size(), 0, 180);
+
         }
 
-        if (Math.randomBetween(0, 5) == 0)
+        if (Math.randomBetween(0, 5) == 0 && !bossKilled && delta > .001f) {
             this.particles.addAll(ParticleController.waveOfStars(Math.randomBetween(1, 10)));
+        }
 
         if (this.player.isDead()) {
             secondaryFont.draw(batch, "rip", (CameraController.camera.viewportWidth / 2) - 9, CameraController.camera.viewportHeight / 2);
@@ -124,6 +127,7 @@ public class Level {
             if (MovementController.processResourceMovement(this.player, resource))
                 this.toRemove.add(resource);
         }
+
         this.player.update(delta);
         this.player.render(font, batch);
         this.player.move(delta);
@@ -227,6 +231,7 @@ public class Level {
     }
 
     private void processRespawn() {
+        if (this.player.getLives() <= 0) return;
         if (this.respawnTimer != null) {
             if (this.respawnTimer.isFinished()) {
                 this.respawnTimer = null;
@@ -263,14 +268,13 @@ public class Level {
                         if (CollisionController.basicCollision(bullet, enemy)) {
                             this.toRemove.add(bullet);
                             this.toRemove.add(enemy);
-                            this.particles.addAll(ParticleController.explosionParticles(enemy, Settings.EXPLOSION_SIZE));
+                            this.particles.addAll(ParticleController.explosionParticles(enemy.x(), enemy.y(), Settings.EXPLOSION_SIZE));
                             this.player.addPoints(enemy.getPoints());
                         }
                     }
                 }
             }
         }
-
     }
 
     private void processPlayerCollisions() {
@@ -279,10 +283,10 @@ public class Level {
                 if (CollisionController.basicCollision(this.player, bullet)) {
                     this.toRemove.add(bullet);
                     if (!this.player.getShield()) {
-                        this.particles.addAll(ParticleController.explosionParticles(this.player, Settings.EXPLOSION_SIZE));
+                        this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), Settings.EXPLOSION_SIZE));
                         this.killPlayer();
                     } else {
-                        this.particles.addAll(ParticleController.explosionParticles(this.player, 1));
+                        this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), 1));
                     }
                 }
             }
@@ -291,13 +295,13 @@ public class Level {
             if (enemy instanceof Boss) {
                 if (CollisionController.bossCollision((Boss) enemy, this.player) != null) {
                     if (!this.player.getShield()) {
-                        this.particles.addAll(ParticleController.explosionParticles(this.player, Settings.EXPLOSION_SIZE));
+                        this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), Settings.EXPLOSION_SIZE));
                         this.killPlayer();
                     }
                 }
             } else {
                 if (CollisionController.basicCollision(this.player, enemy)) {
-                    this.particles.addAll(ParticleController.explosionParticles(this.player, Settings.EXPLOSION_SIZE));
+                    this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), Settings.EXPLOSION_SIZE));
                     if (!this.player.getShield()) {
                         this.killPlayer();
                     } else
@@ -308,6 +312,7 @@ public class Level {
         for (Resource resource : this.resources) {
             if (CollisionController.basicCollision(this.player, resource)) {
                 this.player.processResource(resource);
+                this.particles.addAll(ParticleController.absorbtionParticles(player.x() + 4, player.y() - 4, 2));
                 this.toRemove.add(resource);
             }
         }
