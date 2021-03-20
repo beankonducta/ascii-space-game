@@ -27,6 +27,8 @@ public class AsciiSpaceGame extends Game {
      * TODO: Make max boss size, at which point we cycle back to more quantity of small bosses.
      * <p>
      * TODO: Slow down wave progression (waves get unweildy pretty quick)
+     * <p>
+     * TODO: Glitch if boss dies at same time as player (Game keeps progressing)
      */
     SpriteBatch batch;
     ShapeRenderer shape;
