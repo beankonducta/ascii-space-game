@@ -31,7 +31,7 @@ public class Wave {
             int size = difficulty / Settings.INITIAL_DIFFICULTY;
             this.enemies = new ArrayList<>();
             if(size > 5) size = 5;
-            Boss boss = new Boss((CameraController.camera.viewportWidth / 2) - Math.randomBetween(-100, 100), (CameraController.camera.viewportHeight - 48) - Math.randomBetween(-100, 100), 50f, 25f, difficulty, Ascii.coolS((size) - 1));
+            Boss boss = new Boss((CameraController.camera.viewportWidth / 2) - Math.randomBetween(-25, 25), (CameraController.camera.viewportHeight - 48) - Math.randomBetween(-25, 25), 50f, 25f, difficulty, Ascii.scimitar());
             boss.setDirection(Math.eitherOr(-1, 1));
             boss.setYDirection(Math.eitherOr(-1, 1));
             this.enemies.add(boss);

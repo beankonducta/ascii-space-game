@@ -39,7 +39,7 @@ public class Settings {
 
     public static final int WAVE_COUNT = 5;
 
-    public static final boolean DEBUG = true;
+    public static final boolean DEBUG = false;
 
     public static final float MUSIC_VOLUME = .3f;
     public static final float SOUND_VOLUME = .2f;

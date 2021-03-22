@@ -74,9 +74,10 @@ public class Player extends Entity {
 
     // kill the player
     public void killPlayer() {
+        if(this.x == -5000) return;
         this.gunLevel = 0;
         this.dead = true;
-        this.setPosition(-200, -200);
+        this.setPosition(-5000, -5000);
         this.removeLife();
     }
 
@@ -100,17 +101,18 @@ public class Player extends Entity {
 
     @Override
     public void move(float delta) {
-        if (this.x() <= Settings.PLAYER_MIN_X && this.xVelocity <= 0) {
+        if(this.x == -5000) return;
+        if (this.x <= Settings.PLAYER_MIN_X && this.xVelocity <= 0) {
             this.setXVelocity(0);
             this.x = Settings.PLAYER_MIN_X;
         }
-        if (this.x() >= CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X && this.xVelocity > 0) {
+        if (this.x >= CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X && this.xVelocity > 0) {
             this.setXVelocity(0);
             this.x = CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X;
         }
-        if (this.y() <= Settings.PLAYER_MIN_HEIGHT && this.yVelocity <= 0) {
+        if (this.y <= Settings.PLAYER_MIN_HEIGHT && this.yVelocity <= 0) {
             this.setYVelocity(0);
-            this. y = Settings.PLAYER_MIN_HEIGHT;
+            this.y = Settings.PLAYER_MIN_HEIGHT;
         }
         if (this.y() >= Settings.PLAYER_MAX_HEIGHT && this.yVelocity > 0) {
             this.setYVelocity(0);
