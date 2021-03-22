@@ -20,32 +20,26 @@ public class AsciiSpaceGame extends Game {
     /**
      * TODO: Add and sounds
      * <p>
-     * TODO: Add bounding box around player
-     * <p>
      * TODO: NEW GLITCH where enemies can go offscreen, now they ping back and forth in the lower 10% of left and right of screen sometimes
-     * <p>
-     * TODO: Make max boss size, at which point we cycle back to more quantity of small bosses.
-     * <p>
-     * TODO: Slow down wave progression (waves get unweildy pretty quick)
      */
-    SpriteBatch batch;
-    ShapeRenderer shape;
-    BitmapFont font;
-    BitmapFont secondaryFont;
-    BitmapFont thirdFont;
+    private SpriteBatch batch;
+    private ShapeRenderer shape;
+    private BitmapFont font;
+    private BitmapFont secondaryFont;
+    private BitmapFont thirdFont;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        shape = new ShapeRenderer();
-        shape.setAutoShapeType(true);
-        font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
-        secondaryFont = new BitmapFont(Gdx.files.internal("fonts/second_font.fnt"));
-        thirdFont = new BitmapFont(Gdx.files.internal("fonts/second_font.fnt"));
-        secondaryFont.setColor(Color.WHITE);
-        font.setColor(new Color(0f, 0f, 1f, 1f));
+        this.batch = new SpriteBatch();
+        this.shape = new ShapeRenderer();
+        this.shape.setAutoShapeType(true);
+        this.font = new BitmapFont(Gdx.files.internal("fonts/font.fnt"));
+        this.secondaryFont = new BitmapFont(Gdx.files.internal("fonts/second_font.fnt"));
+        this.thirdFont = new BitmapFont(Gdx.files.internal("fonts/second_font.fnt"));
+        this.secondaryFont.setColor(Color.WHITE);
+        this.font.setColor(new Color(0f, 0f, 1f, 1f));
         CameraController.resetCamera();
-        setScreen(new TitleScreen(this, font, secondaryFont, thirdFont, batch, shape, "press enter to begin"));
+        this.setScreen(new TitleScreen(this, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "press enter to begin"));
     }
 
     @Override

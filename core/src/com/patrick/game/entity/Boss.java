@@ -23,6 +23,10 @@ public class Boss extends Enemy {
         this.yDirection = -this.yDirection;
     }
 
+    public void setYDirection(int yDirection) {
+        this.yDirection = yDirection;
+    }
+
     public boolean hasEntered() {
         return this.entered;
     }

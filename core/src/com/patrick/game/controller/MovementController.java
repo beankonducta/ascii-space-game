@@ -11,32 +11,18 @@ import com.patrick.game.util.Settings;
 public class MovementController {
 
     public static boolean processPlayerMovement(Player player) {
-        // keeps player in bounds
-        // TODO: refactor - this is redundant to have this code here AND when we press a button.
-        if (player.x() < Settings.PLAYER_MIN_X) player.setXVelocity(0);
-        if (player.x() > CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X) player.setXVelocity(0);
-        if (player.y() < Settings.PLAYER_MIN_HEIGHT) player.setYVelocity(0);
-        if (player.y() > Settings.PLAYER_MAX_HEIGHT) player.setYVelocity(0);
 
         // process movement keys
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            if (player.y() > Settings.PLAYER_MAX_HEIGHT) player.setYVelocity(0);
-            else
                 player.setYVelocity(player.getSpeed());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            if (player.y() < Settings.PLAYER_MIN_HEIGHT) player.setYVelocity(0);
-            else
                 player.setYVelocity(-player.getSpeed());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            if (player.x() < Settings.PLAYER_MIN_X) player.setXVelocity(0);
-            else
                 player.setXVelocity(-player.getSpeed());
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            if (player.x() > CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X) player.setXVelocity(0);
-            else
                 player.setXVelocity(player.getSpeed());
         }
 
@@ -122,7 +108,7 @@ public class MovementController {
             boss.flipDirection();
 
         // keeps the boss on screen vertically
-        if ((boss.y() < 80 || boss.y() - (boss.height() * 3) > CameraController.camera.viewportHeight - 24) && boss.hasEntered())
+        if ((boss.y() < 80 || boss.y() - (boss.height() * 3) > CameraController.camera.viewportHeight - 24))
             boss.flipYDirection();
 
         // set the boss velocity

@@ -99,6 +99,27 @@ public class Player extends Entity {
     }
 
     @Override
+    public void move(float delta) {
+        if (this.x() <= Settings.PLAYER_MIN_X && this.xVelocity <= 0) {
+            this.setXVelocity(0);
+            this.x = Settings.PLAYER_MIN_X;
+        }
+        if (this.x() >= CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X && this.xVelocity > 0) {
+            this.setXVelocity(0);
+            this.x = CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X;
+        }
+        if (this.y() <= Settings.PLAYER_MIN_HEIGHT && this.yVelocity <= 0) {
+            this.setYVelocity(0);
+            this. y = Settings.PLAYER_MIN_HEIGHT;
+        }
+        if (this.y() >= Settings.PLAYER_MAX_HEIGHT && this.yVelocity > 0) {
+            this.setYVelocity(0);
+            this.y = Settings.PLAYER_MAX_HEIGHT;
+        }
+        super.move(delta);
+    }
+
+    @Override
     public void update(float delta) {
 
         // process bullet cooldown

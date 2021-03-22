@@ -51,14 +51,6 @@ public class GameScreen implements Screen {
     public void render(float delta) {
         delta = this.player.getLives() <= 0 ? .001f : java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-//        this.shape.begin(ShapeRenderer.ShapeType.Line);
-////        this.shape.setColor(ColorShifter.shiftColor(this.font, delta));
-//        this.shape.setColor(ColorShifter.shiftColor(this.font, delta));
-//        this.shape.rect(0, 0, CameraController.camera.viewportWidth / 8, Math.abs(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44100)] / 10));
-//        this.shape.rect(CameraController.camera.viewportWidth * .875f, 0, CameraController.camera.viewportWidth / 8, Math.abs(Resources.RAW_TEST_MUSIC[0][(int)(Resources.TEST_MUSIC.getPosition() * 44100)] / 10));
-//        this.shape.setColor(Color.BLACK);
-//        this.shape.rect(CameraController.camera.viewportWidth / 8, 0, CameraController.camera.viewportWidth * .75f, CameraController.camera.viewportHeight);
-//        this.shape.end();
         Gdx.gl.glViewport(Gdx.graphics.getWidth() / 8, 0, (int) (Gdx.graphics.getWidth() * .75f), Gdx.graphics.getHeight());
         this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int) (Resources.TEST_MUSIC.getPosition() * 44100)]));
         this.thirdFont.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int) (Resources.TEST_MUSIC.getPosition() * 44100)]));
@@ -69,6 +61,14 @@ public class GameScreen implements Screen {
         this.drawHud();
         this.level.process(delta, this.font, this.secondaryFont, this.thirdFont, this.batch);
         this.batch.end();
+        this.shape.begin(ShapeRenderer.ShapeType.Line);
+        this.shape.setColor(ColorShifter.shiftColor(this.font, delta));
+        if (this.player.x() <= Settings.PLAYER_MIN_X ||
+                this.player.x() >= CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X ||
+                this.player.y() <= Settings.PLAYER_MIN_HEIGHT ||
+                this.player.y() >= Settings.PLAYER_MAX_HEIGHT)
+            this.shape.rect(Settings.PLAYER_MIN_X, Settings.PLAYER_MIN_HEIGHT- 20, CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X + 6, Settings.PLAYER_MAX_HEIGHT - 20);
+        this.shape.end();
     }
 
     private void drawHud() {
@@ -121,7 +121,7 @@ public class GameScreen implements Screen {
 
     private void nextLevel() {
         if (this.level.isFinished()) {
-            this.difficulty = this.difficulty * 2;
+            this.difficulty = (int) (this.difficulty * 1.55f);
             this.level = new Level(this.difficulty, this.player);
         }
     }

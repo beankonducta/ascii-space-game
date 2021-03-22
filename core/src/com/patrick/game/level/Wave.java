@@ -6,6 +6,7 @@ import com.patrick.game.entity.Boss;
 import com.patrick.game.entity.Enemy;
 import com.patrick.game.entity.Entity;
 import com.patrick.game.util.Ascii;
+import com.patrick.game.util.Math;
 import com.patrick.game.util.Settings;
 
 import java.util.ArrayList;
@@ -27,8 +28,13 @@ public class Wave {
 
     public Wave(boolean bossOnly, int difficulty) {
         if (bossOnly) {
+            int size = difficulty / Settings.INITIAL_DIFFICULTY;
             this.enemies = new ArrayList<>();
-            this.enemies.add(new Boss(CameraController.camera.viewportWidth / 2, CameraController.camera.viewportHeight - 48, 50f, 25f, difficulty, Ascii.coolS((difficulty / Settings.INITIAL_DIFFICULTY) - 1)));
+            if(size > 5) size = 5;
+            Boss boss = new Boss((CameraController.camera.viewportWidth / 2) - Math.randomBetween(-100, 100), (CameraController.camera.viewportHeight - 48) - Math.randomBetween(-100, 100), 50f, 25f, difficulty, Ascii.coolS((size) - 1));
+            boss.setDirection(Math.eitherOr(-1, 1));
+            boss.setYDirection(Math.eitherOr(-1, 1));
+            this.enemies.add(boss);
 
         } else return;
     }

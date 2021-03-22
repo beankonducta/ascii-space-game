@@ -39,10 +39,14 @@ public class Settings {
 
     public static final int WAVE_COUNT = 5;
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     public static final float MUSIC_VOLUME = .3f;
     public static final float SOUND_VOLUME = .2f;
 
     public static final int INITIAL_DIFFICULTY = 300;
+
+    public static final int MAX_ENEMIES = 100;
+
+    public static final int MAX_PARTICLES = 1000;
 }

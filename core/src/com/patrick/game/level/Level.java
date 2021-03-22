@@ -319,6 +319,9 @@ public class Level {
     }
 
     private void removeEntities() {
+        if (this.particles.size() > Settings.MAX_PARTICLES)
+            for (int i = 0; i > this.particles.size() - Settings.MAX_PARTICLES; i++)
+                this.particles.remove(i);
         for (Entity entity : this.toRemove) {
             if (entity instanceof Bullet)
                 this.bullets.remove(entity);

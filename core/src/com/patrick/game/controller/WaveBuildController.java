@@ -14,7 +14,7 @@ public class WaveBuildController {
     public static List<Enemy> buildEnemyList(int difficulty) {
         List<Enemy> enemyList = new ArrayList<Enemy>();
         int count = 0;
-        while (count < difficulty) {
+        while (count < difficulty && count / Settings.INITIAL_DIFFICULTY <= Settings.MAX_ENEMIES) {
             final float y = Math.randomBetween((int) CameraController.camera.viewportHeight, (int) (CameraController.camera.viewportHeight * 1.5f));
             final float x = Math.randomBetween(50, (int)(CameraController.camera.viewportWidth - 50));
             final int smarts = Math.randomBetween(Settings.MIN_ENEMY_SMARTS, Settings.MAX_ENEMY_SMARTS);
