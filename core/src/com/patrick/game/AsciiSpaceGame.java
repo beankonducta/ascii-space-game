@@ -8,13 +8,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.controller.CameraController;
-import com.patrick.game.controller.MusicController;
 import com.patrick.game.screen.TitleScreen;
-import com.patrick.game.util.AudioUtils;
-import com.patrick.game.util.Resources;
-
-import javax.sound.sampled.UnsupportedAudioFileException;
-import java.io.IOException;
 
 public class AsciiSpaceGame extends Game {
     /**
