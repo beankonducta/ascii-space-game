@@ -13,8 +13,10 @@ public class Player extends Entity {
     protected int bulletCooldown;
     protected int points;
     protected float shieldTimer;
+    protected float heightTimer;
     protected boolean shield;
     protected boolean dead;
+    protected boolean heightIncrease;
 
     public boolean isDead() {
         return this.dead;
@@ -25,7 +27,7 @@ public class Player extends Entity {
     }
 
     public void addBulletCooldown() {
-        if(this.bulletCooldown < Settings.BULLET_COOLDOWN) this.bulletCooldown ++;
+        if (this.bulletCooldown < Settings.BULLET_COOLDOWN) this.bulletCooldown++;
     }
 
     public boolean getShield() {
@@ -37,6 +39,11 @@ public class Player extends Entity {
         this.shieldTimer = 0f;
     }
 
+    public void addHeightIncrease() {
+        this.heightIncrease = true;
+        this.heightTimer = 0f;
+    }
+
     public int getGunLevel() {
         return this.gunLevel;
     }
@@ -46,7 +53,7 @@ public class Player extends Entity {
     }
 
     public void removeLife() {
-        this.lives --;
+        this.lives--;
     }
 
     public void addPoints(int points) {
@@ -58,9 +65,10 @@ public class Player extends Entity {
     }
 
     public void processResource(Resource resource) {
-        if(resource.getType() == Resource.ResourceType.GUN) this.gunLevel += resource.getLevel();
-        else if(resource.getType() == Resource.ResourceType.LIFE) this.lives += resource.getLevel();
-        else if(resource.getType() == Resource.ResourceType.SHIELD) this.addShield();
+        if (resource.getType() == Resource.ResourceType.GUN) this.gunLevel += resource.getLevel();
+        else if (resource.getType() == Resource.ResourceType.LIFE) this.lives += resource.getLevel();
+        else if (resource.getType() == Resource.ResourceType.SHIELD) this.addShield();
+        else if (resource.getType() == Resource.ResourceType.HEIGHT) this.addHeightIncrease();
     }
 
     public Player(float x, float y, float speed, float decel, char character) {
@@ -74,7 +82,7 @@ public class Player extends Entity {
 
     // kill the player
     public void killPlayer() {
-        if(this.x == -5000) return;
+        if (this.x == -5000) return;
         this.gunLevel = 0;
         this.dead = true;
         this.setPosition(-5000, -5000);
@@ -92,8 +100,8 @@ public class Player extends Entity {
     @Override
     public void render(BitmapFont font, Batch batch) {
         super.render(font, batch);
-        if(this.shield) {
-            for(int i = 0; i < 32; i += 4) {
+        if (this.shield) {
+            for (int i = 0; i < 32; i += 4) {
                 font.draw(batch, "-", this.x() - 8 + i, this.y() + 14);
             }
         }
@@ -101,7 +109,7 @@ public class Player extends Entity {
 
     @Override
     public void move(float delta) {
-        if(this.x == -5000) return;
+        if (this.x == -5000) return;
         if (this.x <= Settings.PLAYER_MIN_X && this.xVelocity <= 0) {
             this.setXVelocity(0);
             this.x = Settings.PLAYER_MIN_X;
@@ -125,14 +133,31 @@ public class Player extends Entity {
     public void update(float delta) {
 
         // process bullet cooldown
-        if(this.timer == 0 && this.bulletCooldown > 0)
-            this.bulletCooldown --;
+        if (this.timer == 0 && this.bulletCooldown > 0)
+            this.bulletCooldown--;
 
         // process shield
-        if(this.shield)
+        if (this.shield)
             this.shieldTimer += delta;
-        if(this.shieldTimer > 5f)
+        if (this.shieldTimer > 5f)
             this.shield = false;
+
+        // process height increase
+        if (this.heightIncrease && this.heightTimer <= 15f) {
+            if (Settings.PLAYER_MAX_HEIGHT <= Settings.PLAYER_BASE_MAX_HEIGHT + Settings.PLAYER_HEIGHT_INCREASE)
+                Settings.PLAYER_MAX_HEIGHT += 3;
+            this.heightTimer += delta;
+        }
+        if (this.heightTimer > 15f && this.heightIncrease) {
+            if (Settings.PLAYER_MAX_HEIGHT > Settings.PLAYER_BASE_MAX_HEIGHT)
+                Settings.PLAYER_MAX_HEIGHT -= 1;
+            else
+                this.heightIncrease = false;
+        }
+
+        // keep player in bounds
+        if (this.y > Settings.PLAYER_MAX_HEIGHT)
+            this.y -= 1;
 
         super.update(delta);
     }

@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
         this.batch.end();
         this.shape.begin(ShapeRenderer.ShapeType.Line);
         this.shape.setColor(ColorShifter.shiftColor(this.font, delta));
-        if (this.player.x() <= Settings.PLAYER_MIN_X ||
+        if (Settings.PLAYER_MAX_HEIGHT > Settings.PLAYER_BASE_MAX_HEIGHT || this.player.x() <= Settings.PLAYER_MIN_X ||
                 this.player.x() >= CameraController.camera.viewportWidth - Settings.PLAYER_MAX_X ||
                 this.player.y() <= Settings.PLAYER_MIN_HEIGHT ||
                 this.player.y() >= Settings.PLAYER_MAX_HEIGHT)

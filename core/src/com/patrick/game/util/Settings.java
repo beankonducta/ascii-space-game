@@ -2,8 +2,10 @@ package com.patrick.game.util;
 
 public class Settings {
 
-    public static final int PLAYER_MAX_HEIGHT = 100;
+    public static int PLAYER_MAX_HEIGHT = 100;
+    public static final int PLAYER_BASE_MAX_HEIGHT = 100;
     public static final int PLAYER_MIN_HEIGHT = 36;
+    public static final int PLAYER_HEIGHT_INCREASE = 200;
     public static final int PLAYER_MAX_X = 24;
     public static final int PLAYER_MIN_X = 10;
     public static final int PLAYER_WIDTH = 16;
@@ -39,7 +41,7 @@ public class Settings {
 
     public static final int WAVE_COUNT = 5;
 
-    public static final boolean DEBUG = false;
+    public static final boolean DEBUG = true;
 
     public static final float MUSIC_VOLUME = .3f;
     public static final float SOUND_VOLUME = .2f;

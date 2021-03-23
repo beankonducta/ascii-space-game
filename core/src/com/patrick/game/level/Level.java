@@ -79,6 +79,9 @@ public class Level {
 
         }
 
+        if (Math.randomBetween(0, 500) == 0)
+            this.resources.add(ResourceSpawnController.randomResource());
+
         if (Math.randomBetween(0, 5) == 0 && !bossKilled && delta > .001f) {
             this.particles.addAll(ParticleController.waveOfStars(Math.randomBetween(1, 10)));
         }
@@ -278,37 +281,39 @@ public class Level {
     }
 
     private void processPlayerCollisions() {
-        for (Bullet bullet : this.bullets) {
-            if (bullet.getOwner() != Bullet.BulletOwner.PLAYER) {
-                if (CollisionController.basicCollision(this.player, bullet)) {
-                    this.toRemove.add(bullet);
-                    if (!this.player.getShield()) {
-                        this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), Settings.EXPLOSION_SIZE));
-                        this.killPlayer();
-                    } else {
-                        this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), 1));
+        if (!Settings.DEBUG)
+            for (Bullet bullet : this.bullets) {
+                if (bullet.getOwner() != Bullet.BulletOwner.PLAYER) {
+                    if (CollisionController.basicCollision(this.player, bullet)) {
+                        this.toRemove.add(bullet);
+                        if (!this.player.getShield()) {
+                            this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), Settings.EXPLOSION_SIZE));
+                            this.killPlayer();
+                        } else {
+                            this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), 1));
+                        }
                     }
                 }
             }
-        }
-        for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
-            if (enemy instanceof Boss) {
-                if (CollisionController.bossCollision((Boss) enemy, this.player) != null) {
-                    if (!this.player.getShield()) {
+        if (!Settings.DEBUG)
+            for (Enemy enemy : this.waves.get(this.currentWave).getEnemies()) {
+                if (enemy instanceof Boss) {
+                    if (CollisionController.bossCollision((Boss) enemy, this.player) != null) {
+                        if (!this.player.getShield()) {
+                            this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), Settings.EXPLOSION_SIZE));
+                            this.killPlayer();
+                        }
+                    }
+                } else {
+                    if (CollisionController.basicCollision(this.player, enemy)) {
                         this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), Settings.EXPLOSION_SIZE));
-                        this.killPlayer();
+                        if (!this.player.getShield()) {
+                            this.killPlayer();
+                        } else
+                            this.toRemove.add(enemy);
                     }
                 }
-            } else {
-                if (CollisionController.basicCollision(this.player, enemy)) {
-                    this.particles.addAll(ParticleController.explosionParticles(this.player.x(), this.player.y(), Settings.EXPLOSION_SIZE));
-                    if (!this.player.getShield()) {
-                        this.killPlayer();
-                    } else
-                        this.toRemove.add(enemy);
-                }
             }
-        }
         for (Resource resource : this.resources) {
             if (CollisionController.basicCollision(this.player, resource)) {
                 this.player.processResource(resource);

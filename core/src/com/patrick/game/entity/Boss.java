@@ -20,7 +20,10 @@ public class Boss extends Enemy {
     }
 
     public void flipYDirection() {
-        this.yDirection = -this.yDirection;
+        if (this.flipTimer == 0) {
+            this.yDirection = -this.yDirection;
+            System.out.println("FLIPPING Y");
+        }
     }
 
     public void setYDirection(int yDirection) {
@@ -36,11 +39,11 @@ public class Boss extends Enemy {
     }
 
     public float width() {
-        return this.colliders.length * 6;
+        return this.colliders.length * 12;
     }
 
     public float height() {
-        return this.colliders[0].length * 6;
+        return this.colliders[0].length * 12;
     }
 
     public void removeCharAt(int x, int y) {

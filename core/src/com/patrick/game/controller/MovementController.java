@@ -104,11 +104,11 @@ public class MovementController {
 
     public static boolean processBossMovement(Boss boss, Player player) {
         // keeps the boss on screen horizontally
-        if (boss.x() + boss.width() < 140 || boss.x() > CameraController.camera.viewportWidth - 24)
+        if (boss.x() + boss.width() < 48 || boss.x() > CameraController.camera.viewportWidth - 48)
             boss.flipDirection();
 
         // keeps the boss on screen vertically
-        if ((boss.y() < 80 || boss.y() - (boss.height() * 3) > CameraController.camera.viewportHeight - 24))
+        if ((boss.y() < 48 || boss.y() - boss.height() > CameraController.camera.viewportHeight - 48))
             boss.flipYDirection();
 
         // set the boss velocity

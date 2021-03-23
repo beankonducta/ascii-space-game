@@ -8,7 +8,7 @@ import com.patrick.game.util.Settings;
 public class Resource extends FlippableEntity {
 
     public enum ResourceType {
-        LIFE, GUN, SHIELD;
+        LIFE, GUN, SHIELD, HEIGHT;
     }
 
     private ResourceType type;
@@ -36,6 +36,7 @@ public class Resource extends FlippableEntity {
         if(type == ResourceType.GUN) return 'V';
         else if(type == ResourceType.LIFE) return 'L';
         else if(type == ResourceType.SHIELD) return 'S';
+        else if(type == ResourceType.HEIGHT) return 'M';
         return ' ';
     }
 
