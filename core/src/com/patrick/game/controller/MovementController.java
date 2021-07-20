@@ -26,6 +26,10 @@ public class MovementController {
                 player.setXVelocity(player.getSpeed());
         }
 
+        // quit, for our arcade cabinet
+        if(Gdx.input.isKeyPressed(Input.Keys.O) && Gdx.input.isKeyPressed(Input.Keys.P))
+            System.exit(-1);
+
         // process action key, return true so we can perform an action elsewhere
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             return true;

@@ -65,7 +65,10 @@ public class Player extends Entity {
     }
 
     public void processResource(Resource resource) {
-        if (resource.getType() == Resource.ResourceType.GUN) this.gunLevel += resource.getLevel();
+        if (resource.getType() == Resource.ResourceType.GUN) {
+            this.gunLevel += resource.getLevel();
+            this.bulletCooldown = 0;
+        }
         else if (resource.getType() == Resource.ResourceType.LIFE) this.lives += resource.getLevel();
         else if (resource.getType() == Resource.ResourceType.SHIELD) this.addShield();
         else if (resource.getType() == Resource.ResourceType.HEIGHT) this.addHeightIncrease();
