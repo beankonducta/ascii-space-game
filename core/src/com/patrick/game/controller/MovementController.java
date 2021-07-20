@@ -12,6 +12,11 @@ public class MovementController {
 
     public static boolean processPlayerMovement(Player player) {
 
+        // quit, for our arcade cabinet
+        if(Gdx.input.isKeyPressed(Input.Keys.LEFT_BRACKET) && Gdx.input.isKeyPressed(Input.Keys.RIGHT_BRACKET)) {
+            System.exit(-1);
+        }
+
         // process movement keys
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
                 player.setYVelocity(player.getSpeed());
@@ -25,10 +30,6 @@ public class MovementController {
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
                 player.setXVelocity(player.getSpeed());
         }
-
-        // quit, for our arcade cabinet
-        if(Gdx.input.isKeyPressed(Input.Keys.O) && Gdx.input.isKeyPressed(Input.Keys.P))
-            System.exit(-1);
 
         // process action key, return true so we can perform an action elsewhere
         if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
