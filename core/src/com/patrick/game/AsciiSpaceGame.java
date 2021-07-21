@@ -33,7 +33,7 @@ public class AsciiSpaceGame extends Game {
         this.secondaryFont.setColor(Color.WHITE);
         this.font.setColor(new Color(0f, 0f, 1f, 1f));
         CameraController.resetCamera();
-        this.setScreen(new TitleScreen(this, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "press enter to begin"));
+        this.setScreen(new TitleScreen(this, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "press enter to begin", -1));
     }
 
     @Override

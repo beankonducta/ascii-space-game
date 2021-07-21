@@ -92,6 +92,13 @@ public class Player extends Entity {
         this.removeLife();
     }
 
+    public void permaKillPlayer() {
+        this.lives = 0;
+        this.dead = true;
+        this.gunLevel = 0;
+        this.setPosition(-5000, -5000);
+    }
+
     // reset the player after respawn
     public void resetPlayer() {
         this.setPosition(CameraController.camera.viewportWidth / 2, 40);

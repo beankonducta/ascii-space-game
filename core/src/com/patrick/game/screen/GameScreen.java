@@ -116,7 +116,7 @@ public class GameScreen implements Screen {
                 this.deathTimer = new OneShotTimer(.5f);
             this.deathTimer.update(delta);
             if (this.deathTimer.isFinished())
-                this.game.setScreen(new TitleScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "you died, press enter to try again. your score was " + this.player.getPoints()));
+                this.game.setScreen(new TitleScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "you died, press enter to try again. your score was " + this.player.getPoints(), this.player.getPoints()));
         }
     }
 

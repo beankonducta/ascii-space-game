@@ -69,4 +69,19 @@ public class Math {
         if (random == 0) return -1 * value;
         return value;
     }
+
+    /**
+     * Checks if str is a number.
+     *
+     * @param str
+     * @return
+     */
+    public static boolean isNumeric(String str) {
+        try {
+            Double.parseDouble(str);
+            return true;
+        } catch(NumberFormatException e){
+            return false;
+        }
+    }
 }

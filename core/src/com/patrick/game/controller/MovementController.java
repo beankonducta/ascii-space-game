@@ -36,6 +36,10 @@ public class MovementController {
             return true;
         }
 
+        if (Gdx.input.isKeyJustPressed(Input.Keys.M)) {
+            player.permaKillPlayer();
+        }
+
         // action key held, return true so we can perform an action elsewhere
         if (Gdx.input.isKeyPressed(Input.Keys.SPACE) && player.getGunLevel() >= 2) {
             return true;
