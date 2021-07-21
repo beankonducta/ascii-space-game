@@ -36,6 +36,8 @@ public class TitleScreen implements Screen {
     private int pointer;
     private char[][] titleChars;
 
+    private boolean editingName;
+
     public TitleScreen(Game game, BitmapFont font, BitmapFont secondaryFont, BitmapFont thirdFont, Batch batch, ShapeRenderer shape, String titleString, int score) {
         this.game = game;
         this.font = font;
@@ -60,24 +62,23 @@ public class TitleScreen implements Screen {
                 "                                                                       ", 71);
         MusicController.setMusic(Math.randomBetween(0, Resources.MUSIC.length - 1));
         this.readScores();
-        if (this.score > Integer.parseInt(this.scores[this.scores.length -1].substring(10)) || (this.scores.length < 15 && this.score > -1)) {
+        if (this.score > Integer.parseInt(this.scores[this.scores.length - 1].substring(10)) || (this.scores.length < 15 && this.score > -1)) {
+            this.editingName = true;
             this.name = new char[3];
             this.name[0] = 'a';
-            this.name[1] = 'a';
-            this.name[2] = 'a';
+            this.name[1] = 'b';
+            this.name[2] = 'c';
             this.pointer = 0;
-            this.writeScore();
-            this.readScores();
         }
     }
 
     private void movePointer(int dir) {
-        if (this.pointer + dir > 0 && this.pointer + dir < 2) this.pointer += dir;
+        if (this.pointer + dir > -1 && this.pointer + dir < 3) this.pointer += dir;
     }
 
     private void changeLetter(int dir) {
         char[] alphabet = "abcdefghijklmnopqrstuvwxyz".toCharArray();
-        int slot = this.name[this.pointer] + dir;
+        int slot = new String(alphabet).indexOf(this.name[this.pointer]) + dir;
         if (slot < 0) slot = alphabet.length - 1;
         if (slot > alphabet.length - 1) slot = 0;
         this.name[this.pointer] = alphabet[slot];
@@ -93,21 +94,46 @@ public class TitleScreen implements Screen {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.thirdFont.setColor(ColorShifter.colorFromMusic(Resources.RAW_MUSIC[MusicController.ID][0][(int) (Resources.MUSIC[MusicController.ID].getPosition() * 44100)]));
-        if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
-            this.game.setScreen(new GameScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape));
+        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+            if (this.editingName) {
+                this.writeScore();
+                this.readScores();
+                this.editingName = false;
+            } else
+                this.game.setScreen(new GameScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape));
         }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
+            this.changeLetter(1);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+            this.changeLetter(-1);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
+            this.movePointer(-1);
+        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
+            this.movePointer(1);
         this.batch.begin();
         this.batch.setProjectionMatrix(CameraController.camera.combined);
+        if(!this.editingName)
         this.thirdFont.draw(this.batch, this.titleString, CameraController.camera.viewportWidth / 2 - (this.titleString.length() * 3), CameraController.camera.viewportHeight / 2);
         for (int i = 0; i < this.titleChars.length; i++)
             for (int j = 0; j < this.titleChars[i].length; j++)
                 this.thirdFont.draw(this.batch, "" + this.titleChars[i][j], 100 + (j * 6), CameraController.camera.viewportHeight - 50 - (i * 12));
 
         // high scores!
-        this.thirdFont.draw(this.batch, "Hi - Scorez:", 15, CameraController.camera.viewportHeight - 200 + 20);
+        this.thirdFont.draw(this.batch, "Hi scorez:", 15, CameraController.camera.viewportHeight - 200 + 20);
         for (int i = 0; i < this.scores.length - 1; i++)
             this.thirdFont.draw(this.batch, this.scores[i], 15, CameraController.camera.viewportHeight - 200 - (i * 12));
 
+        // name editor
+        if (this.editingName) {
+            String str = "Hi score of "+this.score+"! Add your name: ";
+            this.thirdFont.draw(this.batch, str, CameraController.camera.viewportWidth / 2 - (str.length() * 3), CameraController.camera.viewportHeight / 2);
+            for (int i = 0; i < this.name.length; i++) {
+                this.thirdFont.draw(this.batch, "" + this.name[i], CameraController.camera.viewportWidth / 2 - (str.length() * 3) + (15*i), CameraController.camera.viewportHeight / 2 - 50);
+                if(this.pointer == i)
+                    this.thirdFont.draw(this.batch, "_", CameraController.camera.viewportWidth / 2 - (str.length() * 3) + (15*i), CameraController.camera.viewportHeight / 2 - 60);
+            }
+
+        }
         this.batch.end();
     }
 
@@ -138,7 +164,7 @@ public class TitleScreen implements Screen {
 
     private void writeScore() {
         FileHandle file = Gdx.files.local("myfile.txt");
-        file.writeString(" fff" + this.score, true);
+        file.writeString(" "+this.name[0]+this.name[1]+this.name[2] + this.score, true);
     }
 
     private void readScores() {
