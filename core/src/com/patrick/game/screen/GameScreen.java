@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.controller.CameraController;
+import com.patrick.game.controller.MusicController;
 import com.patrick.game.entity.Player;
 import com.patrick.game.level.Level;
 import com.patrick.game.util.ColorShifter;
@@ -52,8 +53,8 @@ public class GameScreen implements Screen {
         delta = this.player.getLives() <= 0 ? .001f : java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         Gdx.gl.glViewport(Gdx.graphics.getWidth() / 8, 0, (int) (Gdx.graphics.getWidth() * .75f), Gdx.graphics.getHeight());
-        this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int) (Resources.TEST_MUSIC.getPosition() * 44100)]));
-        this.thirdFont.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int) (Resources.TEST_MUSIC.getPosition() * 44100)]));
+        this.font.setColor(ColorShifter.colorFromMusic(Resources.RAW_MUSIC[MusicController.ID][0][(int) (Resources.MUSIC[MusicController.ID].getPosition() * 44100)]));
+        this.thirdFont.setColor(ColorShifter.colorFromMusic(Resources.RAW_MUSIC[MusicController.ID][0][(int) (Resources.MUSIC[MusicController.ID].getPosition() * 44100)]));
         this.playerDeath(delta);
         this.nextLevel();
         this.batch.begin();

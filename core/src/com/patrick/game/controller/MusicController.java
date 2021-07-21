@@ -8,7 +8,7 @@ public class MusicController {
 
 
     private static Music music;
-    private static int musicId;
+    public static int ID;
 
     /**
      * Sets current music, adds oncomplete listener to play the next song afterwards.
@@ -17,7 +17,7 @@ public class MusicController {
      */
     public static void setMusic(int id) {
         if(id > Resources.MUSIC.length - 1) id = 0;
-        musicId = id;
+        ID = id;
         stop();
         music = Resources.MUSIC[id];
         music.setVolume(Settings.MUSIC_VOLUME);
@@ -25,7 +25,7 @@ public class MusicController {
         music.setOnCompletionListener(new Music.OnCompletionListener() {
             @Override
             public void onCompletion(Music music) {
-                setMusic(musicId ++);
+                setMusic(ID ++);
             }
         });
     }

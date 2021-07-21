@@ -10,8 +10,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.controller.CameraController;
+import com.patrick.game.controller.MusicController;
 import com.patrick.game.util.Ascii;
 import com.patrick.game.util.ColorShifter;
+import com.patrick.game.util.Math;
 import com.patrick.game.util.Resources;
 
 public class TitleScreen implements Screen {
@@ -47,8 +49,7 @@ public class TitleScreen implements Screen {
                 "                   \\/\\_____\\  \\ \\_\\    \\ \\_\\ \\_\\  \\ \\_____\\  \\ \\_____\\ " +
                 "                    \\/_____/   \\/_/     \\/_/\\/_/   \\/_____/   \\/_____/ " +
                 "                                                                       ", 71);
-        Resources.TEST_MUSIC.play();
-        Resources.TEST_MUSIC.setLooping(true);
+        MusicController.setMusic(Math.randomBetween(0, Resources.MUSIC.length - 1));
     }
 
     @Override
@@ -60,7 +61,7 @@ public class TitleScreen implements Screen {
     public void render(float delta) {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
-        this.thirdFont.setColor(ColorShifter.colorFromMusic(Resources.RAW_TEST_MUSIC[0][(int) (Resources.TEST_MUSIC.getPosition() * 44100)]));
+        this.thirdFont.setColor(ColorShifter.colorFromMusic(Resources.RAW_MUSIC[MusicController.ID][0][(int) (Resources.MUSIC[MusicController.ID].getPosition() * 44100)]));
         if (Gdx.input.isKeyPressed(Input.Keys.ENTER)) {
             this.game.setScreen(new GameScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape));
         }
