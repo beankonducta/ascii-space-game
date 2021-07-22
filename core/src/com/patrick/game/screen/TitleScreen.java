@@ -167,12 +167,12 @@ public class TitleScreen implements Screen {
     }
 
     private void writeScore() {
-        FileHandle file = Gdx.files.local("scores.txt");
+        FileHandle file = Gdx.files.local("ascii_space_assets/scores.txt");
         file.writeString(" "+this.name[0]+this.name[1]+this.name[2] + this.score, true);
     }
 
     private void readScores() {
-        FileHandle file = Gdx.files.local("scores.txt");
+        FileHandle file = Gdx.files.local("/ascii_space_assets/scores.txt");
         String[] scoresArray = file.readString().split(" ");
         Arrays.sort(scoresArray, new Comparator<String>() {
             @Override
