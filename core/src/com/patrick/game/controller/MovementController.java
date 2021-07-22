@@ -6,6 +6,7 @@ import com.patrick.game.entity.Boss;
 import com.patrick.game.entity.Enemy;
 import com.patrick.game.entity.Player;
 import com.patrick.game.entity.Resource;
+import com.patrick.game.util.Math;
 import com.patrick.game.util.Settings;
 
 public class MovementController {
@@ -52,7 +53,7 @@ public class MovementController {
         final float difference = enemy.x() - player.x();
 
         // player in enemy sights
-        final boolean enemySeesPlayer = enemy.getSmarts() >= 3 && enemy.y() > player.y() && Math.abs(enemy.x() - player.x()) < 50 && enemy.y() - player.y() < 200;
+        final boolean enemySeesPlayer = enemy.getSmarts() >= 3 && enemy.y() > player.y() && java.lang.Math.abs(enemy.x() - player.x()) < 50 && enemy.y() - player.y() < 200;
 
         // flips enemy if it's on the horizontal edge of the screen
         if (enemy.x() < 30 || enemy.x() > CameraController.camera.viewportWidth - 30) enemy.flipDirection();
@@ -71,13 +72,13 @@ public class MovementController {
             enemy.setXVelocity(0);
 
         // sets enemy y velocity. increases speed if they see the player
-        enemy.setYVelocity(-enemy.getSpeed() - (enemySeesPlayer ? 200 : 0));
+        enemy.setYVelocity(-enemy.getSpeed() - (enemySeesPlayer ? 100 * enemy.getSmarts() : 0));
 
         // loops enemy around the screen vertically if they go off screen
         if (enemy.y() < 0) enemy.setPosition(enemy.x(), CameraController.camera.viewportHeight);
 
         // returns true (we use this to trigger a bullet)
-        if (enemy.getTimer() == 0 && enemy.getSmarts() > 3 && Math.abs(player.x() - enemy.x()) < 50) {
+        if (enemy.getTimer() == 0 && enemy.getSmarts() > 3 && java.lang.Math.abs(player.x() - enemy.x()) < 50) {
             return true;
         }
         return false;

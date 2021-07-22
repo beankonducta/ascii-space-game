@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.controller.CameraController;
 import com.patrick.game.controller.MusicController;
+import com.patrick.game.controller.SoundController;
 import com.patrick.game.entity.Player;
 import com.patrick.game.level.Level;
 import com.patrick.game.util.ColorShifter;
@@ -112,6 +113,7 @@ public class GameScreen implements Screen {
 
     private void playerDeath(float delta) {
         if (this.player.getLives() <= 0) {
+            SoundController.playSound("playerfinaldeath");
             if (this.deathTimer == null)
                 this.deathTimer = new OneShotTimer(.5f); // .5f standard
             this.deathTimer.update(delta);

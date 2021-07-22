@@ -123,8 +123,11 @@ public class TitleScreen implements Screen {
         // high scores!
         if (this.scores != null) {
             this.thirdFont.draw(this.batch, "Hi scorez:", 15, CameraController.camera.viewportHeight - 200 + 20);
-            for (int i = 0; i < this.scores.length; i++)
-                this.thirdFont.draw(this.batch, this.scores[i], 15, CameraController.camera.viewportHeight - 200 - (i * 12));
+            for (int i = 0; i < this.scores.length; i++) {
+                this.thirdFont.draw(this.batch, this.scores[i].substring(0, 3), 15, CameraController.camera.viewportHeight - 200 - (i * 20));
+                this.thirdFont.draw(this.batch, this.scores[i].substring(4, 9), 55, CameraController.camera.viewportHeight - 200 - (i * 20));
+                this.thirdFont.draw(this.batch, this.scores[i].substring(10), 95, CameraController.camera.viewportHeight - 200 - (i * 20));
+            }
         }
 
         // name editor
