@@ -113,7 +113,7 @@ public class GameScreen implements Screen {
     private void playerDeath(float delta) {
         if (this.player.getLives() <= 0) {
             if (this.deathTimer == null)
-                this.deathTimer = new OneShotTimer(0); // .5f standard
+                this.deathTimer = new OneShotTimer(.5f); // .5f standard
             this.deathTimer.update(delta);
             if (this.deathTimer.isFinished())
                 this.game.setScreen(new TitleScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "you died, press enter to try again. your score was " + this.player.getPoints(), this.player.getPoints()));
