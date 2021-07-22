@@ -62,14 +62,16 @@ public class TitleScreen implements Screen {
                 "                                                                       ", 71);
         MusicController.setMusic(Math.randomBetween(0, Resources.MUSIC.length - 1));
         this.readScores();
-        if (this.score > Integer.parseInt(this.scores[this.scores.length - 1].substring(10)) || (this.scores.length < 15 && this.score > -1)) {
-            this.editingName = true;
-            this.name = new char[3];
-            this.name[0] = 'a';
-            this.name[1] = 'b';
-            this.name[2] = 'c';
-            this.pointer = 0;
-        }
+        if (this.scores != null)
+            if (Math.isNumeric(this.scores[this.scores.length - 1].substring(10)))
+                if (this.score > Integer.parseInt(this.scores[this.scores.length - 1].substring(10)) || (this.scores.length < 15 && this.score > -1)) {
+                    this.editingName = true;
+                    this.name = new char[3];
+                    this.name[0] = 'a';
+                    this.name[1] = 'b';
+                    this.name[2] = 'c';
+                    this.pointer = 0;
+                }
     }
 
     private void movePointer(int dir) {
@@ -112,25 +114,27 @@ public class TitleScreen implements Screen {
             this.movePointer(1);
         this.batch.begin();
         this.batch.setProjectionMatrix(CameraController.camera.combined);
-        if(!this.editingName)
-        this.thirdFont.draw(this.batch, this.titleString, CameraController.camera.viewportWidth / 2 - (this.titleString.length() * 3), CameraController.camera.viewportHeight / 2);
+        if (!this.editingName)
+            this.thirdFont.draw(this.batch, this.titleString, CameraController.camera.viewportWidth / 2 - (this.titleString.length() * 3), CameraController.camera.viewportHeight / 2);
         for (int i = 0; i < this.titleChars.length; i++)
             for (int j = 0; j < this.titleChars[i].length; j++)
                 this.thirdFont.draw(this.batch, "" + this.titleChars[i][j], 100 + (j * 6), CameraController.camera.viewportHeight - 50 - (i * 12));
 
         // high scores!
-        this.thirdFont.draw(this.batch, "Hi scorez:", 15, CameraController.camera.viewportHeight - 200 + 20);
-        for (int i = 0; i < this.scores.length - 1; i++)
-            this.thirdFont.draw(this.batch, this.scores[i], 15, CameraController.camera.viewportHeight - 200 - (i * 12));
+        if (this.scores != null) {
+            this.thirdFont.draw(this.batch, "Hi scorez:", 15, CameraController.camera.viewportHeight - 200 + 20);
+            for (int i = 0; i < this.scores.length; i++)
+                this.thirdFont.draw(this.batch, this.scores[i], 15, CameraController.camera.viewportHeight - 200 - (i * 12));
+        }
 
         // name editor
         if (this.editingName) {
-            String str = "Hi score of "+this.score+"! Add your name: ";
+            String str = "Hi score of " + this.score + "! Add your name: ";
             this.thirdFont.draw(this.batch, str, CameraController.camera.viewportWidth / 2 - (str.length() * 3), CameraController.camera.viewportHeight / 2);
             for (int i = 0; i < this.name.length; i++) {
-                this.thirdFont.draw(this.batch, "" + this.name[i], CameraController.camera.viewportWidth / 2 - (str.length() * 3) + (15*i), CameraController.camera.viewportHeight / 2 - 50);
-                if(this.pointer == i)
-                    this.thirdFont.draw(this.batch, "_", CameraController.camera.viewportWidth / 2 - (str.length() * 3) + (15*i), CameraController.camera.viewportHeight / 2 - 60);
+                this.thirdFont.draw(this.batch, "" + this.name[i], CameraController.camera.viewportWidth / 2 - (str.length() * 3) + (15 * i), CameraController.camera.viewportHeight / 2 - 50);
+                if (this.pointer == i)
+                    this.thirdFont.draw(this.batch, "_", CameraController.camera.viewportWidth / 2 - (str.length() * 3) + (15 * i), CameraController.camera.viewportHeight / 2 - 60);
             }
 
         }
@@ -149,7 +153,7 @@ public class TitleScreen implements Screen {
 
     @Override
     public void resume() {
-
+    //test
     }
 
     @Override
@@ -163,12 +167,12 @@ public class TitleScreen implements Screen {
     }
 
     private void writeScore() {
-        FileHandle file = Gdx.files.external("ascii_space_assets/scores.txt");
+        FileHandle file = Gdx.files.local("scores.txt");
         file.writeString(" "+this.name[0]+this.name[1]+this.name[2] + this.score, true);
     }
 
     private void readScores() {
-        FileHandle file = Gdx.files.external("ascii_space_assets/scores.txt");
+        FileHandle file = Gdx.files.local("scores.txt");
         String[] scoresArray = file.readString().split(" ");
         Arrays.sort(scoresArray, new Comparator<String>() {
             @Override
@@ -182,6 +186,7 @@ public class TitleScreen implements Screen {
         if (max > 15) max = 15;
         this.scores = new String[max];
         for (int i = 0; i < max; i++)
+            if(scoresArray[i].length() > 3)
             this.scores[i] = scoresArray[i].substring(0, 3) + "  ---  " + scoresArray[i].substring(3);
     }
 }
