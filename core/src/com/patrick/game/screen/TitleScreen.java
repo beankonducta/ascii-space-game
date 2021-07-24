@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.patrick.game.controller.CameraController;
 import com.patrick.game.controller.MusicController;
+import com.patrick.game.controller.SoundController;
 import com.patrick.game.util.Ascii;
 import com.patrick.game.util.ColorShifter;
 import com.patrick.game.util.Math;
@@ -36,9 +37,11 @@ public class TitleScreen implements Screen {
     private int pointer;
     private char[][] titleChars;
 
+    private int coins;
+
     private boolean editingName;
 
-    public TitleScreen(Game game, BitmapFont font, BitmapFont secondaryFont, BitmapFont thirdFont, Batch batch, ShapeRenderer shape, String titleString, int score) {
+    public TitleScreen(Game game, BitmapFont font, BitmapFont secondaryFont, BitmapFont thirdFont, Batch batch, ShapeRenderer shape, String titleString, int score, int coins) {
         this.game = game;
         this.font = font;
         this.score = score;
@@ -46,6 +49,7 @@ public class TitleScreen implements Screen {
         this.thirdFont = thirdFont;
         this.batch = batch;
         this.shape = shape;
+        this.coins = coins;
         this.titleString = titleString;
         this.thirdFont.setColor(new Color(0, 0, 1, 1));
         this.titleChars = Ascii.stringTo2dCharArray(" ______     ______     ______     __     __                            " +
@@ -86,6 +90,12 @@ public class TitleScreen implements Screen {
         this.name[this.pointer] = alphabet[slot];
     }
 
+    private String modifiedTitle() {
+        if(this.coins == 0)
+            return "Please add coins to play...";
+        else return this.titleString;
+    }
+
     @Override
     public void show() {
 
@@ -96,29 +106,40 @@ public class TitleScreen implements Screen {
         delta = java.lang.Math.min(1 / 30f, Gdx.graphics.getDeltaTime());
         Gdx.gl20.glClear(GL20.GL_COLOR_BUFFER_BIT);
         this.thirdFont.setColor(ColorShifter.colorFromMusic(Resources.RAW_MUSIC[MusicController.ID][0][(int) (Resources.MUSIC[MusicController.ID].getPosition() * 44100)]));
-        if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT_BRACKET)) {
             if (this.editingName) {
                 this.writeScore();
                 this.readScores();
                 this.editingName = false;
-            } else
-                this.game.setScreen(new GameScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape));
+            } else {
+                if (this.coins >= 1) {
+                    this.coins--;
+                    this.game.setScreen(new GameScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, this.coins));
+                }
+            }
         }
-        if (Gdx.input.isKeyJustPressed(Input.Keys.UP))
+        if(Gdx.input.isKeyJustPressed(Input.Keys.RIGHT_BRACKET) && this.coins < 50) {
+            this.coins ++;
+            SoundController.playSound("coin");
+        }
+        if (Gdx.input.isKeyJustPressed(Input.Keys.W))
             this.changeLetter(1);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.DOWN))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.S))
             this.changeLetter(-1);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.LEFT))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.A))
             this.movePointer(-1);
-        if (Gdx.input.isKeyJustPressed(Input.Keys.RIGHT))
+        if (Gdx.input.isKeyJustPressed(Input.Keys.D))
             this.movePointer(1);
         this.batch.begin();
         this.batch.setProjectionMatrix(CameraController.camera.combined);
         if (!this.editingName)
-            this.thirdFont.draw(this.batch, this.titleString, CameraController.camera.viewportWidth / 2 - (this.titleString.length() * 3), CameraController.camera.viewportHeight / 2);
+            this.thirdFont.draw(this.batch, this.modifiedTitle(), CameraController.camera.viewportWidth / 2 - (this.titleString.length() * 3), CameraController.camera.viewportHeight / 2);
         for (int i = 0; i < this.titleChars.length; i++)
             for (int j = 0; j < this.titleChars[i].length; j++)
                 this.thirdFont.draw(this.batch, "" + this.titleChars[i][j], 100 + (j * 6), CameraController.camera.viewportHeight - 50 - (i * 12));
+
+            // coinz!
+        this.thirdFont.draw(this.batch, "Coins: "+ this.coins, CameraController.camera.viewportWidth - 100, CameraController.camera.viewportHeight - 20);
 
         // high scores!
         if (this.scores != null) {

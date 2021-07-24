@@ -89,7 +89,8 @@ public class Resources {
             Gdx.audio.newSound(Gdx.files.internal("sound/ENEMY_DEATH.wav")),
             Gdx.audio.newSound(Gdx.files.internal("sound/PLAYER_DEATH.wav")),
             Gdx.audio.newSound(Gdx.files.internal("sound/PLAYER_FINAL_DEATH.wav")),
-            Gdx.audio.newSound(Gdx.files.internal("sound/POWERUP.wav"))
+            Gdx.audio.newSound(Gdx.files.internal("sound/POWERUP.wav")),
+            Gdx.audio.newSound(Gdx.files.internal("sound/COIN.wav"))
     };
 
     public static final Sound SOUND(String str) {
@@ -112,6 +113,8 @@ public class Resources {
                 return SOUNDS[7];
             case "powerup":
                 return SOUNDS[8];
+            case "coin":
+                return SOUNDS[9];
         }
         return null;
     }

@@ -32,8 +32,9 @@ public class GameScreen implements Screen {
     private OneShotTimer deathTimer;
 
     private int difficulty;
+    private int coins;
 
-    public GameScreen(Game game, BitmapFont font, BitmapFont secondaryFont, BitmapFont thirdFont, Batch batch, ShapeRenderer shape) {
+    public GameScreen(Game game, BitmapFont font, BitmapFont secondaryFont, BitmapFont thirdFont, Batch batch, ShapeRenderer shape, int coins) {
         this.difficulty = Settings.INITIAL_DIFFICULTY;
         this.font = font;
         this.secondaryFont = secondaryFont;
@@ -41,6 +42,7 @@ public class GameScreen implements Screen {
         this.batch = batch;
         this.shape = shape;
         this.game = game;
+        this.coins = coins;
         this.player = new Player(CameraController.camera.viewportWidth / 2, 40, Settings.PLAYER_SPEED, Settings.PLAYER_DECEL, 'P');
         this.level = new Level(this.difficulty, this.player);
     }
@@ -118,7 +120,7 @@ public class GameScreen implements Screen {
                 this.deathTimer = new OneShotTimer(.5f); // .5f standard
             this.deathTimer.update(delta);
             if (this.deathTimer.isFinished())
-                this.game.setScreen(new TitleScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "you died, press enter to try again. your score was " + this.player.getPoints(), this.player.getPoints()));
+                this.game.setScreen(new TitleScreen(this.game, this.font, this.secondaryFont, this.thirdFont, this.batch, this.shape, "you died, press start to try again. your score was " + this.player.getPoints(), this.player.getPoints(), this.coins));
         }
     }
 
