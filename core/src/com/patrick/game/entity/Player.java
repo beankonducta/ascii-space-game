@@ -73,6 +73,7 @@ public class Player extends Entity {
         else if (resource.getType() == Resource.ResourceType.LIFE) this.lives += resource.getLevel();
         else if (resource.getType() == Resource.ResourceType.SHIELD) this.addShield();
         else if (resource.getType() == Resource.ResourceType.HEIGHT) this.addHeightIncrease();
+        this.addPoints(100);
         SoundController.playSound("powerup");
     }
 
