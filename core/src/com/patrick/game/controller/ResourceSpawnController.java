@@ -7,7 +7,7 @@ import com.patrick.game.util.Settings;
 public class ResourceSpawnController {
 
     public static Resource randomResource() {
-        final int random = Math.randomBetween(0, 6);
+        final int random = Math.randomBetween(0, 12);
         Resource.ResourceType type = Resource.ResourceType.GUN;
         switch (random) {
             case 1:

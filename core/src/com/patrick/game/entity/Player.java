@@ -4,6 +4,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Rectangle;
 import com.patrick.game.controller.CameraController;
+import com.patrick.game.controller.SoundController;
 import com.patrick.game.util.Settings;
 
 public class Player extends Entity {
@@ -72,6 +73,8 @@ public class Player extends Entity {
         else if (resource.getType() == Resource.ResourceType.LIFE) this.lives += resource.getLevel();
         else if (resource.getType() == Resource.ResourceType.SHIELD) this.addShield();
         else if (resource.getType() == Resource.ResourceType.HEIGHT) this.addHeightIncrease();
+        this.addPoints(100);
+        SoundController.playSound("powerup");
     }
 
     public Player(float x, float y, float speed, float decel, char character) {

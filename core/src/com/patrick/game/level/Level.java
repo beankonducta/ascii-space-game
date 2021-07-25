@@ -1,6 +1,7 @@
 package com.patrick.game.level;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.math.Vector2;
@@ -60,6 +61,7 @@ public class Level {
     private void killPlayer() {
         this.respawnTimer = new OneShotTimer(2.5f);
         this.player.killPlayer();
+        SoundController.playSound("playerdeath");
     }
 
     public void process(float delta, BitmapFont font, BitmapFont secondaryFont, BitmapFont thirdFont, Batch batch) {
@@ -145,6 +147,7 @@ public class Level {
             case 0:
                 if (this.player.getBulletCooldown() < Settings.BULLET_COOLDOWN) {
                     this.bullets.add(new Bullet(this.player.x(), this.player.y(), Settings.BULLET_SPEED, 0, 'o', false, Bullet.BulletOwner.PLAYER));
+                    SoundController.playSound("shot");
                     this.player.addBulletCooldown();
                 }
                 break;
@@ -152,6 +155,7 @@ public class Level {
                 for (int i = 0; i < Settings.SPREAD_FIRE_COUNT; i++) {
                     if (this.player.getBulletCooldown() < Settings.BULLET_COOLDOWN) {
                         this.bullets.add(new Bullet(this.player.x(), this.player.y(), Math.floatRandomBetween(Settings.BULLET_SPEED * .8f, Settings.BULLET_SPEED), 0, 'o', true, Bullet.BulletOwner.PLAYER));
+                        SoundController.playSound("shotgun");
                         this.player.addBulletCooldown();
                     }
                 }
@@ -159,23 +163,26 @@ public class Level {
             default:
                 if (this.player.getBulletCooldown() < Settings.BULLET_COOLDOWN) {
                     this.bullets.add(new Bullet(this.player.x(), this.player.y(), Settings.BULLET_SPEED, 0, '.', false, Bullet.BulletOwner.PLAYER));
+                    SoundController.playSound("machinegun");
                     this.player.addBulletCooldown();
                 }
         }
     }
 
     private void fireBossWeapon(Boss boss) {
-        int random = Math.randomBetween(0, 20);
+        int random = Math.randomBetween(0, 10);
         int x = 0;
         int y = 0;
         while (boss.getColliders()[x][y] == null) {
             x = Math.randomBetween(0, boss.getColliders().length - 1);
             y = Math.randomBetween(0, boss.getColliders()[0].length - 1);
         }
-        if (random <= this.difficulty / Settings.INITIAL_DIFFICULTY)
+        if (random <= this.difficulty / Settings.INITIAL_DIFFICULTY) {
             this.bullets.add(new Bullet(boss.getColliders()[x][y].x, boss.getColliders()[x][y].y, Math.floatRandomBetween(-Settings.BULLET_SPEED, -Settings.BULLET_SPEED * .3f), 0, 'o', true, Bullet.BulletOwner.ENEMY));
-        if (random == 3 && this.difficulty >= Settings.INITIAL_DIFFICULTY * 3)
-            this.fireBossInCircle(boss, boss.getSmarts() / 500);
+            SoundController.playSound("shot");
+            if (random == 3 && this.difficulty >= Settings.INITIAL_DIFFICULTY * 2)
+                this.fireBossInCircle(boss, boss.getSmarts() / 500);
+        }
     }
 
     private void fireBossInCircle(Boss boss, float count) {
@@ -192,6 +199,7 @@ public class Level {
             b.setXVelocity(xVelo);
             b.setYVelocity(yVelo);
             this.bullets.add(b);
+            SoundController.playSound("machinegun");
         }
     }
 
@@ -253,15 +261,18 @@ public class Level {
                             this.toRemove.add(bullet);
                             boss.removeHealth();
                             this.particles.addAll(ParticleController.explosionParticles(boss.getColliders()[(int) collision.x][(int) collision.y].x, boss.getColliders()[(int) collision.x][(int) collision.y].y, Settings.EXPLOSION_SIZE));
+                            SoundController.playSound("bosshurt");
                             if (boss.dead()) {
                                 for (int i = 0; i < boss.getColliders().length; i++) {
                                     for (int j = 0; j < boss.getColliders()[i].length; j++) {
-                                        if (boss.getColliders()[i][j] != null)
+                                        if (boss.getColliders()[i][j] != null) {
                                             this.particles.addAll(ParticleController.slowExplosionParticles(boss.getColliders()[i][j].x, boss.getColliders()[i][j].y, Settings.BOSS_EXPLOSION_SIZE));
+                                        }
                                     }
                                     this.bossKilled = true;
                                     this.toRemove.add(boss);
                                     this.player.addPoints(boss.getSmarts());
+                                    SoundController.playSound("bossdeath");
                                 }
                             }
                             boss.removeCharAt((int) collision.x, (int) collision.y);
@@ -270,6 +281,7 @@ public class Level {
                         if (CollisionController.basicCollision(bullet, enemy)) {
                             this.toRemove.add(bullet);
                             this.toRemove.add(enemy);
+                            SoundController.playSound("enemydeath");
                             this.particles.addAll(ParticleController.explosionParticles(enemy.x(), enemy.y(), Settings.EXPLOSION_SIZE));
                             this.player.addPoints(enemy.getPoints());
                         }
