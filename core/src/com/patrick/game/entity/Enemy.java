@@ -23,6 +23,6 @@ public class Enemy extends FlippableEntity {
         this.collider = new Rectangle(x, y, Settings.ENEMY_WIDTH, Settings.ENEMY_HEIGHT);
         this.actionTime = 1f;
         this.points = (this.smarts + 1 * 100);
-        this.flipTimerMax = .1f;
+        this.flipTimerMax = .5f;
     }
 }
